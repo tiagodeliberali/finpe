@@ -2,13 +2,13 @@
 
 namespace Finpe.Statement
 {
-    public abstract class BaseStatement
+    public abstract class StatementLine
     {
         public decimal Amount { get; private set; }
         public string Description { get; private set; }
         public DateTime TransactionDate { get; private set; }
 
-        public BaseStatement(string description, decimal amount, DateTime transactionDate)
+        public StatementLine(string description, decimal amount, DateTime transactionDate)
         {
             Description = description;
             Amount = amount;

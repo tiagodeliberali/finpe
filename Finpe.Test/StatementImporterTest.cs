@@ -15,10 +15,10 @@ namespace Finpe.Test
             string line = "18/03	 D		INT PAG TIT BANCO 237        		9.952,27	-	";
 
             StatementParser parser = new StatementParser();
-            List<BaseStatement> statements = parser.Parse(line);
+            List<StatementLine> statements = parser.Parse(line);
 
             Assert.Single(statements);
-            ValidateStatement<OutcomeStatement>(statements.First(), 9_952.27m, "INT PAG TIT BANCO 237", DateTime.Parse("2019-03-18"));
+            ValidateStatement<OutcomeStatementLine>(statements.First(), 9_952.27m, "INT PAG TIT BANCO 237", DateTime.Parse("2019-03-18"));
         }
 
         [Theory]
@@ -38,10 +38,10 @@ namespace Finpe.Test
             string line = "18/03/2018	 D		INT PAG TIT BANCO 237        		952,27	-	";
 
             StatementParser parser = new StatementParser();
-            BaseStatement statement = parser.Parse(line)
+            StatementLine statement = parser.Parse(line)
                                             .First();
 
-            ValidateStatement<OutcomeStatement>(statement, date: DateTime.Parse("2018-03-18"));
+            ValidateStatement<OutcomeStatementLine>(statement, date: DateTime.Parse("2018-03-18"));
         }
 
         [Fact]
@@ -50,10 +50,10 @@ namespace Finpe.Test
             string line = "29/03			REMUNERACAO/SALARIO       	1370	4.730,81		";
 
             StatementParser parser = new StatementParser();
-            BaseStatement statement = parser.Parse(line)
+            StatementLine statement = parser.Parse(line)
                                             .First();
 
-            Assert.IsType<IncomeStatement>(statement);
+            Assert.IsType<IncomeStatementLine>(statement);
         }
 
         [Fact]
@@ -62,10 +62,10 @@ namespace Finpe.Test
             string line = "18/03	 D		INT PAG TIT BANCO 237        		9.952,27	-	";
 
             StatementParser parser = new StatementParser();
-            BaseStatement statement = parser.Parse(line)
+            StatementLine statement = parser.Parse(line)
                                             .First();
 
-            Assert.IsType<OutcomeStatement>(statement);
+            Assert.IsType<OutcomeStatementLine>(statement);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Finpe.Test
             string line = "04/04			SALDO DO DIA       				1.966,31	-";
 
             StatementParser parser = new StatementParser();
-            List<BaseStatement> statements = parser.Parse(line);
+            List<StatementLine> statements = parser.Parse(line);
 
             Assert.Empty(statements);
         }
@@ -89,17 +89,17 @@ namespace Finpe.Test
                             25/03			RSHOP-AUTOPASS -05/04       	7071	109,27	-	";
 
             StatementParser parser = new StatementParser();
-            List<BaseStatement> statements = parser.Parse(lines);
+            List<StatementLine> statements = parser.Parse(lines);
 
             Assert.Equal(4, statements.Count);
 
-            ValidateStatement<OutcomeStatement>(statements[0], 630.10m, "TIT PAG TIT ULO ITAU", DateTime.Parse("2019-03-25"));
-            ValidateStatement<OutcomeStatement>(statements[1], 1_000m, "TBI 0435.67680-4TRANSFER", DateTime.Parse("2019-03-25"));
-            ValidateStatement<IncomeStatement>(statements[2], 110m, "TBI 0641.05595-9UNICAMP", DateTime.Parse("2019-03-25"));
-            ValidateStatement<OutcomeStatement>(statements[3], 109.27m, "RSHOP-AUTOPASS -05/04", DateTime.Parse("2019-03-25"));
+            ValidateStatement<OutcomeStatementLine>(statements[0], 630.10m, "TIT PAG TIT ULO ITAU", DateTime.Parse("2019-03-25"));
+            ValidateStatement<OutcomeStatementLine>(statements[1], 1_000m, "TBI 0435.67680-4TRANSFER", DateTime.Parse("2019-03-25"));
+            ValidateStatement<IncomeStatementLine>(statements[2], 110m, "TBI 0641.05595-9UNICAMP", DateTime.Parse("2019-03-25"));
+            ValidateStatement<OutcomeStatementLine>(statements[3], 109.27m, "RSHOP-AUTOPASS -05/04", DateTime.Parse("2019-03-25"));
         }
 
-        private static void ValidateStatement<T>(BaseStatement statement, decimal? amount = null, string description = null, DateTime? date = null)
+        private static void ValidateStatement<T>(StatementLine statement, decimal? amount = null, string description = null, DateTime? date = null)
         {
             Assert.IsType<T>(statement);
             if (amount.HasValue) Assert.Equal(amount, statement.Amount);

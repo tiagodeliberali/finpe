@@ -14,9 +14,9 @@ namespace Finpe.Parser
         Regex regexDirection = new Regex(@"(\s\-\s)", RegexOptions.IgnoreCase);
         Regex regexSaldo = new Regex(@"saldo", RegexOptions.IgnoreCase);
 
-        public List<BaseStatement> Parse(string lines)
+        public List<StatementLine> Parse(string lines)
         {
-            List<BaseStatement> result = new List<BaseStatement>();
+            List<StatementLine> result = new List<StatementLine>();
 
             foreach (var singleLine in lines.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -26,7 +26,7 @@ namespace Finpe.Parser
             return result;
         }
 
-        private void IncludeStatement(List<BaseStatement> result, string line)
+        private void IncludeStatement(List<StatementLine> result, string line)
         {
             if (!regexSaldo.Match(line).Success)
             {
@@ -34,7 +34,7 @@ namespace Finpe.Parser
             }
         }
 
-        private BaseStatement ExtactSingleStatement(string line)
+        private StatementLine ExtactSingleStatement(string line)
         {
             Match matchAmount = regexAmount.Match(line);
             Match matchDescription = regexDescription.Match(line);
@@ -47,10 +47,10 @@ namespace Finpe.Parser
 
             if (!matchDirection.Success)
             {
-                return new IncomeStatement(description, amount, transactionDate);
+                return new IncomeStatementLine(description, amount, transactionDate);
             }
 
-            return new OutcomeStatement(description, amount, transactionDate);
+            return new OutcomeStatementLine(description, amount, transactionDate);
         }
 
         private DateTime ParseDate(string value)
