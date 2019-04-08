@@ -80,6 +80,17 @@ namespace Finpe.Test
         }
 
         [Fact]
+        public void ShouldIgnoreSdo()
+        {
+            string line = "15/01			SDO CTA/APL AUTOMATICAS       				1.687,08";
+
+            StatementParser parser = new StatementParser();
+            List<StatementLine> statements = parser.Parse(line);
+
+            Assert.Empty(statements);
+        }
+
+        [Fact]
         public void ImportSetOfStatements()
         {
             string lines = @"22/03			SALDO DO DIA       				1.951,23	-

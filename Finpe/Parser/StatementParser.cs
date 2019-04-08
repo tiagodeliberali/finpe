@@ -12,7 +12,7 @@ namespace Finpe.Parser
         Regex regexDescription = new Regex(@"([a-z\-]{2,}(\s[\w\.\-/]+)*)", RegexOptions.IgnoreCase);
         Regex regexDate = new Regex(@"(\d{1,2}/\d{1,2}(/\d{2,4})*)", RegexOptions.IgnoreCase);
         Regex regexDirection = new Regex(@"(\s\-\s)", RegexOptions.IgnoreCase);
-        Regex regexSaldo = new Regex(@"saldo", RegexOptions.IgnoreCase);
+        Regex regexSaldo = new Regex(@"saldo|sdo", RegexOptions.IgnoreCase);
 
         public List<StatementLine> Parse(string lines)
         {
