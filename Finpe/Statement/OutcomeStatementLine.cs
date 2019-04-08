@@ -9,5 +9,10 @@ namespace Finpe.Statement
         {
 
         }
+
+        public override decimal CalculateNewAmount(decimal finalAmount)
+        {
+            return finalAmount - Amount;
+        }
     }
 }

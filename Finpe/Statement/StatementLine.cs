@@ -14,5 +14,7 @@ namespace Finpe.Statement
             Amount = amount;
             TransactionDate = transactionDate;
         }
+
+        public abstract decimal CalculateNewAmount(decimal finalAmount);
     }
 }
