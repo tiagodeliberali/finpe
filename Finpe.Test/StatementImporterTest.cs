@@ -28,7 +28,7 @@ namespace Finpe.Test
         public void ImportInvalidLine(String line)
         {
             StatementParser parser = new StatementParser();
-            
+
             Assert.Throws<ArgumentException>(() => parser.Parse(line));
         }
 
@@ -41,7 +41,7 @@ namespace Finpe.Test
             BaseStatement statement = parser.Parse(line)
                                             .First();
 
-            ValidateStatement<OutcomeStatement>(statement, 952.27m, "INT PAG TIT BANCO 237", DateTime.Parse("2018-03-18"));
+            ValidateStatement<OutcomeStatement>(statement, date: DateTime.Parse("2018-03-18"));
         }
 
         [Fact]
@@ -99,12 +99,12 @@ namespace Finpe.Test
             ValidateStatement<OutcomeStatement>(statements[3], 109.27m, "RSHOP-AUTOPASS -05/04", DateTime.Parse("2019-03-25"));
         }
 
-        private static void ValidateStatement<T>(BaseStatement statement, decimal amount, string description, DateTime date)
+        private static void ValidateStatement<T>(BaseStatement statement, decimal? amount = null, string description = null, DateTime? date = null)
         {
             Assert.IsType<T>(statement);
-            Assert.Equal(amount, statement.Amount);
-            Assert.Equal(description, statement.Description);
-            Assert.Equal(date, statement.TransactionDate);
+            if (amount.HasValue) Assert.Equal(amount, statement.Amount);
+            if (description != null) Assert.Equal(description, statement.Description);
+            if (date.HasValue) Assert.Equal(date, statement.TransactionDate);
         }
     }
 }
