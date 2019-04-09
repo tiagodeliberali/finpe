@@ -1,13 +1,14 @@
-﻿using Finpe.Utils;
+﻿using Finpe.Statement;
+using Finpe.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Finpe.Statement
+namespace Finpe.CashFlow
 {
-    public class MonthlyStatement
+    public class MonthlyView
     {
-        private MonthlyStatement(int year, int month, decimal initialAmount)
+        private MonthlyView(int year, int month, decimal initialAmount)
         {
             Year = year;
             Month = month;
@@ -15,28 +16,28 @@ namespace Finpe.Statement
             FinalAmount = initialAmount;
         }
 
-        private List<StatementLine> _lines = new List<StatementLine>();
+        private List<StatementLine> _pendingStatementLines = new List<StatementLine>();
         public decimal InitialAmount { get; private set; }
         public decimal FinalAmount { get; private set; }
         public int Year { get; private set; }
         public int Month { get; private set; }
-        public IReadOnlyList<StatementLine> Lines
+        public IReadOnlyList<StatementLine> PendingStatementLines
         {
             get
             {
-                return _lines;
+                return _pendingStatementLines;
             }
         }
 
         public void Add(StatementLine statement)
         {
-            _lines.Add(statement);
+            _pendingStatementLines.Add(statement);
             FinalAmount = statement.CalculateNewAmount(FinalAmount);
         }
 
-        public static List<MonthlyStatement> Build(decimal initialAmount, List<StatementLine> statements)
+        public static List<MonthlyView> Build(decimal initialAmount, List<StatementLine> statements)
         {
-            List<MonthlyStatement> result = new List<MonthlyStatement>();
+            List<MonthlyView> result = new List<MonthlyView>();
 
             List<Tuple<int, int>> yearMonthList = GetMonthYearList(statements);
 
@@ -44,7 +45,7 @@ namespace Finpe.Statement
             foreach (var yearMonth in yearMonthList)
             {
                 List<StatementLine> currentMonthLines = statements.Where(x => x.TransactionDate.Year == yearMonth.Item1 && x.TransactionDate.Month == yearMonth.Item2).ToList();
-                MonthlyStatement month = BuildMonth(yearMonth.Item1, yearMonth.Item2, previousAmount, currentMonthLines);
+                MonthlyView month = BuildMonth(yearMonth.Item1, yearMonth.Item2, previousAmount, currentMonthLines);
                 result.Add(month);
                 previousAmount = month.FinalAmount;
             }
@@ -68,9 +69,9 @@ namespace Finpe.Statement
             return results;
         }
 
-        private static MonthlyStatement BuildMonth(int year, int month, decimal initialAmount, List<StatementLine> statements)
+        private static MonthlyView BuildMonth(int year, int month, decimal initialAmount, List<StatementLine> statements)
         {
-            MonthlyStatement monthlyStatement = new MonthlyStatement(
+            MonthlyView monthlyStatement = new MonthlyView(
                             year,
                             month,
                             initialAmount);
