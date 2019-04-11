@@ -5,7 +5,7 @@ namespace Finpe.CashFlow
     public class RealizedTransactionLine : TransactionLine
     {
         public RealizedTransactionLine(StatementLine statementLine)
-            : base(statementLine.TransactionDate, statementLine.Description, statementLine.Amount)
+            : base(statementLine.TransactionDate, statementLine.Description, statementLine.CalculateNewAmount(0))
         {
             Difference = 0m;
             StatementLine = statementLine;

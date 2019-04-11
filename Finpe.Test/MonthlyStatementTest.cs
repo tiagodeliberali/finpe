@@ -1,5 +1,6 @@
 ﻿using Finpe.CashFlow;
 using Finpe.Statement;
+using Finpe.Visualization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace Finpe.Test
         [Fact]
         public void CreateMonthlyStatement()
         {
-            List<StatementLine> statements = new List<StatementLine>()
+            List<TransactionLine> statements = new List<TransactionLine>()
             {
-                new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
-                new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-10"))
+                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-07"))),
+                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-10")))
             };
 
             List<MonthlyView> months = MonthlyView.Build(100m, statements);
@@ -32,14 +33,14 @@ namespace Finpe.Test
         [Fact]
         public void CreateMonthlyStatementForMoreMonths()
         {
-            List<StatementLine> statements = new List<StatementLine>()
+            List<TransactionLine> statements = new List<TransactionLine>()
             {
-                new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
-                new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-10")),
-                new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-05-07")),
-                new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-05-10")),
-                new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
-                new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-06-10"))
+                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-07"))),
+                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-10"))),
+                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-05-07"))),
+                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-05-10"))),
+                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-06-07"))),
+                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-06-10")))
             };
 
             List<MonthlyView> months = MonthlyView.Build(100m, statements);
@@ -71,12 +72,12 @@ namespace Finpe.Test
         [Fact]
         public void CreateMonthlyStatementForMoreMonthsFillingEmptyMonths()
         {
-            List<StatementLine> statements = new List<StatementLine>()
+            List<TransactionLine> statements = new List<TransactionLine>()
             {
-                new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-29")),
-                new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-30")),
-                new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
-                new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-06-10"))
+                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-29"))),
+                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-30"))),
+                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-06-07"))),
+                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-06-10")))
             };
 
             List<MonthlyView> months = MonthlyView.Build(100m, statements);
