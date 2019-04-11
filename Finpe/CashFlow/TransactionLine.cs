@@ -20,5 +20,12 @@ namespace Finpe.CashFlow
             Responsible = "";
             Importance = Importance.NotDefined;
         }
+
+        public void Classify(string category, string responsible, Importance importance)
+        {
+            Category = category;
+            Responsible = responsible;
+            Importance = importance;
+        }
     }
 }

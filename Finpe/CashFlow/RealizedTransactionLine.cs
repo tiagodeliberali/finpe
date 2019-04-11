@@ -11,6 +11,14 @@ namespace Finpe.CashFlow
             StatementLine = statementLine;
         }
 
+        public RealizedTransactionLine(SingleTransactionLine singleTransactionLine, StatementLine statementLine)
+            : base(statementLine.TransactionDate, singleTransactionLine.Description, statementLine.Amount)
+        {
+            Difference = singleTransactionLine.Amount - statementLine.Amount;
+            StatementLine = statementLine;
+            Classify(singleTransactionLine.Category, singleTransactionLine.Responsible, singleTransactionLine.Importance);
+        }
+
         public decimal Difference { get; private set; }
         public StatementLine StatementLine { get; set; }
     }

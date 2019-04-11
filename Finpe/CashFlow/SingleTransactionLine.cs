@@ -1,14 +1,17 @@
 ﻿using Finpe.Statement;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Finpe.CashFlow
 {
     public class SingleTransactionLine : TransactionLine
     {
-        public SingleTransactionLine(DateTime date, string description, decimal amount) : base(date, description, amount)
+        public SingleTransactionLine(string description, decimal amount, DateTime date) : base(date, description, amount)
         {
+        }
+
+        public RealizedTransactionLine Consolidate(StatementLine statementLine)
+        {
+            return new RealizedTransactionLine(this, statementLine);
         }
     }
 }
