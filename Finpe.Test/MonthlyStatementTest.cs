@@ -26,7 +26,7 @@ namespace Finpe.Test
             Assert.Equal(4, month.Month);
             Assert.Equal(100m, month.InitialAmount);
             Assert.Equal(300m, month.FinalAmount);
-            Assert.Equal(2, month.PendingStatementLines.Count);
+            Assert.Equal(2, month.Lines.Count);
         }
 
         [Fact]
@@ -51,21 +51,21 @@ namespace Finpe.Test
             Assert.Equal(4, firstMonth.Month);
             Assert.Equal(100m, firstMonth.InitialAmount);
             Assert.Equal(300m, firstMonth.FinalAmount);
-            Assert.Equal(2, firstMonth.PendingStatementLines.Count);
+            Assert.Equal(2, firstMonth.Lines.Count);
 
             MonthlyView secondMonth = months[1];
             Assert.Equal(2019, secondMonth.Year);
             Assert.Equal(5, secondMonth.Month);
             Assert.Equal(300m, secondMonth.InitialAmount);
             Assert.Equal(500m, secondMonth.FinalAmount);
-            Assert.Equal(2, secondMonth.PendingStatementLines.Count);
+            Assert.Equal(2, secondMonth.Lines.Count);
 
             MonthlyView thirdMonth = months[2];
             Assert.Equal(2019, thirdMonth.Year);
             Assert.Equal(6, thirdMonth.Month);
             Assert.Equal(500m, thirdMonth.InitialAmount);
             Assert.Equal(700m, thirdMonth.FinalAmount);
-            Assert.Equal(2, thirdMonth.PendingStatementLines.Count);
+            Assert.Equal(2, thirdMonth.Lines.Count);
         }
 
         [Fact]
@@ -88,21 +88,21 @@ namespace Finpe.Test
             Assert.Equal(4, firstMonth.Month);
             Assert.Equal(100m, firstMonth.InitialAmount);
             Assert.Equal(300m, firstMonth.FinalAmount);
-            Assert.Equal(2, firstMonth.PendingStatementLines.Count);
+            Assert.Equal(2, firstMonth.Lines.Count);
 
             MonthlyView secondMonth = months[1];
             Assert.Equal(2019, secondMonth.Year);
             Assert.Equal(5, secondMonth.Month);
             Assert.Equal(300m, secondMonth.InitialAmount);
             Assert.Equal(300m, secondMonth.FinalAmount);
-            Assert.Equal(0, secondMonth.PendingStatementLines.Count);
+            Assert.Equal(0, secondMonth.Lines.Count);
 
             MonthlyView thirdMonth = months[2];
             Assert.Equal(2019, thirdMonth.Year);
             Assert.Equal(6, thirdMonth.Month);
             Assert.Equal(300m, thirdMonth.InitialAmount);
             Assert.Equal(500m, thirdMonth.FinalAmount);
-            Assert.Equal(2, thirdMonth.PendingStatementLines.Count);
+            Assert.Equal(2, thirdMonth.Lines.Count);
         }
     }
 }

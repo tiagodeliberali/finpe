@@ -16,22 +16,22 @@ namespace Finpe.CashFlow
             FinalAmount = initialAmount;
         }
 
-        private List<StatementLine> _pendingStatementLines = new List<StatementLine>();
+        private List<StatementLine> _lines = new List<StatementLine>();
         public decimal InitialAmount { get; private set; }
         public decimal FinalAmount { get; private set; }
         public int Year { get; private set; }
         public int Month { get; private set; }
-        public IReadOnlyList<StatementLine> PendingStatementLines
+        public IReadOnlyList<StatementLine> Lines
         {
             get
             {
-                return _pendingStatementLines;
+                return _lines;
             }
         }
 
         public void Add(StatementLine statement)
         {
-            _pendingStatementLines.Add(statement);
+            _lines.Add(statement);
             FinalAmount = statement.CalculateNewAmount(FinalAmount);
         }
 
