@@ -6,6 +6,9 @@ namespace Finpe.CashFlow
     {
         public ClassifiedTransactionLine(DateTime date, string description, decimal amount) : base(date, description, amount)
         {
+            Category = "";
+            Responsible = "";
+            Importance = Importance.NotDefined;
         }
 
         public string Category { get; private set; }
