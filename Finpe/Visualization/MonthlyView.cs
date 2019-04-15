@@ -67,14 +67,14 @@ namespace Finpe.Visualization
 
         private static List<YearMonth> GetMonthYearList(List<TransactionLine> statements)
         {
-            DateTime minDate = statements.OrderBy(x => x.TransactionDate).First().TransactionDate.FirstDay();
-            DateTime maxDate = statements.OrderBy(x => x.TransactionDate).Last().TransactionDate.LastDay();
+            YearMonth min = statements.OrderBy(x => x.TransactionDate).First().TransactionDate.ToYearMonth();
+            YearMonth max = statements.OrderBy(x => x.TransactionDate).Last().TransactionDate.ToYearMonth();
 
             List<YearMonth> results = new List<YearMonth>();
 
-            for (DateTime i = minDate; i < maxDate; i = i.AddMonths(1))
+            for (YearMonth i = min; i <= max; i = i.NextMonth())
             {
-                results.Add(i.ToYearMonth());
+                results.Add(i);
             }
 
             return results;
