@@ -25,7 +25,10 @@ namespace Finpe.ConsoleApp
             Classificar(statements, "ELETROPAULO", new ClassificationInfo("Moradia", "Todos", Importance.Essential));
             Classificar(statements, "IPVA", new ClassificationInfo("Transporte", "Todos", Importance.HardToCut));
 
-            List<MonthlyView> months = MonthlyView.Build(-3_175.16m, statements.ToList<TransactionLine>(), BuildRecurrences(), new YearMonth(2019, 6));
+            List<MonthlyView> months = new MonthlyViewBuilder()
+                .WithRecurringTransaction(BuildRecurrences(), new YearMonth(2019, 6))
+                .WithTransactionLines(statements.ToList<TransactionLine>())
+                .Build(-3_175.16m);
 
             foreach (var item in months)
             {

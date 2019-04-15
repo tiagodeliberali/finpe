@@ -20,7 +20,9 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10"))
             };
 
-            List<MonthlyView> months = MonthlyView.Build(100m, statements);
+            List<MonthlyView> months = new MonthlyViewBuilder()
+                .WithTransactionLines(statements)
+                .Build(100m);
 
             Assert.Single(months);
             MonthlyView month = months.First();
@@ -41,7 +43,9 @@ namespace Finpe.Test
                 BuildLine("net", -90m, DateTime.Parse("2019-04-09"))
             };
 
-            List<MonthlyView> months = MonthlyView.Build(100m, statements);
+            List<MonthlyView> months = new MonthlyViewBuilder()
+                .WithTransactionLines(statements)
+                .Build(100m);
 
             Assert.Equal(DateTime.Parse("2019-04-07"), months.First().Lines[0].TransactionDate);
             Assert.Equal(DateTime.Parse("2019-04-09"), months.First().Lines[1].TransactionDate);
@@ -62,7 +66,9 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
-            List<MonthlyView> months = MonthlyView.Build(100m, statements);
+            List<MonthlyView> months = new MonthlyViewBuilder()
+                .WithTransactionLines(statements)
+                .Build(100m);
 
             Assert.Equal(3, months.Count);
 
@@ -96,7 +102,9 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
-            List<MonthlyView> months = MonthlyView.Build(100m, statements);
+            List<MonthlyView> months = new MonthlyViewBuilder()
+                .WithTransactionLines(statements)
+                .Build(100m);
 
             Assert.Equal(3, months.Count);
 
@@ -136,7 +144,10 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
-            List<MonthlyView> months = MonthlyView.Build(100m, statements, recurringTransactions, new YearMonth(2019, 7));
+            List<MonthlyView> months = new MonthlyViewBuilder()
+                .WithTransactionLines(statements)
+                .WithRecurringTransaction(recurringTransactions, new YearMonth(2019, 7))
+                .Build(100m);
 
             Assert.Equal(4, months.Count);
 
