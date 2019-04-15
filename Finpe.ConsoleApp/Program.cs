@@ -19,9 +19,9 @@ namespace Finpe.ConsoleApp
                 .Select(x => (ExecutedTransactionLine)x)
                 .ToList<ClassifiedTransactionLine>();
 
-            Classificar(statements, "NET SERVIÇOS", "Moradia", "Todos", Importance.Essential);
-            Classificar(statements, "ELETROPAULO", "Moradia", "Todos", Importance.Essential);
-            Classificar(statements, "IPVA", "Transporte", "Todos", Importance.HardToCut);
+            Classificar(statements, "NET SERVIÇOS", new ClassificationInfo("Moradia", "Todos", Importance.Essential));
+            Classificar(statements, "ELETROPAULO", new ClassificationInfo("Moradia", "Todos", Importance.Essential));
+            Classificar(statements, "IPVA", new ClassificationInfo("Transporte", "Todos", Importance.HardToCut));
 
             List<MonthlyView> months = MonthlyView.Build(-3_175.16m, statements.ToList<TransactionLine>());
 
@@ -41,11 +41,11 @@ namespace Finpe.ConsoleApp
             Console.ReadLine();
         }
 
-        private static void Classificar(List<ClassifiedTransactionLine> statements, string searchText, string category, string responsible, Importance importance)
+        private static void Classificar(List<ClassifiedTransactionLine> statements, string searchText, ClassificationInfo classification)
         {
             foreach (ClassifiedTransactionLine line in statements.Where(x => x.Description.Contains(searchText)))
             {
-                line.Classify(new ClassificationInfo(category, responsible, importance));
+                line.Classify(classification);
             }
         }
 

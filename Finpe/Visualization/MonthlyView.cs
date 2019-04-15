@@ -1,4 +1,5 @@
 ﻿using Finpe.CashFlow;
+using Finpe.RecurringCashFlow;
 using Finpe.Utils;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,18 @@ namespace Finpe.Visualization
 
 
             return result;
+        }
+
+        public static List<MonthlyView> Build(decimal initialAmount, List<TransactionLine> statements, List<RecurringTransaction> recurringTransactions, YearMonth finalYearMonth)
+        {
+            YearMonth initialYearMonth = statements.Select(x => x.TransactionDate).Min().ToYearMonth();
+
+            foreach (var recurringTransaction in recurringTransactions)
+            {
+                recurringTransaction.IncludeLines(statements, initialYearMonth, finalYearMonth);
+            }
+
+            return Build(initialAmount, statements);
         }
 
         private static List<YearMonth> GetMonthYearList(List<TransactionLine> statements)

@@ -4,6 +4,6 @@ namespace Finpe.CashFlow
 {
     public class TransactionStore
     {
-        public List<TransactionLine> Transactions { get; set; }
+        public List<TransactionLine> TransactionLines { get; set; }
     }
 }
