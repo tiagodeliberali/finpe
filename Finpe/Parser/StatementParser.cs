@@ -34,7 +34,7 @@ namespace Finpe.Parser
             }
         }
 
-        private StatementTransactionLine ExtactSingleStatement(string line)
+        private ExecutedTransactionLine ExtactSingleStatement(string line)
         {
             Match matchAmount = regexAmount.Match(line);
             Match matchDescription = regexDescription.Match(line);
@@ -50,7 +50,7 @@ namespace Finpe.Parser
                 amount *= -1;
             }
 
-            return new StatementTransactionLine(transactionDate, description, amount);
+            return new ExecutedTransactionLine(transactionDate, description, amount);
         }
 
         private DateTime ParseDate(string value)

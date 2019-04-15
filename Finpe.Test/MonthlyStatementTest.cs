@@ -105,9 +105,9 @@ namespace Finpe.Test
             Assert.Equal(2, thirdMonth.Lines.Count);
         }
 
-        private RealizedTransactionLine BuildLine(string description, decimal amount, DateTime date)
+        private ExecutedTransactionLine BuildLine(string description, decimal amount, DateTime date)
         {
-            return new RealizedTransactionLine(new StatementTransactionLine(date, description, amount));
+            return new ExecutedTransactionLine(date, description, amount);
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Finpe.CashFlow
         {
         }
 
-        public RealizedTransactionLine Consolidate(StatementTransactionLine statementLine)
+        public ExecutedTransactionLine Consolidate(ExecutedTransactionLine statementLine)
         {
-            return new RealizedTransactionLine(this, statementLine);
+            return new ExecutedTransactionLine(this, statementLine);
         }
     }
 }

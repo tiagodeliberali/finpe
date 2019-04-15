@@ -30,9 +30,7 @@ namespace Finpe.Test
         [Fact]
         public void CreateRealizedTransactionLineFromStatementLine()
         {
-            StatementTransactionLine statementLine = new StatementTransactionLine(date, description, amount);
-
-            RealizedTransactionLine line = new RealizedTransactionLine(statementLine);
+            ExecutedTransactionLine line = new ExecutedTransactionLine(date, description, amount);
 
             Assert.Equal(description, line.Description);
             Assert.Equal(amount, line.Amount);
@@ -40,7 +38,7 @@ namespace Finpe.Test
             Assert.Equal(Importance.NotDefined, line.Importance);
             Assert.Equal("", line.Responsible);
             Assert.Equal("", line.Category);
-            Assert.Equal(0m, ((RealizedTransactionLine)line).Difference);
+            Assert.Equal(0m, ((ExecutedTransactionLine)line).Difference);
         }
 
         [Fact]
@@ -50,12 +48,12 @@ namespace Finpe.Test
             decimal transactionAmount = 2_000m;
             DateTime transactionDate = new DateTime(2019, 4, 12);
 
-            StatementTransactionLine statementLine = new StatementTransactionLine(date, description, amount);
+            ExecutedTransactionLine statementLine = new ExecutedTransactionLine(date, description, amount);
 
             SingleTransactionLine singleTransactionLine = new SingleTransactionLine(transactionDescription, transactionAmount, transactionDate);
             singleTransactionLine.Classify(category, responsible, importance);
 
-            RealizedTransactionLine line = singleTransactionLine.Consolidate(statementLine);
+            ExecutedTransactionLine line = singleTransactionLine.Consolidate(statementLine);
 
             Assert.Equal(transactionDescription, line.Description);
             Assert.Equal(amount, line.Amount);
@@ -63,7 +61,7 @@ namespace Finpe.Test
             Assert.Equal(importance, line.Importance);
             Assert.Equal(responsible, line.Responsible);
             Assert.Equal(category, line.Category);
-            Assert.Equal(900m, ((RealizedTransactionLine)line).Difference);
+            Assert.Equal(900m, ((ExecutedTransactionLine)line).Difference);
         }
     }
 }

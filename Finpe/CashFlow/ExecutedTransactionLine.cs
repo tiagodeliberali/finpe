@@ -1,14 +1,15 @@
-﻿namespace Finpe.CashFlow
+﻿using System;
+
+namespace Finpe.CashFlow
 {
-    public class RealizedTransactionLine : ClassifiedTransactionLine
+    public class ExecutedTransactionLine : ClassifiedTransactionLine
     {
-        public RealizedTransactionLine(StatementTransactionLine statementLine)
-            : base(statementLine.TransactionDate, statementLine.Description, statementLine.Amount)
+        public ExecutedTransactionLine(DateTime date, string description, decimal amount) : base(date, description, amount)
         {
             Difference = 0m;
         }
 
-        public RealizedTransactionLine(SingleTransactionLine singleTransactionLine, StatementTransactionLine statementLine)
+        public ExecutedTransactionLine(SingleTransactionLine singleTransactionLine, ExecutedTransactionLine statementLine)
             : base(statementLine.TransactionDate, singleTransactionLine.Description, statementLine.Amount)
         {
             Difference = singleTransactionLine.Amount - statementLine.Amount;

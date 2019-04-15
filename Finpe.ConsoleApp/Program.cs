@@ -16,7 +16,7 @@ namespace Finpe.ConsoleApp
 
             StatementParser parser = new StatementParser();
             List<ClassifiedTransactionLine> statements = parser.Parse(lines)
-                .Select(x => new RealizedTransactionLine((StatementTransactionLine)x))
+                .Select(x => (ExecutedTransactionLine)x)
                 .ToList<ClassifiedTransactionLine>();
 
             Classificar(statements, "NET SERVIÇOS", "Moradia", "Todos", Importance.Essential);
