@@ -27,7 +27,7 @@ namespace Finpe.ConsoleApp
 
             foreach (var item in months)
             {
-                Console.WriteLine(item.Month + "/" + item.Year);
+                Console.WriteLine(item.YearMonth.ToString());
                 Console.WriteLine("Saldo inicial: " + String.Format("{0:C}", item.InitialAmount));
                 foreach (var line in item.Lines)
                 {

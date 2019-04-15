@@ -1,4 +1,5 @@
 ﻿using Finpe.CashFlow;
+using Finpe.Utils;
 using Finpe.Visualization;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,7 @@ namespace Finpe.Test
 
             Assert.Single(months);
             MonthlyView month = months.First();
-            Assert.Equal(2019, month.Year);
-            Assert.Equal(4, month.Month);
+            Assert.Equal(new YearMonth(2019, 4), month.YearMonth);
             Assert.Equal(100m, month.InitialAmount);
             Assert.Equal(300m, month.FinalAmount);
             Assert.Equal(2, month.Lines.Count);
@@ -47,22 +47,19 @@ namespace Finpe.Test
             Assert.Equal(3, months.Count);
 
             MonthlyView firstMonth = months[0];
-            Assert.Equal(2019, firstMonth.Year);
-            Assert.Equal(4, firstMonth.Month);
+            Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
             Assert.Equal(100m, firstMonth.InitialAmount);
             Assert.Equal(300m, firstMonth.FinalAmount);
             Assert.Equal(2, firstMonth.Lines.Count);
 
             MonthlyView secondMonth = months[1];
-            Assert.Equal(2019, secondMonth.Year);
-            Assert.Equal(5, secondMonth.Month);
+            Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
             Assert.Equal(300m, secondMonth.InitialAmount);
             Assert.Equal(500m, secondMonth.FinalAmount);
             Assert.Equal(2, secondMonth.Lines.Count);
 
             MonthlyView thirdMonth = months[2];
-            Assert.Equal(2019, thirdMonth.Year);
-            Assert.Equal(6, thirdMonth.Month);
+            Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
             Assert.Equal(500m, thirdMonth.InitialAmount);
             Assert.Equal(700m, thirdMonth.FinalAmount);
             Assert.Equal(2, thirdMonth.Lines.Count);
@@ -84,22 +81,19 @@ namespace Finpe.Test
             Assert.Equal(3, months.Count);
 
             MonthlyView firstMonth = months[0];
-            Assert.Equal(2019, firstMonth.Year);
-            Assert.Equal(4, firstMonth.Month);
+            Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
             Assert.Equal(100m, firstMonth.InitialAmount);
             Assert.Equal(300m, firstMonth.FinalAmount);
             Assert.Equal(2, firstMonth.Lines.Count);
 
             MonthlyView secondMonth = months[1];
-            Assert.Equal(2019, secondMonth.Year);
-            Assert.Equal(5, secondMonth.Month);
+            Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
             Assert.Equal(300m, secondMonth.InitialAmount);
             Assert.Equal(300m, secondMonth.FinalAmount);
             Assert.Equal(0, secondMonth.Lines.Count);
 
             MonthlyView thirdMonth = months[2];
-            Assert.Equal(2019, thirdMonth.Year);
-            Assert.Equal(6, thirdMonth.Month);
+            Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
             Assert.Equal(300m, thirdMonth.InitialAmount);
             Assert.Equal(500m, thirdMonth.FinalAmount);
             Assert.Equal(2, thirdMonth.Lines.Count);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Finpe.Utils
 {
@@ -14,6 +12,11 @@ namespace Finpe.Utils
         public static DateTime LastDay(this DateTime date)
         {
             return FirstDay(date).AddMonths(1).AddDays(-1);
+        }
+
+        public static YearMonth ToYearMonth(this DateTime date)
+        {
+            return new YearMonth(date.Year, date.Month);
         }
     }
 }

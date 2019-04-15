@@ -8,10 +8,9 @@ namespace Finpe.Visualization
 {
     public class MonthlyView
     {
-        private MonthlyView(int year, int month, decimal initialAmount)
+        private MonthlyView(YearMonth yearMonth, decimal initialAmount)
         {
-            Year = year;
-            Month = month;
+            YearMonth = yearMonth;
             InitialAmount = initialAmount;
             FinalAmount = initialAmount;
         }
@@ -19,8 +18,7 @@ namespace Finpe.Visualization
         private List<TransactionLine> _lines = new List<TransactionLine>();
         public decimal InitialAmount { get; private set; }
         public decimal FinalAmount { get; private set; }
-        public int Year { get; private set; }
-        public int Month { get; private set; }
+        public YearMonth YearMonth { get; private set; }
         public IReadOnlyList<TransactionLine> Lines
         {
             get
@@ -45,7 +43,7 @@ namespace Finpe.Visualization
             foreach (var yearMonth in yearMonthList)
             {
                 List<TransactionLine> currentMonthLines = statements.Where(x => yearMonth.Equals(x.TransactionDate)).ToList();
-                MonthlyView month = BuildMonth(yearMonth.Year, yearMonth.Month, previousAmount, currentMonthLines);
+                MonthlyView month = BuildMonth(yearMonth, previousAmount, currentMonthLines);
                 result.Add(month);
                 previousAmount = month.FinalAmount;
             }
@@ -63,18 +61,15 @@ namespace Finpe.Visualization
 
             for (DateTime i = minDate; i < maxDate; i = i.AddMonths(1))
             {
-                results.Add(new YearMonth(i.Year, i.Month));
+                results.Add(i.ToYearMonth());
             }
 
             return results;
         }
 
-        private static MonthlyView BuildMonth(int year, int month, decimal initialAmount, List<TransactionLine> statements)
+        private static MonthlyView BuildMonth(YearMonth yearMonth, decimal initialAmount, List<TransactionLine> statements)
         {
-            MonthlyView monthlyStatement = new MonthlyView(
-                            year,
-                            month,
-                            initialAmount);
+            MonthlyView monthlyStatement = new MonthlyView(yearMonth, initialAmount);
 
             foreach (var item in statements)
             {

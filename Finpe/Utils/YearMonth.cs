@@ -15,6 +15,11 @@ namespace Finpe.Utils
             Month = month;
         }
 
+        public DateTime ToDate(int day)
+        {
+            return new DateTime(Year, Month, day);
+        }
+
         public bool Equals(DateTime date)
         {
             return date.Year == Year && date.Month == Month;
@@ -30,6 +35,41 @@ namespace Finpe.Utils
         public override int GetHashCode()
         {
             return HashCode.Combine(Year, Month);
+        }
+
+        public YearMonth NextMonth()
+        {
+            return ToFirstDay().AddMonths(1).ToYearMonth();
+        }
+
+        public static bool operator <(YearMonth y1, YearMonth y2)
+        {
+            return y1.ToFirstDay() < y2.ToFirstDay();
+        }
+
+        public static bool operator >(YearMonth y1, YearMonth y2)
+        {
+            return y1.ToFirstDay() > y2.ToFirstDay();
+        }
+
+        public static bool operator <=(YearMonth y1, YearMonth y2)
+        {
+            return y1.ToFirstDay() <= y2.ToFirstDay();
+        }
+
+        public static bool operator >=(YearMonth y1, YearMonth y2)
+        {
+            return y1.ToFirstDay() >= y2.ToFirstDay();
+        }
+
+        private DateTime ToFirstDay()
+        {
+            return ToDate(1);
+        }
+
+        public override string ToString()
+        {
+            return Year + "/" + Month;
         }
     }
 }
