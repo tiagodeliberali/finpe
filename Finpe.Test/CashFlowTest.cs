@@ -28,7 +28,7 @@ namespace Finpe.Test
         }
 
         [Fact]
-        public void CreateRealizedTransactionLineFromStatementLine()
+        public void CreateExecutedTransactionLine()
         {
             ExecutedTransactionLine line = new ExecutedTransactionLine(date, description, amount);
 

@@ -39,13 +39,13 @@ namespace Finpe.Visualization
         {
             List<MonthlyView> result = new List<MonthlyView>();
 
-            List<Tuple<int, int>> yearMonthList = GetMonthYearList(statements);
+            List<YearMonth> yearMonthList = GetMonthYearList(statements);
 
             decimal previousAmount = initialAmount;
             foreach (var yearMonth in yearMonthList)
             {
-                List<TransactionLine> currentMonthLines = statements.Where(x => x.TransactionDate.Year == yearMonth.Item1 && x.TransactionDate.Month == yearMonth.Item2).ToList();
-                MonthlyView month = BuildMonth(yearMonth.Item1, yearMonth.Item2, previousAmount, currentMonthLines);
+                List<TransactionLine> currentMonthLines = statements.Where(x => yearMonth.Equals(x.TransactionDate)).ToList();
+                MonthlyView month = BuildMonth(yearMonth.Year, yearMonth.Month, previousAmount, currentMonthLines);
                 result.Add(month);
                 previousAmount = month.FinalAmount;
             }
@@ -54,16 +54,16 @@ namespace Finpe.Visualization
             return result;
         }
 
-        private static List<Tuple<int, int>> GetMonthYearList(List<TransactionLine> statements)
+        private static List<YearMonth> GetMonthYearList(List<TransactionLine> statements)
         {
             DateTime minDate = statements.OrderBy(x => x.TransactionDate).First().TransactionDate.FirstDay();
             DateTime maxDate = statements.OrderBy(x => x.TransactionDate).Last().TransactionDate.LastDay();
 
-            List<Tuple<int, int>> results = new List<Tuple<int, int>>();
+            List<YearMonth> results = new List<YearMonth>();
 
             for (DateTime i = minDate; i < maxDate; i = i.AddMonths(1))
             {
-                results.Add(new Tuple<int, int>(i.Year, i.Month));
+                results.Add(new YearMonth(i.Year, i.Month));
             }
 
             return results;
