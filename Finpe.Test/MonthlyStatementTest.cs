@@ -31,6 +31,25 @@ namespace Finpe.Test
         }
 
         [Fact]
+        public void CreateMonthlyStatementShouldDiplayOrderedData()
+        {
+            List<TransactionLine> statements = new List<TransactionLine>()
+            {
+                BuildLine("eletropaulo", -240m, DateTime.Parse("2019-04-22")),
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10")),
+                BuildLine("net", -90m, DateTime.Parse("2019-04-09"))
+            };
+
+            List<MonthlyView> months = MonthlyView.Build(100m, statements);
+
+            Assert.Equal(DateTime.Parse("2019-04-07"), months.First().Lines[0].TransactionDate);
+            Assert.Equal(DateTime.Parse("2019-04-09"), months.First().Lines[1].TransactionDate);
+            Assert.Equal(DateTime.Parse("2019-04-10"), months.First().Lines[2].TransactionDate);
+            Assert.Equal(DateTime.Parse("2019-04-22"), months.First().Lines[3].TransactionDate);
+        }
+
+        [Fact]
         public void CreateMonthlyStatementForMoreMonths()
         {
             List<TransactionLine> statements = new List<TransactionLine>()

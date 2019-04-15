@@ -1,5 +1,7 @@
 ﻿using Finpe.CashFlow;
 using Finpe.Parser;
+using Finpe.RecurringCashFlow;
+using Finpe.Utils;
 using Finpe.Visualization;
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,7 @@ namespace Finpe.ConsoleApp
             Classificar(statements, "ELETROPAULO", new ClassificationInfo("Moradia", "Todos", Importance.Essential));
             Classificar(statements, "IPVA", new ClassificationInfo("Transporte", "Todos", Importance.HardToCut));
 
-            List<MonthlyView> months = MonthlyView.Build(-3_175.16m, statements.ToList<TransactionLine>());
+            List<MonthlyView> months = MonthlyView.Build(-3_175.16m, statements.ToList<TransactionLine>(), BuildRecurrences(), new YearMonth(2019, 6));
 
             foreach (var item in months)
             {
@@ -39,6 +41,15 @@ namespace Finpe.ConsoleApp
                 Console.WriteLine("Saldo final: " + String.Format("{0:C}", item.FinalAmount));
             }
             Console.ReadLine();
+        }
+
+        private static List<RecurringTransaction> BuildRecurrences()
+        {
+            return new List<RecurringTransaction>()
+            {
+                new RecurringTransaction("NET SERVIÇOS", -240m, 22, new ClassificationInfo("Moradia", "Todos", Importance.Essential)) { StartYearMonth = new YearMonth(2019, 4) },
+                new RecurringTransaction("ELETROPAULO", -90m, 20, new ClassificationInfo("Moradia", "Todos", Importance.Essential)) { StartYearMonth = new YearMonth(2019, 4) }
+            };
         }
 
         private static void Classificar(List<ClassifiedTransactionLine> statements, string searchText, ClassificationInfo classification)

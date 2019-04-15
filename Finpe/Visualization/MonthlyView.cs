@@ -43,7 +43,7 @@ namespace Finpe.Visualization
             decimal previousAmount = initialAmount;
             foreach (var yearMonth in yearMonthList)
             {
-                List<TransactionLine> currentMonthLines = statements.Where(x => yearMonth.Equals(x.TransactionDate)).ToList();
+                List<TransactionLine> currentMonthLines = statements.Where(x => yearMonth.Equals(x.TransactionDate)).OrderBy(x => x.TransactionDate).ToList();
                 MonthlyView month = BuildMonth(yearMonth, previousAmount, currentMonthLines);
                 result.Add(month);
                 previousAmount = month.FinalAmount;
