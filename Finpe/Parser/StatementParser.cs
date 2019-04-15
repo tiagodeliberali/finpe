@@ -1,4 +1,4 @@
-﻿using Finpe.Statement;
+﻿using Finpe.CashFlow;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,9 +14,9 @@ namespace Finpe.Parser
         Regex regexDirection = new Regex(@"(\s\-\s)", RegexOptions.IgnoreCase);
         Regex regexSaldo = new Regex(@"saldo|sdo", RegexOptions.IgnoreCase);
 
-        public List<StatementLine> Parse(string lines)
+        public List<TransactionLine> Parse(string lines)
         {
-            List<StatementLine> result = new List<StatementLine>();
+            List<TransactionLine> result = new List<TransactionLine>();
 
             foreach (var singleLine in lines.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -26,7 +26,7 @@ namespace Finpe.Parser
             return result;
         }
 
-        private void IncludeStatement(List<StatementLine> result, string line)
+        private void IncludeStatement(List<TransactionLine> result, string line)
         {
             if (!regexSaldo.Match(line).Success)
             {
@@ -34,7 +34,7 @@ namespace Finpe.Parser
             }
         }
 
-        private StatementLine ExtactSingleStatement(string line)
+        private StatementTransactionLine ExtactSingleStatement(string line)
         {
             Match matchAmount = regexAmount.Match(line);
             Match matchDescription = regexDescription.Match(line);
@@ -45,12 +45,12 @@ namespace Finpe.Parser
             decimal amount = matchAmount.Success ? decimal.Parse(matchAmount.Value) : throw new ArgumentException("line.Amount");
             DateTime transactionDate = matchDate.Success ? ParseDate(matchDate.Value) : throw new ArgumentException("line.TransactionDate");
 
-            if (!matchDirection.Success)
+            if (matchDirection.Success)
             {
-                return new IncomeStatementLine(description, amount, transactionDate);
+                amount *= -1;
             }
 
-            return new OutcomeStatementLine(description, amount, transactionDate);
+            return new StatementTransactionLine(transactionDate, description, amount);
         }
 
         private DateTime ParseDate(string value)

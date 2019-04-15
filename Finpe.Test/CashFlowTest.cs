@@ -1,5 +1,4 @@
 ﻿using Finpe.CashFlow;
-using Finpe.Statement;
 using System;
 using Xunit;
 
@@ -31,11 +30,10 @@ namespace Finpe.Test
         [Fact]
         public void CreateRealizedTransactionLineFromStatementLine()
         {
-            StatementLine statementLine = new IncomeStatementLine(description, amount, date);
+            StatementTransactionLine statementLine = new StatementTransactionLine(date, description, amount);
 
-            TransactionLine line = new RealizedTransactionLine(statementLine);
+            RealizedTransactionLine line = new RealizedTransactionLine(statementLine);
 
-            Assert.IsType<RealizedTransactionLine>(line);
             Assert.Equal(description, line.Description);
             Assert.Equal(amount, line.Amount);
             Assert.Equal(date, line.TransactionDate);
@@ -52,14 +50,13 @@ namespace Finpe.Test
             decimal transactionAmount = 2_000m;
             DateTime transactionDate = new DateTime(2019, 4, 12);
 
-            StatementLine statementLine = new IncomeStatementLine(description, amount, date);
+            StatementTransactionLine statementLine = new StatementTransactionLine(date, description, amount);
 
             SingleTransactionLine singleTransactionLine = new SingleTransactionLine(transactionDescription, transactionAmount, transactionDate);
             singleTransactionLine.Classify(category, responsible, importance);
 
-            TransactionLine line = singleTransactionLine.Consolidate(statementLine);
+            RealizedTransactionLine line = singleTransactionLine.Consolidate(statementLine);
 
-            Assert.IsType<RealizedTransactionLine>(line);
             Assert.Equal(transactionDescription, line.Description);
             Assert.Equal(amount, line.Amount);
             Assert.Equal(date, line.TransactionDate);

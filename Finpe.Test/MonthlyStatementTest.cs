@@ -1,5 +1,4 @@
 ﻿using Finpe.CashFlow;
-using Finpe.Statement;
 using Finpe.Visualization;
 using System;
 using System.Collections.Generic;
@@ -15,8 +14,8 @@ namespace Finpe.Test
         {
             List<TransactionLine> statements = new List<TransactionLine>()
             {
-                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-07"))),
-                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-10")))
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10"))
             };
 
             List<MonthlyView> months = MonthlyView.Build(100m, statements);
@@ -35,12 +34,12 @@ namespace Finpe.Test
         {
             List<TransactionLine> statements = new List<TransactionLine>()
             {
-                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-07"))),
-                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-10"))),
-                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-05-07"))),
-                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-05-10"))),
-                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-06-07"))),
-                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-06-10")))
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10")),
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-05-07")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-05-10")),
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
             List<MonthlyView> months = MonthlyView.Build(100m, statements);
@@ -74,10 +73,10 @@ namespace Finpe.Test
         {
             List<TransactionLine> statements = new List<TransactionLine>()
             {
-                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-04-29"))),
-                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-04-30"))),
-                new RealizedTransactionLine(new IncomeStatementLine("salary", 1_000m, DateTime.Parse("2019-06-07"))),
-                new RealizedTransactionLine(new OutcomeStatementLine("aluguel", 800m, DateTime.Parse("2019-06-10")))
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-29")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-30")),
+                BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
+                BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
             List<MonthlyView> months = MonthlyView.Build(100m, statements);
@@ -104,6 +103,11 @@ namespace Finpe.Test
             Assert.Equal(300m, thirdMonth.InitialAmount);
             Assert.Equal(500m, thirdMonth.FinalAmount);
             Assert.Equal(2, thirdMonth.Lines.Count);
+        }
+
+        private RealizedTransactionLine BuildLine(string description, decimal amount, DateTime date)
+        {
+            return new RealizedTransactionLine(new StatementTransactionLine(date, description, amount));
         }
     }
 }

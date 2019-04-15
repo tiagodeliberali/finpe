@@ -1,25 +1,20 @@
-﻿using Finpe.Statement;
-
-namespace Finpe.CashFlow
+﻿namespace Finpe.CashFlow
 {
-    public class RealizedTransactionLine : TransactionLine
+    public class RealizedTransactionLine : ClassifiedTransactionLine
     {
-        public RealizedTransactionLine(StatementLine statementLine)
-            : base(statementLine.TransactionDate, statementLine.Description, statementLine.CalculateNewAmount(0))
+        public RealizedTransactionLine(StatementTransactionLine statementLine)
+            : base(statementLine.TransactionDate, statementLine.Description, statementLine.Amount)
         {
             Difference = 0m;
-            StatementLine = statementLine;
         }
 
-        public RealizedTransactionLine(SingleTransactionLine singleTransactionLine, StatementLine statementLine)
+        public RealizedTransactionLine(SingleTransactionLine singleTransactionLine, StatementTransactionLine statementLine)
             : base(statementLine.TransactionDate, singleTransactionLine.Description, statementLine.Amount)
         {
             Difference = singleTransactionLine.Amount - statementLine.Amount;
-            StatementLine = statementLine;
             Classify(singleTransactionLine.Category, singleTransactionLine.Responsible, singleTransactionLine.Importance);
         }
 
         public decimal Difference { get; private set; }
-        public StatementLine StatementLine { get; set; }
     }
 }
