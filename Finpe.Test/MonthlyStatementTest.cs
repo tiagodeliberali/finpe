@@ -101,7 +101,7 @@ namespace Finpe.Test
 
         private ExecutedTransactionLine BuildLine(string description, decimal amount, DateTime date)
         {
-            return new ExecutedTransactionLine(date, description, amount);
+            return new ExecutedTransactionLine(new TransactionLineInfo(date, amount, description));
         }
     }
 }

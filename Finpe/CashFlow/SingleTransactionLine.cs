@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Finpe.CashFlow
+﻿namespace Finpe.CashFlow
 {
     public class SingleTransactionLine : ClassifiedTransactionLine
     {
-        public SingleTransactionLine(string description, decimal amount, DateTime date) : base(date, description, amount)
+        public SingleTransactionLine(TransactionLineInfo info) : base(info)
         {
         }
 

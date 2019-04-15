@@ -8,11 +8,11 @@ namespace Finpe.CashFlow
         public decimal Amount { get; private set; }
         public string Description { get; private set; }
         
-        public TransactionLine(DateTime date, string description, decimal amount)
+        public TransactionLine(TransactionLineInfo info)
         {
-            TransactionDate = date;
-            Description = description;
-            Amount = amount;
+            TransactionDate = info.TransactionDate;
+            Description = info.Description;
+            Amount = info.Amount;
         }        
     }
 }

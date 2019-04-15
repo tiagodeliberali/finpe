@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Finpe.CashFlow;
 using Finpe.Utils;
@@ -31,7 +30,10 @@ namespace Finpe.RecurringCashFlow
             {
                 if (!ExistsExecutedRecurringTransactionLine(lines, i))
                 {
-                    lines.Add(new RecurringTransactionLine(i.ToDate(day), description, amount, category, responsible, importance));
+                    lines.Add(
+                        new RecurringTransactionLine(
+                            new TransactionLineInfo(i.ToDate(day), amount, description), 
+                            new ClassificationInfo(category, responsible, importance)));
                 }
             }
         }

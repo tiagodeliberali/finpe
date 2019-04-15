@@ -16,8 +16,8 @@ namespace Finpe.Test
         [Fact]
         public void ClassifySingleTransaction()
         {
-            SingleTransactionLine line = new SingleTransactionLine(description, amount, date);
-            line.Classify(category, responsible, importance);
+            SingleTransactionLine line = new SingleTransactionLine(BuildDefaultInfo());
+            line.Classify(BuildDefaultClssification());
 
             Assert.Equal(description, line.Description);
             Assert.Equal(amount, line.Amount);
@@ -30,7 +30,7 @@ namespace Finpe.Test
         [Fact]
         public void CreateExecutedTransactionLine()
         {
-            ExecutedTransactionLine line = new ExecutedTransactionLine(date, description, amount);
+            ExecutedTransactionLine line = new ExecutedTransactionLine(BuildDefaultInfo());
 
             Assert.Equal(description, line.Description);
             Assert.Equal(amount, line.Amount);
@@ -48,10 +48,11 @@ namespace Finpe.Test
             decimal transactionAmount = 2_000m;
             DateTime transactionDate = new DateTime(2019, 4, 12);
 
-            ExecutedTransactionLine statementLine = new ExecutedTransactionLine(date, description, amount);
+            ExecutedTransactionLine statementLine = new ExecutedTransactionLine(BuildDefaultInfo());
 
-            SingleTransactionLine singleTransactionLine = new SingleTransactionLine(transactionDescription, transactionAmount, transactionDate);
-            singleTransactionLine.Classify(category, responsible, importance);
+            SingleTransactionLine singleTransactionLine = 
+                new SingleTransactionLine(new TransactionLineInfo(transactionDate, transactionAmount, transactionDescription));
+            singleTransactionLine.Classify(BuildDefaultClssification());
 
             ExecutedTransactionLine line = singleTransactionLine.Consolidate(statementLine);
 
@@ -62,6 +63,16 @@ namespace Finpe.Test
             Assert.Equal(responsible, line.Responsible);
             Assert.Equal(category, line.Category);
             Assert.Equal(900m, ((ExecutedTransactionLine)line).Difference);
+        }
+
+        private TransactionLineInfo BuildDefaultInfo()
+        {
+            return new TransactionLineInfo(date, amount, description);
+        }
+
+        private ClassificationInfo BuildDefaultClssification()
+        {
+            return new ClassificationInfo(category, responsible, importance);
         }
     }
 }

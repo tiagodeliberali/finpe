@@ -50,7 +50,7 @@ namespace Finpe.Parser
                 amount *= -1;
             }
 
-            return new ExecutedTransactionLine(transactionDate, description, amount);
+            return new ExecutedTransactionLine(new TransactionLineInfo(transactionDate, amount, description));
         }
 
         private DateTime ParseDate(string value)

@@ -45,7 +45,7 @@ namespace Finpe.ConsoleApp
         {
             foreach (ClassifiedTransactionLine line in statements.Where(x => x.Description.Contains(searchText)))
             {
-                line.Classify(category, responsible, importance);
+                line.Classify(new ClassificationInfo(category, responsible, importance));
             }
         }
 

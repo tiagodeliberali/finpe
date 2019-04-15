@@ -22,7 +22,7 @@ namespace Finpe.Test
         {
             List<TransactionLine> lines = new List<TransactionLine>()
             {
-                new SingleTransactionLine(description, amount, new DateTime(2019, 4, day)),
+                new SingleTransactionLine(BuildInfo(4)),
             };
             RecurringTransaction transaction = new RecurringTransaction(description, amount, day, category, responsible, importance);
 
@@ -44,10 +44,10 @@ namespace Finpe.Test
         {
             List<TransactionLine> lines = new List<TransactionLine>()
             {
-                new ExecutedRecurringTransactionLine(new DateTime(2019, 4, day), description, amount),
-                new ExecutedRecurringTransactionLine(new DateTime(2019, 5, day), description, amount),
-                new SingleTransactionLine(description, amount, new DateTime(2019, 6, day)),
-                new SingleTransactionLine(description, amount, new DateTime(2019, 7, day))
+                new ExecutedRecurringTransactionLine(BuildInfo(4)),
+                new ExecutedRecurringTransactionLine(BuildInfo(5)),
+                new SingleTransactionLine(BuildInfo(6)),
+                new SingleTransactionLine(BuildInfo(7))
             };
             RecurringTransaction transaction = new RecurringTransaction(description, amount, day, category, responsible, importance);
 
@@ -70,6 +70,11 @@ namespace Finpe.Test
                 .Where(x => x is T)
                 .OrderBy(x => x.TransactionDate)
                 .FirstOrDefault();
+        }
+
+        private TransactionLineInfo BuildInfo(int month)
+        {
+            return new TransactionLineInfo(new DateTime(2019, month, day), amount, description);
         }
     }
 }

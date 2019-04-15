@@ -1,25 +1,26 @@
-﻿using System;
-
-namespace Finpe.CashFlow
+﻿namespace Finpe.CashFlow
 {
     public abstract class ClassifiedTransactionLine : TransactionLine
     {
-        public ClassifiedTransactionLine(DateTime date, string description, decimal amount) : base(date, description, amount)
+        public ClassifiedTransactionLine(TransactionLineInfo info) : base(info)
         {
-            Category = "";
-            Responsible = "";
-            Importance = Importance.NotDefined;
+            Classify(ClassificationInfo.NotClassified);
         }
 
         public string Category { get; private set; }
         public string Responsible { get; private set; }
         public Importance Importance { get; private set; }
 
-        public void Classify(string category, string responsible, Importance importance)
+        public void Classify(ClassificationInfo classification)
         {
-            Category = category;
-            Responsible = responsible;
-            Importance = importance;
+            Category = classification.Category;
+            Responsible = classification.Responsible;
+            Importance = classification.Importance;
+        }
+
+        public ClassificationInfo GetClassification()
+        {
+            return new ClassificationInfo(Category, Responsible, Importance);
         }
     }
 }
