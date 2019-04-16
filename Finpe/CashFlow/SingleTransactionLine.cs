@@ -6,6 +6,10 @@
         {
         }
 
+        public SingleTransactionLine(TransactionLineInfo info, ClassificationInfo classification) : base(info, classification)
+        {
+        }
+
         public ExecutedTransactionLine Consolidate(ExecutedTransactionLine statementLine)
         {
             return new ExecutedTransactionLine(this, statementLine);

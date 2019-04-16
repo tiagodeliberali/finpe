@@ -20,8 +20,7 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10"))
             };
 
-            List<MonthlyView> months = new MonthlyViewBuilder()
-                .WithTransactionLines(statements)
+            List<MonthlyView> months = new MonthlyViewBuilder(statements)
                 .Build(100m);
 
             Assert.Single(months);
@@ -30,6 +29,15 @@ namespace Finpe.Test
             Assert.Equal(100m, month.InitialAmount);
             Assert.Equal(300m, month.FinalAmount);
             Assert.Equal(2, month.Lines.Count);
+        }
+
+        [Fact]
+        public void CreateMonthlyStatementWithoutTransactionLines()
+        {
+            List<MonthlyView> months = new MonthlyViewBuilder(null)
+                .Build(100m);
+
+            Assert.Empty(months);
         }
 
         [Fact]
@@ -43,8 +51,7 @@ namespace Finpe.Test
                 BuildLine("net", -90m, DateTime.Parse("2019-04-09"))
             };
 
-            List<MonthlyView> months = new MonthlyViewBuilder()
-                .WithTransactionLines(statements)
+            List<MonthlyView> months = new MonthlyViewBuilder(statements)
                 .Build(100m);
 
             Assert.Equal(DateTime.Parse("2019-04-07"), months.First().Lines[0].TransactionDate);
@@ -66,8 +73,7 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
-            List<MonthlyView> months = new MonthlyViewBuilder()
-                .WithTransactionLines(statements)
+            List<MonthlyView> months = new MonthlyViewBuilder(statements)
                 .Build(100m);
 
             Assert.Equal(3, months.Count);
@@ -102,8 +108,7 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
-            List<MonthlyView> months = new MonthlyViewBuilder()
-                .WithTransactionLines(statements)
+            List<MonthlyView> months = new MonthlyViewBuilder(statements)
                 .Build(100m);
 
             Assert.Equal(3, months.Count);
@@ -144,9 +149,8 @@ namespace Finpe.Test
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
             };
 
-            List<MonthlyView> months = new MonthlyViewBuilder()
-                .WithTransactionLines(statements)
-                .WithRecurringTransaction(recurringTransactions, new YearMonth(2019, 7))
+            List<MonthlyView> months = new MonthlyViewBuilder(
+                    statements, new List<IViewerPipeline>() { new RecurringTransactionsPipeline(recurringTransactions, new YearMonth(2019, 7)) })
                 .Build(100m);
 
             Assert.Equal(4, months.Count);

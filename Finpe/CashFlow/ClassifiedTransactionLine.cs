@@ -7,6 +7,11 @@
             Classify(ClassificationInfo.NotClassified);
         }
 
+        public ClassifiedTransactionLine(TransactionLineInfo info, ClassificationInfo classification) : base(info)
+        {
+            Classify(classification);
+        }
+
         public string Category { get; private set; }
         public string Responsible { get; private set; }
         public Importance Importance { get; private set; }

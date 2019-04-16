@@ -1,5 +1,4 @@
 ﻿using Finpe.CashFlow;
-using Finpe.RecurringCashFlow;
 using Finpe.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,43 +7,32 @@ namespace Finpe.Visualization
 {
     public class MonthlyViewBuilder
     {
+        private List<IViewerPipeline> pipelines;
         private List<TransactionLine> statements;
-        private List<RecurringTransaction> recurringTransactions;
-        private YearMonth finalYearMonth;
-        
-        public MonthlyViewBuilder WithTransactionLines(List<TransactionLine> statements)
+
+        public MonthlyViewBuilder(List<TransactionLine> statements) : this(statements, new List<IViewerPipeline>())
         {
-            this.statements = statements;
-            return this;
         }
 
-        public MonthlyViewBuilder WithRecurringTransaction(List<RecurringTransaction> recurringTransactions, YearMonth finalYearMonth)
+        public MonthlyViewBuilder(List<TransactionLine> statements, List<IViewerPipeline> pipelines) 
         {
-            this.recurringTransactions = recurringTransactions;
-            this.finalYearMonth = finalYearMonth;
-            return this;
-        }
+            this.statements = statements;
+            this.pipelines = pipelines;
+        }    
 
         public List<MonthlyView> Build(decimal initialAmount)
         {
-            BuildRecurringTransactions();
-            return BuildMonthlyView(initialAmount);
-        }
-
-        private void BuildRecurringTransactions()
-        {
-            if (recurringTransactions == null) return;
-
-            YearMonth initialYearMonth = statements.Select(x => x.TransactionDate).Min().ToYearMonth();
-
-            foreach (var recurringTransaction in recurringTransactions)
+            foreach (IViewerPipeline pipe in pipelines)
             {
-                recurringTransaction.IncludeLines(statements, initialYearMonth, finalYearMonth);
+                pipe.ProcessLines(statements);
             }
+            return BuildMonthlyView(initialAmount);
         }
 
         private List<MonthlyView> BuildMonthlyView(decimal initialAmount)
         {
+            if (statements == null) return new List<MonthlyView>();
+
             List<MonthlyView> result = new List<MonthlyView>();
 
             decimal previousAmount = initialAmount;
