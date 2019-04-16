@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Finpe.CashFlow;
+using Finpe.MultilineCashflow;
 using Finpe.Utils;
 
 namespace Finpe.Budget
@@ -31,13 +32,28 @@ namespace Finpe.Budget
 
         public MontlyBudget Process(List<TransactionLine> lines)
         {
-            decimal used = Math.Abs(lines
-                .Where(x => x is ClassifiedTransactionLine)
-                .Select(x => (ClassifiedTransactionLine)x)
-                .Where(x => x.Category == Category)
-                .Sum(x => x.Amount));
+            decimal used = ProcessClassifiedLines(lines);
+            used += ProcessMultiLines(lines);
 
             return new MontlyBudget(Category, Available, ExecutionDay, used);
+        }
+
+        private decimal ProcessMultiLines(List<TransactionLine> lines)
+        {
+            return Math.Abs(lines
+                            .Where(x => x is MultiCategoryTransactionLine)
+                            .Select(x => (MultiCategoryTransactionLine)x)
+                            .Select(x => ProcessClassifiedLines(x.Lines.ToList<TransactionLine>()))
+                            .Sum(x => x));
+        }
+
+        private decimal ProcessClassifiedLines(List<TransactionLine> lines)
+        {
+            return Math.Abs(lines
+                            .Where(x => x is ClassifiedTransactionLine)
+                            .Select(x => (ClassifiedTransactionLine)x)
+                            .Where(x => x.Category == Category)
+                            .Sum(x => x.Amount));
         }
 
         public void IncludeLine(List<TransactionLine> statements, YearMonth yearMonth)

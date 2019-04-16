@@ -2,6 +2,8 @@
 {
     public class ExecutedTransactionLine : ClassifiedTransactionLine
     {
+        public decimal Difference { get; private set; }
+
         public ExecutedTransactionLine(TransactionLineInfo info) : base(info)
         {
             Difference = 0m;
@@ -18,7 +20,5 @@
             Difference = singleTransactionLine.Amount - statementLine.Amount;
             Classify(singleTransactionLine.GetClassification());
         }
-
-        public decimal Difference { get; private set; }
     }
 }
