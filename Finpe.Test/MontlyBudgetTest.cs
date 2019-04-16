@@ -1,7 +1,6 @@
 ﻿using Finpe.Budget;
 using Finpe.CashFlow;
 using Finpe.MultilineCashflow;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -9,19 +8,16 @@ namespace Finpe.Test
 {
     public class MontlyBudgetTest
     {
-        private const string category = "Moradia";
-
         [Fact]
         public void GetBudgetInfo()
         {
-            List<TransactionLine> lines = new List<TransactionLine>()
-            {
-                new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 14), -300m, "Eletropaulo"), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential)),
-                new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 18), -500, "Faculdade"), new ClassificationInfo("Educação", ClassificationInfo.ResponsibleAll, Importance.Essential)),
-                new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 23), -800, "Aluguel"), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential))
-            };
+            List<TransactionLine> lines = TransactionLineBuilder.BuildList()
+                .Add(-300m, "Eletropaulo", day: 14)
+                .Add(-500m, "Faculdade", day: 18, category: "Educação")
+                .Add(-800m, "Aluguel", day: 22)
+                .Build();
 
-            MontlyBudget budget = new MontlyBudget(category, 2_000m, 15);
+            MontlyBudget budget = new MontlyBudget(TransactionLineBuilder.DefaultCategory, 2_000m, 15);
 
             MontlyBudget processedBudget = budget.Process(lines);
 
@@ -35,25 +31,26 @@ namespace Finpe.Test
         [Fact]
         public void GetBudgetInfoWithMultilineTransaction()
         {
-            MultilineTransactionLine line = new MultilineTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 22), 0m, "Itau personalite"));
-            line.Add(new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 15), -300, "farmácia"), new ClassificationInfo("saude", ClassificationInfo.ResponsibleAll, Importance.Essential)));
-            line.Add(new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 15), -500, "supermercado"), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential)));
+            MultilineTransactionLine line = TransactionLineBuilder.BuildMultilineTransactionLine();
+            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-100m, "farmácia", category: "saude"));
+            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-300m, "supermercado"));
 
-            MultilineTransactionLine line2 = new MultilineTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 22), 0m, "Itau personalite"));
-            line2.Add(new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 15), -200, "farmácia"), new ClassificationInfo("saude", ClassificationInfo.ResponsibleAll, Importance.Essential)));
-            line2.Add(new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 15), -300, "supermercado"), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential)));
-            ExecutedMultilineTransactionLine executedLine = line2.Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 17), -1_000m, "PGTO CARTAO")));
+            MultilineTransactionLine line2 = TransactionLineBuilder.BuildMultilineTransactionLine();
+            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-300m, "farmácia", category: "saude"));
+            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-500m, "supermercado"));
 
-            List<TransactionLine> lines = new List<TransactionLine>()
-            {
-                new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 14), -300m, "Eletropaulo"), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential)),
-                new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 18), -500, "Faculdade"), new ClassificationInfo("Educação", ClassificationInfo.ResponsibleAll, Importance.Essential)),
-                line,
-                executedLine,
-                new SingleTransactionLine(new TransactionLineInfo(new DateTime(2019, 4, 23), -800, "Aluguel"), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential))
-            };
+            ExecutedMultilineTransactionLine executedLine = line2.Consolidate(
+                TransactionLineBuilder.BuildExecutedCreditcardTransactionLine(-1_000m));
 
-            MontlyBudget budget = new MontlyBudget(category, 2_000m, 15);
+            List<TransactionLine> lines = TransactionLineBuilder.BuildList()
+                .Add(-300m, "Eletropaulo", day: 14)
+                .Add(-500m, "Faculdade", day: 18, category: "Educação")
+                .Add(line)
+                .Add(executedLine)
+                .Add(-800m, "Aluguel", day: 22)
+                .Build();
+
+            MontlyBudget budget = new MontlyBudget(TransactionLineBuilder.DefaultCategory, 2_000m, 15);
 
             MontlyBudget processedBudget = budget.Process(lines);
 

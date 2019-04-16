@@ -15,28 +15,21 @@ namespace Finpe.Test
         [Fact]
         public void CreateMonthlyStatement()
         {
-            List<TransactionLine> statements = new List<TransactionLine>()
-            {
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10"))
-            };
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(1_000m, "salary", day: 07, category: "Entrada")
+                .Add(-800m, "aluguel", day: 10, category: "Educação")
+                .Build();
 
-            List<MonthlyView> months = new MonthlyViewBuilder(statements)
-                .Build(100m);
+            List<MonthlyView> months = new MonthlyViewBuilder(statements).Build(100m);
 
             Assert.Single(months);
-            MonthlyView month = months.First();
-            Assert.Equal(new YearMonth(2019, 4), month.YearMonth);
-            Assert.Equal(100m, month.InitialAmount);
-            Assert.Equal(300m, month.FinalAmount);
-            Assert.Equal(2, month.Lines.Count);
+            ValitadeMonth(months.First(), 4, 100m, 300m, 2);
         }
 
         [Fact]
         public void CreateMonthlyStatementWithoutTransactionLines()
         {
-            List<MonthlyView> months = new MonthlyViewBuilder(null)
-                .Build(100m);
+            List<MonthlyView> months = new MonthlyViewBuilder(null).Build(100m);
 
             Assert.Empty(months);
         }
@@ -44,16 +37,14 @@ namespace Finpe.Test
         [Fact]
         public void CreateMonthlyStatementShouldDiplayOrderedData()
         {
-            List<TransactionLine> statements = new List<TransactionLine>()
-            {
-                BuildLine("eletropaulo", -240m, DateTime.Parse("2019-04-22")),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10")),
-                BuildLine("net", -90m, DateTime.Parse("2019-04-09"))
-            };
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(-240m,  day: 22)
+                .Add(1_000m, day: 07)
+                .Add(-800m, day: 10)
+                .Add(-90m, day: 09)
+                .Build();
 
-            List<MonthlyView> months = new MonthlyViewBuilder(statements)
-                .Build(100m);
+            List<MonthlyView> months = new MonthlyViewBuilder(statements).Build(100m);
 
             Assert.Equal(DateTime.Parse("2019-04-07"), months.First().Lines[0].TransactionDate);
             Assert.Equal(DateTime.Parse("2019-04-09"), months.First().Lines[1].TransactionDate);
@@ -64,73 +55,39 @@ namespace Finpe.Test
         [Fact]
         public void CreateMonthlyStatementForMoreMonths()
         {
-            List<TransactionLine> statements = new List<TransactionLine>()
-            {
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-10")),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-05-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-05-10")),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
-            };
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(-800m, day: 22, month: 4)
+                .Add(1_000m, day: 07, month: 4)
+                .Add(-800m, day: 22, month: 5)
+                .Add(1_000m, day: 07, month: 5)
+                .Add(-800m, day: 22, month: 6)
+                .Add(1_000m, day: 07, month: 6)
+                .Build();
 
-            List<MonthlyView> months = new MonthlyViewBuilder(statements)
-                .Build(100m);
+            List<MonthlyView> months = new MonthlyViewBuilder(statements).Build(100m);
 
             Assert.Equal(3, months.Count);
-
-            MonthlyView firstMonth = months[0];
-            Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
-            Assert.Equal(100m, firstMonth.InitialAmount);
-            Assert.Equal(300m, firstMonth.FinalAmount);
-            Assert.Equal(2, firstMonth.Lines.Count);
-
-            MonthlyView secondMonth = months[1];
-            Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
-            Assert.Equal(300m, secondMonth.InitialAmount);
-            Assert.Equal(500m, secondMonth.FinalAmount);
-            Assert.Equal(2, secondMonth.Lines.Count);
-
-            MonthlyView thirdMonth = months[2];
-            Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
-            Assert.Equal(500m, thirdMonth.InitialAmount);
-            Assert.Equal(700m, thirdMonth.FinalAmount);
-            Assert.Equal(2, thirdMonth.Lines.Count);
+            ValitadeMonth(months[0], 4, 100m, 300m, 2);
+            ValitadeMonth(months[1], 5, 300m, 500m, 2);
+            ValitadeMonth(months[2], 6, 500m, 700m, 2);
         }
 
         [Fact]
         public void CreateMonthlyStatementForMoreMonthsFillingEmptyMonths()
         {
-            List<TransactionLine> statements = new List<TransactionLine>()
-            {
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-29")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-30")),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
-            };
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(-800m, day: 22, month: 4)
+                .Add(1_000m, day: 07, month: 4)
+                .Add(-800m, day: 22, month: 6)
+                .Add(1_000m, day: 07, month: 6)
+                .Build();
 
-            List<MonthlyView> months = new MonthlyViewBuilder(statements)
-                .Build(100m);
+            List<MonthlyView> months = new MonthlyViewBuilder(statements).Build(100m);
 
             Assert.Equal(3, months.Count);
-
-            MonthlyView firstMonth = months[0];
-            Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
-            Assert.Equal(100m, firstMonth.InitialAmount);
-            Assert.Equal(300m, firstMonth.FinalAmount);
-            Assert.Equal(2, firstMonth.Lines.Count);
-
-            MonthlyView secondMonth = months[1];
-            Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
-            Assert.Equal(300m, secondMonth.InitialAmount);
-            Assert.Equal(300m, secondMonth.FinalAmount);
-            Assert.Equal(0, secondMonth.Lines.Count);
-
-            MonthlyView thirdMonth = months[2];
-            Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
-            Assert.Equal(300m, thirdMonth.InitialAmount);
-            Assert.Equal(500m, thirdMonth.FinalAmount);
-            Assert.Equal(2, thirdMonth.Lines.Count);
+            ValitadeMonth(months[0], 4, 100m, 300m, 2);
+            ValitadeMonth(months[1], 5, 300m, 300m, 0);
+            ValitadeMonth(months[2], 6, 300m, 500m, 2);
         }
 
         [Fact]
@@ -141,112 +98,69 @@ namespace Finpe.Test
                 new RecurringTransaction("Conta de Luz", -200m, 15, new ClassificationInfo("Moradia", ClassificationInfo.ResponsibleAll, Importance.Essential))
             };
 
-            List<TransactionLine> statements = new List<TransactionLine>()
-            {
-                BuildRecurringLine("Conta de Luz", -100m, DateTime.Parse("2019-04-15")),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-29")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-30")),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"))
-            };
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(TransactionLineBuilder.BuildExecutedRecurringTransactionLine(-100m, description: "Conta de Luz", day: 15, month: 4))
+                .Add(-800m, day: 22, month: 4)
+                .Add(1_000m, day: 07, month: 4)
+                .Add(-800m, day: 22, month: 6)
+                .Add(1_000m, day: 07, month: 6)
+                .Build();
 
-            List<MonthlyView> months = new MonthlyViewBuilder(
-                    statements, new List<IViewerPipeline>() { new RecurringTransactionsPipeline(recurringTransactions, new YearMonth(2019, 7)) })
+            List<MonthlyView> months = new MonthlyViewBuilder(statements, 
+                    new List<IViewerPipeline>() { new RecurringTransactionsPipeline(recurringTransactions, new YearMonth(2019, 7)) })
                 .Build(100m);
 
             Assert.Equal(4, months.Count);
-
-            MonthlyView firstMonth = months[0];
-            Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
-            Assert.Equal(100m, firstMonth.InitialAmount);
-            Assert.Equal(200m, firstMonth.FinalAmount);
-            Assert.Equal(3, firstMonth.Lines.Count);
-
-            MonthlyView secondMonth = months[1];
-            Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
-            Assert.Equal(200m, secondMonth.InitialAmount);
-            Assert.Equal(0m, secondMonth.FinalAmount);
-            Assert.Equal(1, secondMonth.Lines.Count);
-
-            MonthlyView thirdMonth = months[2];
-            Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
-            Assert.Equal(0m, thirdMonth.InitialAmount);
-            Assert.Equal(0m, thirdMonth.FinalAmount);
-            Assert.Equal(3, thirdMonth.Lines.Count);
-
-            MonthlyView forthMonth = months[3];
-            Assert.Equal(new YearMonth(2019, 7), forthMonth.YearMonth);
-            Assert.Equal(0m, forthMonth.InitialAmount);
-            Assert.Equal(-200m, forthMonth.FinalAmount);
-            Assert.Equal(1, forthMonth.Lines.Count);
+            ValitadeMonth(months[0], 4, 100m, 200m, 3);
+            ValitadeMonth(months[1], 5, 200m, 0m, 1);
+            ValitadeMonth(months[2], 6, 0m, 0m, 3);
+            ValitadeMonth(months[3], 7, 0m, -200m, 1);
         }
 
         [Fact]
         public void CreateMonthlyStatementWithMonthlyBudget()
         {
-            string category = "Moradia";
-
             List<MontlyBudget> budgets = new List<MontlyBudget>()
             {
-                new MontlyBudget(category, 1_000m, 15)
+                new MontlyBudget(TransactionLineBuilder.DefaultCategory, 1_000m, 15)
             };
 
-            List<TransactionLine> statements = new List<TransactionLine>()
-            {
-                BuildLine("Conta de Luz", -200m, DateTime.Parse("2019-04-15"), category),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-04-29")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-04-30"), category),
-                BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
-                BuildLine("aluguel", -800m, DateTime.Parse("2019-06-10"), category)
-            };
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(-200m, day: 29, month: 4)
+                .Add(-800m, day: 22, month: 4)
+                .Add(1_000m, day: 07, month: 4, category: "Entrada")
+                .Add(-800m, day: 22, month: 6)
+                .Add(1_000m, day: 07, month: 6, category: "Entrada")
+                .Build();
 
             List<MonthlyView> months = new MonthlyViewBuilder(
                     statements, new List<IViewerPipeline>() { new MontlyBudgetPipeline(budgets) })
                 .Build(100m);
 
             Assert.Equal(3, months.Count);
+            ValitadeMonth(months[0], 4, 100m, 100m, 3);
+            ValitadeMonth(months[1], 5, 100m, -900m, 1);
+            ValitadeMonth(months[2], 6, -900m, -900m, 3);
 
-            MonthlyView firstMonth = months[0];
-            Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
-            Assert.Equal(100m, firstMonth.InitialAmount);
-            Assert.Equal(100m, firstMonth.FinalAmount);
-            Assert.Equal(3, firstMonth.Lines.Count);
-            Assert.Single(firstMonth.Budgets);
-            Assert.Equal(0m, firstMonth.Budgets.First().Available);
-            Assert.Equal(1_000m, firstMonth.Budgets.First().Used);
+            Assert.Single(months[0].Budgets);
+            Assert.Equal(0m, months[0].Budgets.First().Available);
+            Assert.Equal(1_000m, months[0].Budgets.First().Used);
 
-            MonthlyView secondMonth = months[1];
-            Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
-            Assert.Equal(100m, secondMonth.InitialAmount);
-            Assert.Equal(-900m, secondMonth.FinalAmount);
-            Assert.Equal(1, secondMonth.Lines.Count);
-            Assert.Single(secondMonth.Budgets);
-            Assert.Equal(1_000m, secondMonth.Budgets.First().Available);
-            Assert.Equal(0m, secondMonth.Budgets.First().Used);
+            Assert.Single(months[1].Budgets);
+            Assert.Equal(1_000m, months[1].Budgets.First().Available);
+            Assert.Equal(0m, months[1].Budgets.First().Used);
 
-            MonthlyView thirdMonth = months[2];
-            Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
-            Assert.Equal(-900m, thirdMonth.InitialAmount);
-            Assert.Equal(-900m, thirdMonth.FinalAmount);
-            Assert.Equal(3, thirdMonth.Lines.Count);
-            Assert.Single(thirdMonth.Budgets);
-            Assert.Equal(200m, thirdMonth.Budgets.First().Available);
-            Assert.Equal(800m, thirdMonth.Budgets.First().Used);
+            Assert.Single(months[2].Budgets);
+            Assert.Equal(200m, months[2].Budgets.First().Available);
+            Assert.Equal(800m, months[2].Budgets.First().Used);
         }
 
-        private ExecutedTransactionLine BuildLine(string description, decimal amount, DateTime date)
+        private void ValitadeMonth(MonthlyView monthView, int month, decimal initialAmount, decimal finalAmount, int numberOfRows)
         {
-            return new ExecutedTransactionLine(new TransactionLineInfo(date, amount, description));
-        }
-
-        private ExecutedTransactionLine BuildLine(string description, decimal amount, DateTime date, string category)
-        {
-            return new ExecutedTransactionLine(new TransactionLineInfo(date, amount, description), new ClassificationInfo(category, ClassificationInfo.ResponsibleAll, Importance.Essential));
-        }
-
-        private ExecutedRecurringTransactionLine BuildRecurringLine(string description, decimal amount, DateTime date)
-        {
-            return new ExecutedRecurringTransactionLine(new TransactionLineInfo(date, amount, description));
+            Assert.Equal(new YearMonth(2019, month), monthView.YearMonth);
+            Assert.Equal(initialAmount, monthView.InitialAmount);
+            Assert.Equal(finalAmount, monthView.FinalAmount);
+            Assert.Equal(numberOfRows, monthView.Lines.Count);
         }
     }
 }
