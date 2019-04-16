@@ -33,18 +33,23 @@ namespace Finpe.Visualization
         {
             if (statements == null) return new List<MonthlyView>();
 
-            List<MonthlyView> result = new List<MonthlyView>();
+            List<MonthlyView> monthViews = new List<MonthlyView>();
 
             decimal previousAmount = initialAmount;
             foreach (var yearMonth in GetMonthYearList())
             {
                 List<TransactionLine> currentMonthLines = statements.Where(x => yearMonth.Equals(x.TransactionDate)).OrderBy(x => x.TransactionDate).ToList();
                 MonthlyView month = BuildMonth(yearMonth, previousAmount, currentMonthLines);
-                result.Add(month);
+                monthViews.Add(month);
                 previousAmount = month.FinalAmount;
             }
 
-            return result;
+            foreach (IViewerPipeline pipe in pipelines)
+            {
+                pipe.ProcessViews(monthViews);
+            }
+
+            return monthViews;
         }
 
         private List<YearMonth> GetMonthYearList()

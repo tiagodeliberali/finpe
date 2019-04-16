@@ -7,6 +7,11 @@
             Difference = 0m;
         }
 
+        public ExecutedTransactionLine(TransactionLineInfo info, ClassificationInfo classification) : base(info, classification)
+        {
+            Difference = 0m;
+        }
+
         public ExecutedTransactionLine(SingleTransactionLine singleTransactionLine, ExecutedTransactionLine statementLine)
             : base(new TransactionLineInfo(statementLine.TransactionDate, statementLine.Amount, singleTransactionLine.Description))
         {

@@ -6,5 +6,6 @@ namespace Finpe.Visualization
     public interface IViewerPipeline
     {
         void ProcessLines(List<TransactionLine> statements);
+        void ProcessViews(List<MonthlyView> monthViews);
     }
 }

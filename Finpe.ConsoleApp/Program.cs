@@ -21,9 +21,9 @@ namespace Finpe.ConsoleApp
                 .Select(x => (ExecutedTransactionLine)x)
                 .ToList<ClassifiedTransactionLine>();
 
-            Classificar(statements, "NET SERVIÇOS", new ClassificationInfo("Moradia", "Todos", Importance.Essential));
-            Classificar(statements, "ELETROPAULO", new ClassificationInfo("Moradia", "Todos", Importance.Essential));
-            Classificar(statements, "IPVA", new ClassificationInfo("Transporte", "Todos", Importance.HardToCut));
+            Classificar(statements, "NET SERVIÇOS", new ClassificationInfo("Moradia", ClassificationInfo.ResponsibleAll, Importance.Essential));
+            Classificar(statements, "ELETROPAULO", new ClassificationInfo("Moradia", ClassificationInfo.ResponsibleAll, Importance.Essential));
+            Classificar(statements, "IPVA", new ClassificationInfo("Transporte", ClassificationInfo.ResponsibleAll, Importance.HardToCut));
 
             List<MonthlyView> months = new MonthlyViewBuilder(
                     statements.ToList<TransactionLine>(), 
@@ -50,8 +50,8 @@ namespace Finpe.ConsoleApp
         {
             return new List<RecurringTransaction>()
             {
-                new RecurringTransaction("NET SERVIÇOS", -240m, 22, new ClassificationInfo("Moradia", "Todos", Importance.Essential)) { StartYearMonth = new YearMonth(2019, 4) },
-                new RecurringTransaction("ELETROPAULO", -90m, 20, new ClassificationInfo("Moradia", "Todos", Importance.Essential)) { StartYearMonth = new YearMonth(2019, 4) }
+                new RecurringTransaction("NET SERVIÇOS", -240m, 22, new ClassificationInfo("Moradia", ClassificationInfo.ResponsibleAll, Importance.Essential)) { StartYearMonth = new YearMonth(2019, 4) },
+                new RecurringTransaction("ELETROPAULO", -90m, 20, new ClassificationInfo("Moradia", ClassificationInfo.ResponsibleAll, Importance.Essential)) { StartYearMonth = new YearMonth(2019, 4) }
             };
         }
 

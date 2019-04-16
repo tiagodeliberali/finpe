@@ -5,7 +5,7 @@
         public string Category { get; private set; }
         public string Responsible { get; private set; }
         public Importance Importance { get; private set; }
-
+        
         public ClassificationInfo(string category, string responsible, Importance importance)
         {
             Category = category;
@@ -14,5 +14,6 @@
         }
 
         public static ClassificationInfo NotClassified = new ClassificationInfo("", "", Importance.NotDefined);
+        public static string ResponsibleAll = "Todos";
     }
 }

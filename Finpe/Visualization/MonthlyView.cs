@@ -1,4 +1,5 @@
-﻿using Finpe.CashFlow;
+﻿using Finpe.Budget;
+using Finpe.CashFlow;
 using Finpe.Utils;
 using System.Collections.Generic;
 
@@ -17,6 +18,8 @@ namespace Finpe.Visualization
         public decimal InitialAmount { get; private set; }
         public decimal FinalAmount { get; private set; }
         public YearMonth YearMonth { get; private set; }
+        public List<MontlyBudget> Budgets { get; internal set; }
+
         public IReadOnlyList<TransactionLine> Lines
         {
             get

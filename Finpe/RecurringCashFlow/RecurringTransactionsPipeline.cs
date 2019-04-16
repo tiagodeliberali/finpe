@@ -28,5 +28,9 @@ namespace Finpe.RecurringCashFlow
                 recurringTransaction.IncludeLines(statements, initialYearMonth, finalYearMonth);
             }
         }
+
+        public void ProcessViews(List<MonthlyView> monthViews)
+        {
+        }
     }
 }
