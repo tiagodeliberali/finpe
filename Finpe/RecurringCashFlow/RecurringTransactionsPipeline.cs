@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Finpe.CashFlow;
-using Finpe.RecurringCashFlow;
 using Finpe.Utils;
+using Finpe.Visualization;
 
-namespace Finpe.Visualization
+namespace Finpe.RecurringCashFlow
 {
     public class RecurringTransactionsPipeline : IViewerPipeline
     {

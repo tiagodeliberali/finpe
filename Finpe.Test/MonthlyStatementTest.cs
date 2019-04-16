@@ -142,7 +142,7 @@ namespace Finpe.Test
 
             List<TransactionLine> statements = new List<TransactionLine>()
             {
-                BuildRecurringLine("Conta de Luz", -200m, DateTime.Parse("2019-04-15")),
+                BuildRecurringLine("Conta de Luz", -100m, DateTime.Parse("2019-04-15")),
                 BuildLine("salary", 1_000m, DateTime.Parse("2019-04-29")),
                 BuildLine("aluguel", -800m, DateTime.Parse("2019-04-30")),
                 BuildLine("salary", 1_000m, DateTime.Parse("2019-06-07")),
@@ -158,25 +158,25 @@ namespace Finpe.Test
             MonthlyView firstMonth = months[0];
             Assert.Equal(new YearMonth(2019, 4), firstMonth.YearMonth);
             Assert.Equal(100m, firstMonth.InitialAmount);
-            Assert.Equal(100m, firstMonth.FinalAmount);
+            Assert.Equal(200m, firstMonth.FinalAmount);
             Assert.Equal(3, firstMonth.Lines.Count);
 
             MonthlyView secondMonth = months[1];
             Assert.Equal(new YearMonth(2019, 5), secondMonth.YearMonth);
-            Assert.Equal(100m, secondMonth.InitialAmount);
-            Assert.Equal(-100m, secondMonth.FinalAmount);
+            Assert.Equal(200m, secondMonth.InitialAmount);
+            Assert.Equal(0m, secondMonth.FinalAmount);
             Assert.Equal(1, secondMonth.Lines.Count);
 
             MonthlyView thirdMonth = months[2];
             Assert.Equal(new YearMonth(2019, 6), thirdMonth.YearMonth);
-            Assert.Equal(-100m, thirdMonth.InitialAmount);
-            Assert.Equal(-100m, thirdMonth.FinalAmount);
+            Assert.Equal(0m, thirdMonth.InitialAmount);
+            Assert.Equal(0m, thirdMonth.FinalAmount);
             Assert.Equal(3, thirdMonth.Lines.Count);
 
             MonthlyView forthMonth = months[3];
             Assert.Equal(new YearMonth(2019, 7), forthMonth.YearMonth);
-            Assert.Equal(-100m, forthMonth.InitialAmount);
-            Assert.Equal(-300m, forthMonth.FinalAmount);
+            Assert.Equal(0m, forthMonth.InitialAmount);
+            Assert.Equal(-200m, forthMonth.FinalAmount);
             Assert.Equal(1, forthMonth.Lines.Count);
         }
 
