@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Finpe.Utils;
+using System;
 
 namespace Finpe.CashFlow
 {
-    public abstract class TransactionLine
+    public abstract class TransactionLine : Entity
     {
         public DateTime TransactionDate { get; private set; }
         public decimal Amount { get; protected set; }

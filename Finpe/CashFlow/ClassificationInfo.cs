@@ -1,6 +1,9 @@
-﻿namespace Finpe.CashFlow
+﻿using System.Collections.Generic;
+using CSharpFunctionalExtensions;
+
+namespace Finpe.CashFlow
 {
-    public class ClassificationInfo
+    public class ClassificationInfo : ValueObject
     {
         public string Category { get; private set; }
         public string Responsible { get; private set; }
@@ -15,5 +18,12 @@
 
         public static ClassificationInfo NotClassified = new ClassificationInfo("", "", Importance.NotDefined);
         public static string ResponsibleAll = "Todos";
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Category;
+            yield return Responsible;
+            yield return Importance;
+        }
     }
 }

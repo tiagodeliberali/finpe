@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
+using System;
+using System.Collections.Generic;
 
 namespace Finpe.CashFlow
 {
-    public class TransactionLineInfo
+    public class TransactionLineInfo : ValueObject
     {
         public DateTime TransactionDate { get; private set; }
         public decimal Amount { get; private set; }
@@ -13,6 +15,13 @@ namespace Finpe.CashFlow
             TransactionDate = transactionDate;
             Amount = amount;
             Description = description;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return TransactionDate;
+            yield return Amount;
+            yield return Description;
         }
     }
 }
