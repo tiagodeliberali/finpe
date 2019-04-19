@@ -2,6 +2,10 @@
 {
     public abstract class ClassifiedTransactionLine : TransactionLine
     {
+        public virtual string Category { get; private set; }
+        public virtual string Responsible { get; private set; }
+        public virtual Importance Importance { get; private set; }
+
         public ClassifiedTransactionLine(TransactionLineInfo info) : base(info)
         {
             Classify(ClassificationInfo.NotClassified);
@@ -11,10 +15,6 @@
         {
             Classify(classification);
         }
-
-        public string Category { get; private set; }
-        public string Responsible { get; private set; }
-        public Importance Importance { get; private set; }
 
         public void Classify(ClassificationInfo classification)
         {

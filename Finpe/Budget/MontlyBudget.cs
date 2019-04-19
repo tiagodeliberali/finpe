@@ -7,10 +7,10 @@ using Finpe.Utils;
 
 namespace Finpe.Budget
 {
-    public class MontlyBudget
+    public class MontlyBudget : Entity
     {
-        private int ExecutionDay;
-        private string Category;
+        protected virtual int ExecutionDay { get; set; }
+        protected virtual string Category { get; set; }
 
         public decimal Used { get; private set; }
         public decimal Available { get; private set; }

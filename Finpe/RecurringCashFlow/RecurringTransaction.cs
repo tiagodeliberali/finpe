@@ -5,23 +5,22 @@ using Finpe.Utils;
 
 namespace Finpe.RecurringCashFlow
 {
-    public class RecurringTransaction
+    public class RecurringTransaction : Entity
     {
-        private string description;
-        private decimal amount;
-        private int day;
-        ClassificationInfo classification;
+        public virtual string Description { get; private set; }
+        public virtual decimal Amount { get; private set; }
+        public virtual int Day { get; private set; }
+        public virtual ClassificationInfo Classification { get; private set; }
+        public virtual YearMonth StartYearMonth { get; set; }
+        public virtual YearMonth EndYearMonth { get; set; }
 
         public RecurringTransaction(string description, decimal amount, int day, ClassificationInfo classification)
         {
-            this.description = description;
-            this.amount = amount;
-            this.day = day;
-            this.classification = classification;
-        }
-
-        public YearMonth StartYearMonth { get; set; }
-        public YearMonth EndYearMonth { get; set; }
+            this.Description = description;
+            this.Amount = amount;
+            this.Day = day;
+            this.Classification = classification;
+        }        
 
         public void IncludeLines(List<TransactionLine> lines, YearMonth from, YearMonth to)
         {
@@ -30,7 +29,7 @@ namespace Finpe.RecurringCashFlow
                 if (!ExistsExecutedRecurringTransactionLine(lines, i))
                 {
                     lines.Add(
-                        new RecurringTransactionLine(new TransactionLineInfo(i.ToDate(day), amount, description), classification));
+                        new RecurringTransactionLine(new TransactionLineInfo(i.ToDate(Day), Amount, Description), Classification));
                 }
             }
         }
@@ -41,7 +40,7 @@ namespace Finpe.RecurringCashFlow
 
             return lines
                 .Where(x => x is ExecutedRecurringTransactionLine)
-                .Any(x => x.Description == description && yearMonth.Equals(x.TransactionDate));
+                .Any(x => x.Description == Description && yearMonth.Equals(x.TransactionDate));
         }
 
         private YearMonth ChooseInitialYearMonth(YearMonth yearMonth)
