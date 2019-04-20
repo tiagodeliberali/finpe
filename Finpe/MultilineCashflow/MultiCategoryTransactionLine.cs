@@ -5,9 +5,9 @@ namespace Finpe.MultilineCashflow
 {
     public abstract class MultiCategoryTransactionLine : TransactionLine
     {
-        protected List<ClassifiedTransactionLine> lines = new List<ClassifiedTransactionLine>();
+        protected List<SingleTransactionLine> lines = new List<SingleTransactionLine>();
 
-        public IReadOnlyCollection<ClassifiedTransactionLine> Lines
+        public virtual IReadOnlyCollection<SingleTransactionLine> Lines
         {
             get
             {
@@ -16,6 +16,10 @@ namespace Finpe.MultilineCashflow
         }
 
         public MultiCategoryTransactionLine(TransactionLineInfo info) : base(info)
+        {
+        }
+
+        protected MultiCategoryTransactionLine() : base()
         {
         }
     }

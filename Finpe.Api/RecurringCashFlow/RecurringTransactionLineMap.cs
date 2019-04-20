@@ -9,6 +9,9 @@ namespace Finpe.Api.RecurringCashFlow
         public RecurringTransactionLineMap()
         {
             DiscriminatorValue(TransactionLineTypes.Recurring);
+            Map(x => x.Category);
+            Map(x => x.Responsible);
+            Map(x => x.Importance);
         }
     }
 }

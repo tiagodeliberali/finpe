@@ -13,6 +13,10 @@ namespace Finpe.Utils
             Month = month;
         }
 
+        protected YearMonth()
+        {
+        }
+
         public DateTime ToDate(int day)
         {
             return new DateTime(Year, Month, day);

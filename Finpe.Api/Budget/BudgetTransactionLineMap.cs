@@ -9,6 +9,9 @@ namespace Finpe.Api.Budget
         public BudgetTransactionLineMap()
         {
             DiscriminatorValue(TransactionLineTypes.Budget);
+            Map(x => x.Category);
+            Map(x => x.Responsible);
+            Map(x => x.Importance);
         }
     }
 }

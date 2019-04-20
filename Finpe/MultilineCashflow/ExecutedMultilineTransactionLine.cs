@@ -5,9 +5,13 @@ namespace Finpe.MultilineCashflow
 {
     public class ExecutedMultilineTransactionLine : MultiCategoryTransactionLine
     {
-        public decimal Difference { get; private set; }
+        public virtual decimal Difference { get; protected set; }
 
         public ExecutedMultilineTransactionLine(TransactionLineInfo info) : base(info)
+        {
+        }
+
+        protected ExecutedMultilineTransactionLine() : base()
         {
         }
 

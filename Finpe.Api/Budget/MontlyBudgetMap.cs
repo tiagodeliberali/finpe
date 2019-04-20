@@ -10,7 +10,7 @@ namespace Finpe.Api.Budget
         {
             Id(x => x.Id);
             Map(Reveal.Member<MontlyBudget>("ExecutionDay"));
-            Map(Reveal.Member<MontlyBudget>("CategoryName"));
+            Map(Reveal.Member<MontlyBudget>("Category"));
         }
     }
 }

@@ -16,6 +16,10 @@ namespace Finpe.CashFlow
             Importance = importance;
         }
 
+        protected ClassificationInfo()
+        {
+        }
+
         public static ClassificationInfo NotClassified = new ClassificationInfo("", "", Importance.NotDefined);
         public static string ResponsibleAll = "Todos";
 

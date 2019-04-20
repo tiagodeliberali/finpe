@@ -2,7 +2,7 @@
 {
     public class ExecutedTransactionLine : ClassifiedTransactionLine
     {
-        public decimal Difference { get; private set; }
+        public virtual decimal Difference { get; protected set; }
 
         public ExecutedTransactionLine(TransactionLineInfo info) : base(info)
         {
@@ -10,6 +10,11 @@
         }
 
         public ExecutedTransactionLine(TransactionLineInfo info, ClassificationInfo classification) : base(info, classification)
+        {
+            Difference = 0m;
+        }
+
+        protected ExecutedTransactionLine() : base()
         {
             Difference = 0m;
         }

@@ -17,6 +17,10 @@ namespace Finpe.CashFlow
             Description = description;
         }
 
+        protected TransactionLineInfo()
+        {
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return TransactionDate;

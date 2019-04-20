@@ -1,21 +1,34 @@
 ﻿using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Conventions.Instances;
 using FluentNHibernate.Mapping;
 using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 using System.Reflection;
 
 namespace Finpe.Api.Utils
 {
     public class SessionFactory
     {
+        private static ISessionFactory instance = null;
+        private static readonly object padlock = new object();
+
         private readonly ISessionFactory _factory;
 
         public SessionFactory(string connectionString)
         {
-            _factory = BuildSessionFactory(connectionString);
+            lock (padlock)
+            {
+                if (instance == null)
+                {
+                    instance = BuildSessionFactory(connectionString);
+                }
+                _factory = instance;
+            }
         }
 
         internal ISession OpenSession()
@@ -34,10 +47,26 @@ namespace Finpe.Api.Utils
                         ConventionBuilder.Property.When(criteria => criteria.Expect(x => x.Nullable, Is.Not.Set), x => x.Not.Nullable()))
                     .Conventions.Add<OtherConversions>()
                     .Conventions.Add<TableNameConvention>()
-                    .Conventions.Add<HiLoConvention>()
-                );
+                    .Conventions.Add<HiLoConvention>())
+                .ExposeConfiguration(cfg => BuildSchema(cfg));
 
             return configuration.BuildSessionFactory();
+        }
+
+        /// <summary>  
+        /// Build the schema of the database.  
+        /// </summary>  
+        /// <param name="config">Configuration.</param>  
+        private static void BuildSchema(Configuration config, bool create = true, bool update = false)
+        {
+            if (create)
+            {
+                new SchemaExport(config).Create(false, true);
+            }
+            else
+            {
+                new SchemaUpdate(config).Execute(false, update);
+            }
         }
 
 

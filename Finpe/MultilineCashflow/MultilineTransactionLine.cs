@@ -8,13 +8,17 @@ namespace Finpe.MultilineCashflow
         {
         }
 
-        public void Add(ClassifiedTransactionLine transactionLine)
+        protected MultilineTransactionLine() : base()
+        {
+        }
+
+        public virtual void Add(SingleTransactionLine transactionLine)
         {
             lines.Add(transactionLine);
             Amount += transactionLine.Amount;
         }
 
-        public ExecutedMultilineTransactionLine Consolidate(ExecutedTransactionLine statementLine)
+        public virtual ExecutedMultilineTransactionLine Consolidate(ExecutedTransactionLine statementLine)
         {
             return new ExecutedMultilineTransactionLine(this, statementLine);
         }

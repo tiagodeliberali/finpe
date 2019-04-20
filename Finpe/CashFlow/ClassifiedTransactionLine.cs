@@ -16,14 +16,18 @@
             Classify(classification);
         }
 
-        public void Classify(ClassificationInfo classification)
+        protected ClassifiedTransactionLine() : base()
+        {
+        }
+
+        public virtual void Classify(ClassificationInfo classification)
         {
             Category = classification.Category;
             Responsible = classification.Responsible;
             Importance = classification.Importance;
         }
 
-        public ClassificationInfo GetClassification()
+        public virtual ClassificationInfo GetClassification()
         {
             return new ClassificationInfo(Category, Responsible, Importance);
         }

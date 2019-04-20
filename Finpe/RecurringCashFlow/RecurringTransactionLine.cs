@@ -9,5 +9,9 @@ namespace Finpe.RecurringCashFlow
         {
             Classify(classification);
         }
+
+        protected RecurringTransactionLine() : base()
+        {
+        }
     }
 }

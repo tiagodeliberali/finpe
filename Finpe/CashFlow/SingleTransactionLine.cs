@@ -10,7 +10,11 @@
         {
         }
 
-        public ExecutedTransactionLine Consolidate(ExecutedTransactionLine statementLine)
+        protected SingleTransactionLine() : base()
+        {
+        }
+
+        public virtual ExecutedTransactionLine Consolidate(ExecutedTransactionLine statementLine)
         {
             return new ExecutedTransactionLine(this, statementLine);
         }

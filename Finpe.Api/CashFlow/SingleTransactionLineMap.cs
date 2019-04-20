@@ -8,6 +8,9 @@ namespace Finpe.Api.CashFlow
         public SingleTransactionLineMap()
         {
             DiscriminatorValue(TransactionLineTypes.Single);
+            Map(x => x.Category);
+            Map(x => x.Responsible);
+            Map(x => x.Importance);
         }
     }
 }

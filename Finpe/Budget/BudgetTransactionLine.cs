@@ -11,5 +11,9 @@ namespace Finpe.Budget
         public BudgetTransactionLine(TransactionLineInfo info, ClassificationInfo classification) : base(info, classification)
         {
         }
+
+        protected BudgetTransactionLine() : base()
+        {
+        }
     }
 }

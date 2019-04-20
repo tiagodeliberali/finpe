@@ -7,10 +7,10 @@ namespace Finpe.RecurringCashFlow
 {
     public class RecurringTransaction : Entity
     {
-        public virtual string Description { get; private set; }
-        public virtual decimal Amount { get; private set; }
-        public virtual int Day { get; private set; }
-        public virtual ClassificationInfo Classification { get; private set; }
+        public virtual string Description { get; protected set; }
+        public virtual decimal Amount { get; protected set; }
+        public virtual int Day { get; protected set; }
+        public virtual ClassificationInfo Classification { get; protected set; }
         public virtual YearMonth StartYearMonth { get; set; }
         public virtual YearMonth EndYearMonth { get; set; }
 
@@ -22,7 +22,11 @@ namespace Finpe.RecurringCashFlow
             this.Classification = classification;
         }        
 
-        public void IncludeLines(List<TransactionLine> lines, YearMonth from, YearMonth to)
+        protected RecurringTransaction()
+        {
+        }
+
+        public virtual void IncludeLines(List<TransactionLine> lines, YearMonth from, YearMonth to)
         {
             for (YearMonth i = ChooseInitialYearMonth(from); i <= ChooseFinalYearMonth(to); i = i.NextMonth())
             {

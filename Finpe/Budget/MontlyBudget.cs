@@ -12,8 +12,8 @@ namespace Finpe.Budget
         protected virtual int ExecutionDay { get; set; }
         protected virtual string Category { get; set; }
 
-        public decimal Used { get; private set; }
-        public decimal Available { get; private set; }
+        public virtual decimal Used { get; protected set; }
+        public virtual decimal Available { get; protected set; }
 
         public MontlyBudget(string category, decimal amount, int executionDay)
         {
@@ -30,12 +30,16 @@ namespace Finpe.Budget
             Used = used;
         }
 
-        public MontlyBudget Process(List<TransactionLine> lines)
+        public virtual MontlyBudget Process(List<TransactionLine> lines)
         {
             decimal used = ProcessClassifiedLines(lines);
             used += ProcessMultiLines(lines);
 
             return new MontlyBudget(Category, Available, ExecutionDay, used);
+        }
+
+        protected MontlyBudget()
+        {
         }
 
         private decimal ProcessMultiLines(List<TransactionLine> lines)
@@ -56,7 +60,7 @@ namespace Finpe.Budget
                             .Sum(x => x.Amount));
         }
 
-        public void IncludeLine(List<TransactionLine> statements, YearMonth yearMonth)
+        public virtual void IncludeLine(List<TransactionLine> statements, YearMonth yearMonth)
         {
             if (Available > 0)
             {

@@ -13,13 +13,13 @@ namespace Finpe.Api.RecurringCashFlow
             Map(x => x.Day);
             Component(x => x.StartYearMonth, m =>
             {
-                m.Map(x => x.Month);
-                m.Map(x => x.Year);
+                m.Map(x => x.Month, "StartYearMonth_Month");
+                m.Map(x => x.Year, "StartYearMonth_Year");
             });
             Component(x => x.EndYearMonth, m =>
             {
-                m.Map(x => x.Month);
-                m.Map(x => x.Year);
+                m.Map(x => x.Month, "EndYearMonth_Month");
+                m.Map(x => x.Year, "EndYearMonth_Year");
             });
             Component(x => x.Classification, m =>
             {
