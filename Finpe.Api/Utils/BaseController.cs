@@ -2,6 +2,7 @@
 
 namespace Finpe.Api.Utils
 {
+    [ApiController]
     public class BaseController : Controller
     {
         private readonly UnitOfWork _unitOfWork;

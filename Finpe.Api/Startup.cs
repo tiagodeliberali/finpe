@@ -1,4 +1,5 @@
-﻿using Finpe.Api.Utils;
+﻿using Finpe.Api.CashFlow;
+using Finpe.Api.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace Finpe.Api
 
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
             services.AddScoped<UnitOfWork>();
+            services.AddTransient<TransactionLineRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

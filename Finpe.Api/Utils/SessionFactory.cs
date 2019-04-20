@@ -57,7 +57,7 @@ namespace Finpe.Api.Utils
         /// Build the schema of the database.  
         /// </summary>  
         /// <param name="config">Configuration.</param>  
-        private static void BuildSchema(Configuration config, bool create = true, bool update = false)
+        private static void BuildSchema(Configuration config, bool create = false, bool update = false)
         {
             if (create)
             {
