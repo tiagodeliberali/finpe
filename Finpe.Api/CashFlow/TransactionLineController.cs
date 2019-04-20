@@ -1,6 +1,7 @@
 ﻿using Finpe.Api.Utils;
 using Finpe.CashFlow;
 using Finpe.Parser;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +22,7 @@ namespace Finpe.Api.CashFlow
         public IActionResult Upload()
         {
             long size = 0;
-            var file = Request.Form.Files[0];
+            IFormFile file = Request.Form.Files[0];
 
             if (file.Length > 0)
             {
