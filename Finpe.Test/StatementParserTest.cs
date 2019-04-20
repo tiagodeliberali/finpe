@@ -7,14 +7,15 @@ using Xunit;
 
 namespace Finpe.Test
 {
-    public class StatementImporterTest
+    public class StatementParserTest
     {
+        StatementParser parser = new StatementParser();
+
         [Fact]
         public void ImportSingleStatement()
         {
             string line = "18/03	 D		INT PAG TIT BANCO 237        		9.952,27	-	";
 
-            StatementParser parser = new StatementParser();
             List<TransactionLine> statements = parser.Parse(line);
 
             Assert.Single(statements);
@@ -25,11 +26,10 @@ namespace Finpe.Test
         [InlineData("18	 D		INT PAG TIT BANCO 237        		952,27	-	")]
         [InlineData("18/03	 D		237        		952,27	-	")]
         [InlineData("18/03	 D		INT PAG TIT BANCO 237        		95227	-	")]
-        public void ImportInvalidLine(String line)
+        public void IgnoreInvalidLine(String line)
         {
-            StatementParser parser = new StatementParser();
-
-            Assert.Throws<ArgumentException>(() => parser.Parse(line));
+            List<TransactionLine> lines = parser.Parse(line);
+            Assert.Empty(lines);
         }
 
         [Fact]
@@ -37,7 +37,6 @@ namespace Finpe.Test
         {
             string line = "18/03/2018	 D		INT PAG TIT BANCO 237        		952,27	-	";
 
-            StatementParser parser = new StatementParser();
             TransactionLine statement = parser.Parse(line)
                                             .First();
 
@@ -45,11 +44,10 @@ namespace Finpe.Test
         }
 
         [Fact]
-        public void ImportPositiveStatementAsIncomeStatement()
+        public void ImportPositiveStatement()
         {
             string line = "29/03			REMUNERACAO/SALARIO       	1370	4.730,81		";
 
-            StatementParser parser = new StatementParser();
             TransactionLine statement = parser.Parse(line)
                                             .First();
 
@@ -57,11 +55,10 @@ namespace Finpe.Test
         }
 
         [Fact]
-        public void ImportNegativeStatementAsOutcomeStatement()
+        public void ImportNegativeStatement()
         {
             string line = "18/03	 D		INT PAG TIT BANCO 237        		9.952,27	-	";
 
-            StatementParser parser = new StatementParser();
             TransactionLine statement = parser.Parse(line)
                                             .First();
 
@@ -73,7 +70,6 @@ namespace Finpe.Test
         {
             string line = "04/04			SALDO DO DIA       				1.966,31	-";
 
-            StatementParser parser = new StatementParser();
             List<TransactionLine> statements = parser.Parse(line);
 
             Assert.Empty(statements);
@@ -84,7 +80,6 @@ namespace Finpe.Test
         {
             string line = "15/01			SDO CTA/APL AUTOMATICAS       				1.687,08";
 
-            StatementParser parser = new StatementParser();
             List<TransactionLine> statements = parser.Parse(line);
 
             Assert.Empty(statements);
@@ -99,7 +94,6 @@ namespace Finpe.Test
                             25/03			TBI 0641.05595-9UNICAMP       		110,00			
                             25/03			RSHOP-AUTOPASS -05/04       	7071	109,27	-	";
 
-            StatementParser parser = new StatementParser();
             List<TransactionLine> statements = parser.Parse(lines);
 
             Assert.Equal(4, statements.Count);
