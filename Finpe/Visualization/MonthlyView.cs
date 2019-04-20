@@ -19,6 +19,7 @@ namespace Finpe.Visualization
         public decimal FinalAmount { get; private set; }
         public YearMonth YearMonth { get; private set; }
         public List<MontlyBudget> Budgets { get; internal set; }
+        public int NumberOfLines => _lines.Count;
 
         public IReadOnlyList<TransactionLine> Lines
         {

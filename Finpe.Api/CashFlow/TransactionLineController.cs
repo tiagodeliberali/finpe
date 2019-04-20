@@ -14,26 +14,31 @@ namespace Finpe.Api.CashFlow
     public class TransactionLineController : BaseController
     {
         private TransactionLineRepository transactionLineRepository;
+        private StatementParser statementParser;
+        private CreditCardParser creditCardParser;
 
-        public TransactionLineController(UnitOfWork unitOfWork, TransactionLineRepository transactionLineRepository) : base(unitOfWork)
+        public TransactionLineController(UnitOfWork unitOfWork, 
+            TransactionLineRepository transactionLineRepository,
+            StatementParser statementParser,
+            CreditCardParser creditCardParser) : base(unitOfWork)
         {
             this.transactionLineRepository = transactionLineRepository;
+            this.statementParser = statementParser;
+            this.creditCardParser = creditCardParser;
         }
 
         [HttpPost("UploadStatement")]
         public IActionResult UploadStatement()
         {
-            StatementParser parser = new StatementParser();
-            return processUploadedFiles((name, content) => parser.Parse(content));
+            return processUploadedFiles((name, content) => statementParser.Parse(content));
         }
 
         [HttpPost("UploadCreditCard")]
         public IActionResult UploadCreditCard()
         {
-            CreditCardParser parser = new CreditCardParser();
             return processUploadedFiles((name, content) => {
-                MultilineTransactionLine transactionLine = parser.ParseName(name);
-                parser.Parse(content).ForEach(item => transactionLine.Add(item as SingleTransactionLine));
+                MultilineTransactionLine transactionLine = creditCardParser.ParseName(name);
+                creditCardParser.Parse(content).ForEach(item => transactionLine.Add(item as SingleTransactionLine));
 
                 return new List<TransactionLine>()
                 {
