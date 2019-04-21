@@ -21,7 +21,7 @@ namespace Finpe.Test
 
             Assert.Single(statements);
 
-            SingleTransactionLine transactionLine = statements.First() as SingleTransactionLine;
+            MultilineDetailTransactionLine transactionLine = statements.First() as MultilineDetailTransactionLine;
             ValidateStatement(transactionLine, -156.39m, "FAST SHOP 10/10", DateTime.Parse("2019-05-24"));
         }
 
@@ -34,7 +34,7 @@ namespace Finpe.Test
 
             Assert.Single(statements);
 
-            SingleTransactionLine transactionLine = statements.First() as SingleTransactionLine;
+            MultilineDetailTransactionLine transactionLine = statements.First() as MultilineDetailTransactionLine;
             Assert.Equal(19.95m, transactionLine.Amount);
             Assert.Equal("DESCONTO ANUIDADE 04/12", transactionLine.Description);
             Assert.Equal(DateTime.Parse("2019-02-28"), transactionLine.TransactionDate);

@@ -38,7 +38,7 @@ namespace Finpe.Api.CashFlow
         {
             return processUploadedFiles((name, content) => {
                 MultilineTransactionLine transactionLine = creditCardParser.ParseName(name);
-                creditCardParser.Parse(content).ForEach(item => transactionLine.Add(item as SingleTransactionLine));
+                creditCardParser.Parse(content).ForEach(item => transactionLine.Add(item as MultilineDetailTransactionLine));
 
                 return new List<TransactionLine>()
                 {

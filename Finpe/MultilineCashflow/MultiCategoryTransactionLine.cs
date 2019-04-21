@@ -6,9 +6,9 @@ namespace Finpe.MultilineCashflow
 {
     public abstract class MultiCategoryTransactionLine : TransactionLine
     {
-        protected IList<SingleTransactionLine> lines = new List<SingleTransactionLine>();
+        protected IList<MultilineDetailTransactionLine> _lines = new List<MultilineDetailTransactionLine>();
 
-        public virtual IReadOnlyCollection<SingleTransactionLine> Lines => lines.ToList();
+        public virtual IReadOnlyCollection<MultilineDetailTransactionLine> Lines => _lines.ToList();
 
         public MultiCategoryTransactionLine(TransactionLineInfo info) : base(info)
         {

@@ -27,9 +27,17 @@ namespace Finpe.Test
         }
 
         [Fact]
-        public void CreateMonthlyStatementWithoutTransactionLines()
+        public void CreateMonthlyStatementWithNullTransactionLines()
         {
             List<MonthlyView> months = new MonthlyViewBuilder(null).Build(100m);
+
+            Assert.Empty(months);
+        }
+
+        [Fact]
+        public void CreateMonthlyStatementWithEmptyTransactionLines()
+        {
+            List<MonthlyView> months = new MonthlyViewBuilder(new List<TransactionLine>()).Build(100m);
 
             Assert.Empty(months);
         }

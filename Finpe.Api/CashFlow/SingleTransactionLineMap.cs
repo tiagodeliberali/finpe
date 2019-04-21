@@ -1,16 +1,14 @@
-﻿using Finpe.CashFlow;
+﻿using Finpe.Api.Utils;
+using Finpe.CashFlow;
 using FluentNHibernate.Mapping;
 
 namespace Finpe.Api.CashFlow
 {
-    public class SingleTransactionLineMap : SubclassMap<SingleTransactionLine>
+    public class SingleTransactionLineMap : ClassifiedTransactionLineSubclassMap<SingleTransactionLine>
     {
-        public SingleTransactionLineMap()
+        public SingleTransactionLineMap() : base()
         {
             DiscriminatorValue(TransactionLineTypes.Single);
-            Map(x => x.Category);
-            Map(x => x.Responsible);
-            Map(x => x.Importance);
         }
     }
 }

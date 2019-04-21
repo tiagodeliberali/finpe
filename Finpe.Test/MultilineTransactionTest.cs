@@ -10,8 +10,8 @@ namespace Finpe.Test
         public void AddLinesToMultilineTransactionLine()
         {
             MultilineTransactionLine line = TransactionLineBuilder.BuildMultilineTransactionLine();
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-300));
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-500, "supermercado"));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-300));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-500, "supermercado"));
 
             Assert.Equal(2, line.Lines.Count);
             Assert.Equal(-800m, line.Amount);
@@ -21,8 +21,8 @@ namespace Finpe.Test
         public void ConsolidateMultilineTransactionLine()
         {
             MultilineTransactionLine line = TransactionLineBuilder.BuildMultilineTransactionLine();
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-300));
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-500, "supermercado"));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-300));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-500, "supermercado"));
 
             ExecutedTransactionLine statementLine = TransactionLineBuilder.BuildExecutedCreditcardTransactionLine(-1_000m);
 

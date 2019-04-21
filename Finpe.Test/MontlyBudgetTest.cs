@@ -32,12 +32,12 @@ namespace Finpe.Test
         public void GetBudgetInfoWithMultilineTransaction()
         {
             MultilineTransactionLine line = TransactionLineBuilder.BuildMultilineTransactionLine();
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-100m, "farmácia", category: "saude"));
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-300m, "supermercado"));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-100m, "farmácia", category: "saude"));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-300m, "supermercado"));
 
             MultilineTransactionLine line2 = TransactionLineBuilder.BuildMultilineTransactionLine();
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-300m, "farmácia", category: "saude"));
-            line.Add(TransactionLineBuilder.BuildSingleTransactionLine(-500m, "supermercado"));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-300m, "farmácia", category: "saude"));
+            line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-500m, "supermercado"));
 
             ExecutedMultilineTransactionLine executedLine = line2.Consolidate(
                 TransactionLineBuilder.BuildExecutedCreditcardTransactionLine(-1_000m));

@@ -57,9 +57,9 @@ namespace Finpe.Api.Utils
         /// Build the schema of the database.  
         /// </summary>  
         /// <param name="config">Configuration.</param>  
-        private static void BuildSchema(Configuration config, bool create = false, bool update = false)
+        private static void BuildSchema(Configuration config, bool destroyAllDataAndCreateNewSchema = false, bool update = false)
         {
-            if (create)
+            if (destroyAllDataAndCreateNewSchema)
             {
                 new SchemaExport(config).Create(false, true);
             }
@@ -77,7 +77,6 @@ namespace Finpe.Api.Utils
                 instance.LazyLoad();
                 instance.AsBag();
                 instance.Cascade.SaveUpdate();
-                instance.Inverse();
             }
 
             public void Apply(IManyToOneInstance instance)

@@ -32,7 +32,7 @@ namespace Finpe.Parser
         protected override TransactionLine BuildLine(string line)
         {
             TransactionLineInfo info = ExtractTransactionLineInfo(line);
-            return new SingleTransactionLine(info, new ClassificationInfo("", currentResponsible, Importance.NotDefined));
+            return new MultilineDetailTransactionLine(info, new ClassificationInfo("", currentResponsible, Importance.NotDefined));
         }
 
         public MultilineTransactionLine ParseName(string fileName)

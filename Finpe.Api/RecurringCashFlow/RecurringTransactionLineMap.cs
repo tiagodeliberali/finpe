@@ -1,17 +1,15 @@
-﻿using Finpe.CashFlow;
+﻿using Finpe.Api.Utils;
+using Finpe.CashFlow;
 using Finpe.RecurringCashFlow;
 using FluentNHibernate.Mapping;
 
 namespace Finpe.Api.RecurringCashFlow
 {
-    public class RecurringTransactionLineMap : SubclassMap<RecurringTransactionLine>
+    public class RecurringTransactionLineMap : ClassifiedTransactionLineSubclassMap<RecurringTransactionLine>
     {
-        public RecurringTransactionLineMap()
+        public RecurringTransactionLineMap() : base()
         {
             DiscriminatorValue(TransactionLineTypes.Recurring);
-            Map(x => x.Category);
-            Map(x => x.Responsible);
-            Map(x => x.Importance);
         }
     }
 }

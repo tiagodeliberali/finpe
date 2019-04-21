@@ -19,7 +19,7 @@ namespace Finpe.MultilineCashflow
             : base(new TransactionLineInfo(statementLine.TransactionDate, statementLine.Amount, multilineTransaction.Description))
         {
             Difference = multilineTransaction.Amount - statementLine.Amount;
-            lines = multilineTransaction.Lines.ToList();
+            _lines = multilineTransaction.Lines.ToList();
         }
     }
 }

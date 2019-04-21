@@ -31,7 +31,7 @@ namespace Finpe.Visualization
 
         private List<MonthlyView> BuildMonthlyView(decimal initialAmount)
         {
-            if (statements == null) return new List<MonthlyView>();
+            if (statements == null || statements.Count == 0) return new List<MonthlyView>();
 
             List<MonthlyView> monthViews = new List<MonthlyView>();
 

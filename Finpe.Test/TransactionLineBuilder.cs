@@ -34,6 +34,13 @@ namespace Finpe.Test
                 new ClassificationInfo(category, DefaultResponsible, DefaultImportance));
         }
 
+        public static MultilineDetailTransactionLine BuildMultilineDetailTransactionLine(decimal amount, string description = "farmácia", int day = 10, int month = 4, string category = "Moradia")
+        {
+            return new MultilineDetailTransactionLine(
+                new TransactionLineInfo(new DateTime(2019, month, day), amount, description),
+                new ClassificationInfo(category, DefaultResponsible, DefaultImportance));
+        }
+
         public static ExecutedRecurringTransactionLine BuildExecutedRecurringTransactionLine(decimal amount, string description = "farmácia", int day = 10, int month = 4)
         {
             return new ExecutedRecurringTransactionLine(new TransactionLineInfo(new DateTime(2019, month, day), amount, description));

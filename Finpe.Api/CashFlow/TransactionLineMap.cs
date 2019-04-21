@@ -1,5 +1,4 @@
 ﻿using Finpe.CashFlow;
-using FluentNHibernate;
 using FluentNHibernate.Mapping;
 
 namespace Finpe.Api.CashFlow

@@ -8,9 +8,8 @@ namespace Finpe.Api.MultilineCashflow
     {
         public ExecutedMultilineTransactionLineMap()
         {
-            DiscriminatorValue(TransactionLineTypes.ExecutedMultiline);
-            Map(x => x.Difference);
-            HasMany(x => x.Lines);
+            DiscriminatorValue(TransactionLineTypes.MultilineDetail);
+            Map(x => x.Difference).Nullable();
         }
     }
 }

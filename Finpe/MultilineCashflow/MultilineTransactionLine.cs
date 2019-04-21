@@ -12,9 +12,9 @@ namespace Finpe.MultilineCashflow
         {
         }
 
-        public virtual void Add(SingleTransactionLine transactionLine)
+        public virtual void Add(MultilineDetailTransactionLine transactionLine)
         {
-            lines.Add(transactionLine);
+            _lines.Add(transactionLine);
             Amount += transactionLine.Amount;
         }
 
