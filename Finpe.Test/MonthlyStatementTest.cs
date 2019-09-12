@@ -126,6 +126,19 @@ namespace Finpe.Test
         }
 
         [Fact]
+        public void CreateMonthlyStatementWithEmptyInformation()
+        {
+            List<RecurringTransaction> recurringTransactions = new List<RecurringTransaction>();
+            List<TransactionLine> statements = new List<TransactionLine>();
+
+            List<MonthlyView> months = new MonthlyViewBuilder(statements,
+                    new List<IViewerPipeline>() { new RecurringTransactionsPipeline(recurringTransactions, new YearMonth(2019, 7)) })
+                .Build(100m);
+
+            Assert.Empty(months);
+        }
+
+        [Fact]
         public void CreateMonthlyStatementWithMonthlyBudget()
         {
             List<MontlyBudget> budgets = new List<MontlyBudget>()
