@@ -1,4 +1,5 @@
 ﻿using Finpe.Api.CashFlow;
+using Finpe.Api.RecurringCashFlow;
 using Finpe.Api.Utils;
 using Finpe.Parser;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,7 @@ namespace Finpe.Api
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
             services.AddScoped<UnitOfWork>();
             services.AddTransient<TransactionLineRepository>();
+            services.AddTransient<RecurringTransactionRepository>();
             services.AddTransient<StatementParser>();
             services.AddTransient<CreditCardParser>();
         }
