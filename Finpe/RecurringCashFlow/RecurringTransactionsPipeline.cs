@@ -19,9 +19,11 @@ namespace Finpe.RecurringCashFlow
 
         public void ProcessLines(List<TransactionLine> statements)
         {
-            if (recurringTransactions == null || statements == null || statements.Count == 0) return;
+            if (recurringTransactions == null) return;
 
-            YearMonth initialYearMonth = statements.Min(x => x.TransactionDate).ToYearMonth();
+            YearMonth initialYearMonth = statements == null || statements.Count == 0
+                ? recurringTransactions.Min(x => x.StartYearMonth)
+                : statements.Min(x => x.TransactionDate).ToYearMonth();
 
             foreach (var recurringTransaction in recurringTransactions)
             {

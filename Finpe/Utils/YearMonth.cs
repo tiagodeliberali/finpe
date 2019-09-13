@@ -2,7 +2,7 @@
 
 namespace Finpe.Utils
 {
-    public class YearMonth
+    public class YearMonth: IComparable<YearMonth>
     {
         public int Year { get; private set; }
         public int Month { get; private set; }
@@ -72,6 +72,13 @@ namespace Finpe.Utils
         public override string ToString()
         {
             return Year + "/" + Month;
+        }
+
+        public int CompareTo(YearMonth other)
+        {
+            return Year == other.Year
+                ? Month - other.Month
+                : Year - other.Year;
         }
     }
 }

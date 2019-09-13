@@ -30,7 +30,7 @@ namespace Finpe.Api.Visualization
                     transactionLineRepository.GetList().ToList(),
                     new List<IViewerPipeline>()
                     {
-                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), new YearMonth(DateTime.Now.Month >= 9 ? DateTime.Now.Year + 1 : DateTime.Now.Year, 12))
+                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth())
                     })
                 .Build(-3_175.16m);
 

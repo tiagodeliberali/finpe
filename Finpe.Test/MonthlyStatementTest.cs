@@ -126,6 +126,29 @@ namespace Finpe.Test
         }
 
         [Fact]
+        public void CreateMonthlyWithOnlyRecurringInformation()
+        {
+            List<RecurringTransaction> recurringTransactions = new List<RecurringTransaction>()
+            {
+                new RecurringTransaction("Conta de Luz", -200m, 15, new ClassificationInfo("Moradia", ClassificationInfo.ResponsibleAll, Importance.Essential))
+                {
+                    StartYearMonth = new YearMonth(2019, 5)
+                }
+            };
+
+            List<TransactionLine> statements = new List<TransactionLine>();
+
+            List<MonthlyView> months = new MonthlyViewBuilder(statements,
+                    new List<IViewerPipeline>() { new RecurringTransactionsPipeline(recurringTransactions, new YearMonth(2019, 7)) })
+                .Build(100m);
+
+            Assert.Equal(3, months.Count);
+            ValitadeMonth(months[0], 5, 100m, -100m, 1);
+            ValitadeMonth(months[1], 6, -100m, -300m, 1);
+            ValitadeMonth(months[2], 7, -300m, -500m, 1);
+        }
+
+        [Fact]
         public void CreateMonthlyStatementWithEmptyInformation()
         {
             List<RecurringTransaction> recurringTransactions = new List<RecurringTransaction>();

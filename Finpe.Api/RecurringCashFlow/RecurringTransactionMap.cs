@@ -18,8 +18,8 @@ namespace Finpe.Api.RecurringCashFlow
             });
             Component(x => x.EndYearMonth, m =>
             {
-                m.Map(x => x.Month, "EndYearMonth_Month");
-                m.Map(x => x.Year, "EndYearMonth_Year");
+                m.Map(x => x.Month, "EndYearMonth_Month").Nullable();
+                m.Map(x => x.Year, "EndYearMonth_Year").Nullable();
             });
             Component(x => x.Classification, m =>
             {
