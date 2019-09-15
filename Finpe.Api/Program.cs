@@ -13,14 +13,8 @@ namespace Finpe.Api
     {
         public static void Main(string[] args)
         {
-            if (args.Length > 0 && args[0] == "migrate")
-            {
-                UpdateDatabase(args);
-            }
-            else
-            {
-                CreateWebHostBuilder(args).Build().Run();
-            }
+            UpdateDatabase(args);
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         private static void UpdateDatabase(string[] args)
@@ -31,7 +25,6 @@ namespace Finpe.Api
                 .AddJsonFile("appsettings.json", optional: true)
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .AddEnvironmentVariables()
-                .AddCommandLine(args)
                 .Build();
 
             string connectionString = config.GetValue<string>("ConnectionString") ?? "NOT FOUND...";

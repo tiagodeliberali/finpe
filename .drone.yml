@@ -17,18 +17,6 @@ steps:
   commands:
     - dotnet test ./Finpe.Test
 
-- name: migrate-forno
-  image: mcr.microsoft.com/dotnet/core/sdk:2.2
-  environment:
-    ConnectionString:
-      from_secret: forno_connectionString
-  commands:
-    - export ConnectionString=$$ConnectionString
-    - dotnet run --project ./Finpe.Api migrate
-  when:
-    event: push
-    branch: [master]
-
 - name: docker-forno
   image: plugins/docker
   settings:
