@@ -13,6 +13,4 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
 COPY --from=build /app/Finpe.Api/out ./
-
-EXPOSE 5000
-ENTRYPOINT ["dotnet", "Finpe.Api.dll", "--server.urls", "http://0.0.0.0:5000"]
+ENTRYPOINT ["dotnet", "aspnetapp.dll"]
