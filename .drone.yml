@@ -1,50 +1,53 @@
+kind: pipeline
+name: default
+
 clone:
   git:
     image: plugins/git
     depth: 1
 
-pipeline:
-  install:
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2
-    commands:
-      - dotnet restore
+steps:
+- name: install
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  commands:
+    - dotnet restore
 
-  test:
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2
-    commands:
-      - dotnet test ./Finpe.Test
+- name: test
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  commands:
+    - dotnet test ./Finpe.Test
 
-  migrate-forno:
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2
-    environment:
-      ConnectionString:
-        from_secret: forno_connectionString
-    commands:
-      - echo test1
-      - echo $${ConnectionString}
-      - echo test2
-      - echo ${ConnectionString}
-      - echo test3
-      - echo $ConnectionString
-      - echo test4
-      - echo $$ConnectionString
-      - export ConnectionString=$${forno_connectionString}
-      - dotnet run --project ./Finpe.Api migrate
-    when:
-      event: push
-      branch: [master]
+- name: migrate-forno
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  environment:
+    ConnectionString:
+      from_secret: forno_connectionString
+  commands:
+    - echo test1
+    - echo $${ConnectionString}
+    - echo test2
+    - echo ${ConnectionString}
+    - echo test3
+    - echo $ConnectionString
+    - echo test4
+    - echo $$ConnectionString
+    - export ConnectionString=$${forno_connectionString}
+    - dotnet run --project ./Finpe.Api migrate
+  when:
+    event: push
+    branch: [master]
 
-  docker-forno: 
-    image: plugins/docker
-    settings:
-      repo: tiagodeliberali/finpeapi
-      tags: 
-        - "forno-${DRONE_COMMIT:0:7}"
-        - "forno-latest"
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      event: push
-      branch: [master]
+- name: docker-forno
+  image: plugins/docker
+  settings:
+    repo: tiagodeliberali/finpeapi
+    tags: 
+      - "forno-${DRONE_COMMIT:0:7}"
+      - "forno-latest"
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event: push
+    branch: [master]
