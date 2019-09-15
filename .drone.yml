@@ -16,9 +16,9 @@ pipeline:
 
   migrate-forno:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    secrets: [ forno_connectionString ]
     environment:
-      ConnectionString:
-        from_secret: forno_connectionString
+      ConnectionString: $$forno_connectionString
     commands:
       - dotnet run --project ./Finpe.Api migrate
     when:
