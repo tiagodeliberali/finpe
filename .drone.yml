@@ -17,16 +17,19 @@ pipeline:
   migrate-forno:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     commands:
+      - export ConnectionString=$${forno_connectionString}
       - dotnet run --project ./Finpe.Api migrate
     when:
       event: push
-      branch: [forno]
+      branch: [master]
 
   docker-forno: 
     image: plugins/docker
     settings:
       repo: tiagodeliberali/finpeapi
-      tags: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
+      tags: 
+        - "forno-${DRONE_COMMIT:0:7}"
+        - "forno-latest"
       username:
         from_secret: docker_username
       password:
