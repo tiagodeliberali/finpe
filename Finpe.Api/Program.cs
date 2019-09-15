@@ -35,6 +35,7 @@ namespace Finpe.Api
             {
                 UpdateDatabase(scope.ServiceProvider);
             }
+            Console.WriteLine("Database update finished!");
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
