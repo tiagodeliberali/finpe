@@ -53,7 +53,7 @@ namespace Finpe.Parser
             Match matchDescription = processor.MatchAndRemove(regexDescription);            
             
             string description = matchDescription.Success ? matchDescription.Value : throw new ArgumentException("line.Description");
-            decimal amount = matchAmount.Success ? decimal.Parse(matchAmount.Value) : throw new ArgumentException("line.Amount");
+            decimal amount = matchAmount.Success ? decimal.Parse(matchAmount.Value, new CultureInfo("pt-BR")) : throw new ArgumentException("line.Amount");
             DateTime transactionDate = matchDate.Success ? ParseDate(matchDate.Value) : throw new ArgumentException("line.TransactionDate");
 
             if (IsNegativeAmount(line))
