@@ -34,7 +34,9 @@ namespace Finpe.Api
                 .AddCommandLine(args)
                 .Build();
 
-            var serviceProvider = CreateServices(config.GetValue<string>("ConnectionString"));
+            string connectionString = config.GetValue<string>("ConnectionString") ?? "NOT FOUND...";
+            var serviceProvider = CreateServices(connectionString);
+            Console.WriteLine("Connection string: " + connectionString.Substring(0, Math.Min(90, connectionString.Length - 1)));
 
             using (var scope = serviceProvider.CreateScope())
             {
