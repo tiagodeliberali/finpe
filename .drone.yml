@@ -16,6 +16,9 @@ pipeline:
 
   migrate-forno:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    environment:
+      ConnectionString:
+        from_secret: forno_connectionString
     commands:
       - dotnet run --project ./Finpe.Api migrate
     when:
@@ -31,3 +34,6 @@ pipeline:
         from_secret: docker_username
       password:
         from_secret: docker_password
+    when:
+      event: push
+      branch: [master]
