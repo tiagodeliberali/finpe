@@ -1,0 +1,23 @@
+clone:
+  git:
+    image: plugins/git
+    depth: 1
+
+pipeline:
+  install:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    commands:
+      - dotnet restore
+
+  test:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    commands:
+      - dotnet test ./Finpe.Test
+
+  migrate-forno:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    commands:
+      - dotnet run --project ./Finpe.Api migrate
+    when:
+      event: push
+      branch: [master]
