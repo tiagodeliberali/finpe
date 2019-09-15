@@ -7,7 +7,7 @@ import ChartTooltip from "./ChartTooltip"
 const CustomTooltip = ({ active, payload, label, details }) => {
     if (active) {
         return (
-            <ChartTooltip resume={payload[0].payload} details={details[payload[0].payload.longDate]} />
+            payload && payload.length > 0 && details && details.length > 0 && <ChartTooltip resume={payload[0].payload} details={details[payload[0].payload.longDate]} />
         );
     }
 
@@ -24,7 +24,7 @@ class Chart extends PureComponent {
         console.log("buscando dados...")
         let startTime = new Date()
 
-        fetch('https://localhost:44362/api/MonthlyView')
+        fetch('https://finpe-api-forno.azurewebsites.net/api/MonthlyView')
             .then(res => res.json())
             .then((data) => {
                 console.log("Dados recebidos em ", new Date() - startTime, 'ms')

@@ -56,7 +56,7 @@ export default function SimpleCard() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          fetch('https://localhost:44362/api/Recurrency', {
+          fetch('https://finpe-api-forno.azurewebsites.net/api/Recurrency', {
             method: 'POST',
             body: JSON.stringify(values),
             headers: {
