@@ -16,14 +16,11 @@ pipeline:
 
   migrate-forno:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
-    secrets: [ forno_connectionString ]
-    environment:
-      ConnectionString: $$forno_connectionString
     commands:
       - dotnet run --project ./Finpe.Api migrate
     when:
       event: push
-      branch: [master]
+      branch: [forno]
 
   docker-forno: 
     image: plugins/docker
