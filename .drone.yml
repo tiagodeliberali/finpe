@@ -21,3 +21,13 @@ pipeline:
     when:
       event: push
       branch: [master]
+
+  docker-forno: 
+    image: plugins/docker
+    settings:
+      repo: tiagodeliberali/finpeapi
+      tags: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
