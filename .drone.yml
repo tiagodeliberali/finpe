@@ -17,6 +17,14 @@ pipeline:
   migrate-forno:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     commands:
+      - echo test1
+      - echo $${forno_connectionString}
+      - echo test2
+      - echo ${forno_connectionString}
+      - echo test3
+      - echo $forno_connectionString
+      - echo test4
+      - echo $$forno_connectionString
       - export ConnectionString=$${forno_connectionString}
       - dotnet run --project ./Finpe.Api migrate
     when:
