@@ -3,11 +3,12 @@ import {
     ComposedChart, Bar, Brush, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Line, Area,
 } from 'recharts';
 import ChartTooltip from "./ChartTooltip"
+import { fetchApiData } from "../utils/FinpeData"
 
 const CustomTooltip = ({ active, payload, label, details }) => {
     if (active) {
         return (
-            payload && payload.length > 0 && details && details.length > 0 && <ChartTooltip resume={payload[0].payload} details={details[payload[0].payload.longDate]} />
+            payload && payload.length > 0 && details && <ChartTooltip resume={payload[0].payload} details={details[payload[0].payload.longDate]} />
         );
     }
 
@@ -24,7 +25,7 @@ class Chart extends PureComponent {
         console.log("buscando dados...")
         let startTime = new Date()
 
-        fetch('https://finpe-api-forno.azurewebsites.net/api/MonthlyView')
+        fetchApiData()
             .then(res => res.json())
             .then((data) => {
                 console.log("Dados recebidos em ", new Date() - startTime, 'ms')
