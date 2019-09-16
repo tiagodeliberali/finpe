@@ -10,7 +10,7 @@ RUN npm run build
 
 # production environment
 FROM nginx:1.16.0-alpine AS runtime
-COPY --from=build /app/build /var/www
+COPY --from=build /app/public /var/www
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 ARG API_URL
 ENV API_BASE_URL $API_URL
