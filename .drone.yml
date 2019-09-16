@@ -14,8 +14,9 @@ pipeline:
     commands:
       - dotnet test ./Finpe.Test
 
-  docker:
+  docker-api:
     image: plugins/docker
+    dockerfile: docker/api.Dockerfile
     secrets: [docker_username, docker_password]
     repo: tiagodeliberali/finpeapi
     tag: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
@@ -24,3 +25,15 @@ pipeline:
     when:
       event: push
       branch: [master, forno]
+
+  docker-front:
+    image: plugins/docker
+    dockerfile: docker/front.Dockerfile
+    secrets: [docker_username, docker_password]
+    repo: tiagodeliberali/finpereact
+    tag: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
+    build_args:
+        - API_URL=${DRONE_BRANCH}
+    when:
+      event: push
+      branch: [forno, master]
