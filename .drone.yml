@@ -17,8 +17,10 @@ steps:
   commands:
     - dotnet test ./Finpe.Test
 
-- name: docker-forno
+- name: docker
   image: plugins/docker
+  environment:
+    APP_VERSION: ${DRONE_COMMIT:0:7}
   settings:
     repo: tiagodeliberali/finpeapi
     tags: 

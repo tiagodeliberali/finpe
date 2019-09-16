@@ -14,7 +14,8 @@
       "launchBrowser": true,
       "launchUrl": "api/MonthlyView",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "APP_VERSION": "Development"
       }
     },
     "Finpe.Api": {
