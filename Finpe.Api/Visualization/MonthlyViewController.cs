@@ -1,6 +1,8 @@
-﻿using Finpe.Api.CashFlow;
+﻿using Finpe.Api.Budget;
+using Finpe.Api.CashFlow;
 using Finpe.Api.RecurringCashFlow;
 using Finpe.Api.Utils;
+using Finpe.Budget;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
 using Finpe.Visualization;
@@ -16,11 +18,16 @@ namespace Finpe.Api.Visualization
     {
         private readonly TransactionLineRepository transactionLineRepository;
         private readonly RecurringTransactionRepository recurringTransactionRepository;
+        private readonly MontlyBudgetRepository montlyBudgetRepository;
 
-        public MonthlyViewController(UnitOfWork unitOfWork, TransactionLineRepository transactionLineRepository, RecurringTransactionRepository recurringTransactionRepository) : base(unitOfWork)
+        public MonthlyViewController(UnitOfWork unitOfWork, 
+            TransactionLineRepository transactionLineRepository, 
+            RecurringTransactionRepository recurringTransactionRepository,
+            MontlyBudgetRepository montlyBudgetRepository) : base(unitOfWork)
         {
             this.transactionLineRepository = transactionLineRepository;
             this.recurringTransactionRepository = recurringTransactionRepository;
+            this.montlyBudgetRepository = montlyBudgetRepository;
         }
 
         [HttpGet]
@@ -30,7 +37,8 @@ namespace Finpe.Api.Visualization
                     transactionLineRepository.GetList().ToList(),
                     new List<IViewerPipeline>()
                     {
-                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth())
+                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth()),
+                        new MontlyBudgetPipeline(montlyBudgetRepository.GetList().ToList())
                     })
                 .Build(-3_175.16m);
 

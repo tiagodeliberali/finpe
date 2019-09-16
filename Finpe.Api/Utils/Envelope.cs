@@ -7,12 +7,14 @@ namespace Finpe.Api.Utils
         public T Result { get; }
         public string ErrorMessage { get; }
         public DateTime TimeGenerated { get; }
+        public string Version { get; set; }
 
         protected internal Envelope(T result, string errorMessage)
         {
             Result = result;
             ErrorMessage = errorMessage;
             TimeGenerated = DateTime.UtcNow;
+            Version = Environment.GetEnvironmentVariable("APP_VERSION");
         }
     }
 

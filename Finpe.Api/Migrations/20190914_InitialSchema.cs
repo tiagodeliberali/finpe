@@ -11,7 +11,8 @@ namespace Finpe.Api.Migrations
             Create.Table("MontlyBudget")
                 .WithColumn("MontlyBudgetID").AsInt64().PrimaryKey().Identity()
                 .WithColumn("ExecutionDay").AsInt32().NotNullable()
-                .WithColumn("MontlyBudget").AsString(255).NotNullable();
+                .WithColumn("Category").AsString(255).NotNullable()
+                .WithColumn("Available").AsDecimal().NotNullable();
 
             Create.Table("RecurringTransaction")
                 .WithColumn("RecurringTransactionID").AsInt64().PrimaryKey().Identity()

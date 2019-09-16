@@ -1,7 +1,6 @@
 ﻿using Finpe.Api.Utils;
 using Finpe.Budget;
 using Finpe.CashFlow;
-using FluentNHibernate.Mapping;
 
 namespace Finpe.Api.Budget
 {

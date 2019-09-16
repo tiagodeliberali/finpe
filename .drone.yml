@@ -1,33 +1,26 @@
-kind: pipeline
-name: default
-
 clone:
   git:
     image: plugins/git
     depth: 1
 
-steps:
-- name: install
-  image: mcr.microsoft.com/dotnet/core/sdk:2.2
-  commands:
-    - dotnet restore
+pipeline:
+  install:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    commands:
+      - dotnet restore
 
-- name: test
-  image: mcr.microsoft.com/dotnet/core/sdk:2.2
-  commands:
-    - dotnet test ./Finpe.Test
+  test:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    commands:
+      - dotnet test ./Finpe.Test
 
-- name: docker-forno
-  image: plugins/docker
-  settings:
+  docker:
+    image: plugins/docker
+    secrets: [docker_username, docker_password]
     repo: tiagodeliberali/finpeapi
-    tags: 
-      - "${DRONE_BRANCH}-${DRONE_COMMIT:0:7}"
-      - "${DRONE_BRANCH}-latest"
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-  when:
-    event: push
-    branch: [master, forno]
+    tag: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
+    build_args:
+        - COMMIT=${DRONE_COMMIT:0:7}
+    when:
+      event: push
+      branch: [master, forno]

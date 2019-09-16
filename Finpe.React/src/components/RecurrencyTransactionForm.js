@@ -18,6 +18,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { postRecurrency } from '../utils/FinpeData'
 
 const useStyles = makeStyles({
   card: {
@@ -56,15 +57,11 @@ export default function SimpleCard() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          fetch('https://finpe-api-forno.azurewebsites.net/api/Recurrency', {
-            method: 'POST',
-            body: JSON.stringify(values),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8"
-            }
-          }).then(response => {
+          postRecurrency(values)
+          .then(response => {
             setSubmitting(false);
           }).catch(error => {
+            setSubmitting(false);
             alert(error);
           });
         }}
