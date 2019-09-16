@@ -12,5 +12,7 @@ RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
+ARG COMMIT
+ENV APP_VERSION $COMMIT
 COPY --from=build /app/Finpe.Api/out ./
 ENTRYPOINT ["dotnet", "Finpe.Api.dll"]
