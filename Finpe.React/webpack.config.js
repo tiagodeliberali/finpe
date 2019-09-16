@@ -8,17 +8,17 @@ module.exports = env => {
     mode: "development",
     module: {
       rules: [{
-          test: /\.(js|jsx)$/,
-          exclude: /(node_modules|bower_components)/,
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/env"]
-          }
-        },
-        {
-          test: /\.css$/,
-          use: ["style-loader", "css-loader"]
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/env"]
         }
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      }
       ]
     },
     resolve: {
@@ -38,7 +38,7 @@ module.exports = env => {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({ 
-        "API_BASE_URL": JSON.stringify("https://myapp-staging.firebaseio.com") 
+        "process.env.API_BASE_URL": JSON.stringify(env.API_URL) 
       })
     ]
   }

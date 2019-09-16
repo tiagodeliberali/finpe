@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server -d --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production"
+    "build:forno": "webpack --mode production --env.API_URL=https://finpe-api-forno.azurewebsites.net/api/",
+    "build:master": "webpack --mode production --env.API_URL=https://finpe-api.azurewebsites.net/api/"
   },
   "author": "",
   "license": "ISC",
