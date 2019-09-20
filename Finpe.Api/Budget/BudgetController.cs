@@ -1,10 +1,12 @@
 ﻿using Finpe.Api.Utils;
 using Finpe.Budget;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finpe.Api.Budget
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class BudgetController : BaseController
     {
         private MontlyBudgetRepository montlyBudgetRepository;

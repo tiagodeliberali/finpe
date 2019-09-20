@@ -6,6 +6,7 @@ using Finpe.Budget;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
 using Finpe.Visualization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Linq;
 namespace Finpe.Api.Visualization
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class MonthlyViewController : BaseController
     {
         private readonly TransactionLineRepository transactionLineRepository;

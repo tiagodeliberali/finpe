@@ -2,11 +2,13 @@
 using Finpe.CashFlow;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finpe.Api.RecurringCashFlow
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class RecurrencyController : BaseController
     {
         private RecurringTransactionRepository recurringTransactionRepository;
