@@ -1,7 +1,13 @@
-const baseUrl = process.env.API_BASE_URL || 'https://localhost:44362/api/'
+const baseUrl = process.env.API_BASE_URL
 
-export const fetchApiData = () => 
-    fetch(baseUrl + 'MonthlyView');
+export const fetchApiData = () => {
+    const token = localStorage.getItem('jwt_token');
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    return fetch(baseUrl + 'MonthlyView', { 
+        headers: myHeaders
+    });
+}
 
 export const postRecurrency = (values) => 
     fetch(baseUrl + 'Recurrency', {

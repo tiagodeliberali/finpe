@@ -2,6 +2,14 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = env => {
+  const processEnv = {}
+
+  if (env.BRANCH != 'master') {
+    processEnv.API_URL = 'https://finpe-api-forno.azurewebsites.net/api/';
+    processEnv.AUTH_DOMAIN = 'dev-ufffqdk9.auth0.com';
+    processEnv.AUTH_CLIENT_ID = 'elsGCuiL2k3t83hWA5io6xbvlgtXMsX9';
+    processEnv.AUTH_AUDIENCE = 'https://finpe-api-forno.azurewebsites.net';
+  }
 
   return {
     entry: "./src/index.js",
@@ -38,7 +46,10 @@ module.exports = env => {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({ 
-        "process.env.API_BASE_URL": JSON.stringify(env.API_URL) 
+        "process.env.API_BASE_URL": JSON.stringify(processEnv.API_URL),
+        "process.env.AUTH_DOMAIN": JSON.stringify(processEnv.AUTH_DOMAIN),
+        "process.env.AUTH_CLIENT_ID": JSON.stringify(processEnv.AUTH_CLIENT_ID),
+        "process.env.AUTH_AUDIENCE": JSON.stringify(processEnv.AUTH_AUDIENCE)
       })
     ]
   }
