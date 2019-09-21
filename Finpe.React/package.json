@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server -d --progress --colors --env.API_URL=https://localhost:44362/api/",
-    "start:forno": "webpack-dev-server -d --progress --colors --env.API_URL=https://finpe-api-forno.azurewebsites.net/api/",
+    "start": "webpack-dev-server -d --progress --colors --env.BRANCH=forno",
+    "start:forno": "webpack-dev-server -d --progress --colors --env.BRANCH=forno",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:forno": "webpack --mode production --env.BRANCH=forno",
     "build:master": "webpack --mode production --env.BRANCH=master"

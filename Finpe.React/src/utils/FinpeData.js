@@ -1,7 +1,6 @@
 const baseUrl = process.env.API_BASE_URL
 
-export const fetchApiData = () => {
-    const token = localStorage.getItem('jwt_token');
+export const fetchApiData = (token) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     return fetch(baseUrl + 'MonthlyView', { 
