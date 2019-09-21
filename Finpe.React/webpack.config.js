@@ -30,6 +30,9 @@ module.exports = env => {
       ]
     },
     resolve: {
+      alias: {
+        'react-dom': '@hot-loader/react-dom',
+      },
       extensions: ["*", ".js", ".jsx"]
     },
     output: {
