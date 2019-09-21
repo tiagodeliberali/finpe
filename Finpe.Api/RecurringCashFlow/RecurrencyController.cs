@@ -2,6 +2,7 @@
 using Finpe.CashFlow;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finpe.Api.RecurringCashFlow
@@ -17,6 +18,7 @@ namespace Finpe.Api.RecurringCashFlow
         }
 
         [HttpPost]
+        [Authorize("write:all")]
         public IActionResult AddStatement(RecurrencyDto statement)
         {
             var recurrence = new RecurringTransaction(

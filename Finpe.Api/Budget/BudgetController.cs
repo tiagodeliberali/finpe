@@ -1,5 +1,6 @@
 ﻿using Finpe.Api.Utils;
 using Finpe.Budget;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finpe.Api.Budget
@@ -15,6 +16,7 @@ namespace Finpe.Api.Budget
         }
 
         [HttpPost]
+        [Authorize("write:all")]
         public IActionResult AddBudget(BudgetDto budget)
         {
             var recurrence = new MontlyBudget(

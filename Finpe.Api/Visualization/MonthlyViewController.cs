@@ -6,6 +6,7 @@ using Finpe.Budget;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
 using Finpe.Visualization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace Finpe.Api.Visualization
         }
 
         [HttpGet]
+        [Authorize("view:all")]
         public IActionResult GetList()
         {
             List<MonthlyView> months = new MonthlyViewBuilder(

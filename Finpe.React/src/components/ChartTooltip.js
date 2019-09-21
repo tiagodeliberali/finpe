@@ -54,14 +54,14 @@ export default function ChartTooltip(props) {
                 <Typography className={classes.titleDetails} color="textSecondary" gutterBottom>
                     Detalhes dos lançamentos
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2" component="div">
                     {details && details.items 
-                        ? (<Table> {details.items.map((item) => (<TableRow> 
+                        ? (<Table><tbody>{details.items.map((item) => (<TableRow key={item.id}> 
                                     <TableCell>{item.description}</TableCell> 
                                     <TableCell>{item.category}</TableCell> 
                                     <TableCell align="right">{item.amount}</TableCell> 
                                 </TableRow>))}
-                            </Table>) 
+                            </tbody></Table>) 
                         : (<span> Nenhum lançamento </span>)}
                 </Typography>
             </CardContent>

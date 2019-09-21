@@ -18,7 +18,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { postRecurrency } from '../utils/FinpeData'
+import { postRecurrency } from '../utils/FinpeFetchData'
+import { useAuth0 } from "./react-auth0-wrapper";
 
 const useStyles = makeStyles({
   card: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles({
 
 export default function SimpleCard() {
   const classes = useStyles();
+  const { loading, getTokenSilently } = useAuth0();
 
   return (
     <div>
@@ -56,15 +58,15 @@ export default function SimpleCard() {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          postRecurrency(values)
-          .then(response => {
-            setSubmitting(false);
-          }).catch(error => {
-            setSubmitting(false);
-            alert(error);
-          });
-        }}
+        onSubmit={(values, { setSubmitting }) => 
+          getTokenSilently()
+            .then(token => postRecurrency(token, values))
+            .then(() => setSubmitting(false))
+            .catch(error => {
+              setSubmitting(false);
+              alert(error);
+            })
+        }
       >
         {({
           values,
@@ -156,7 +158,7 @@ export default function SimpleCard() {
                   </Container>
                 </CardContent>
                 <CardActions>
-                  <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>
+                  <Button variant="contained" color="primary" type="submit" disabled={isSubmitting || loading}>
                     Enviar
                   </Button>
                 </CardActions>
