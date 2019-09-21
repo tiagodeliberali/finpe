@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { postBudget } from '../utils/FinpeFetchData'
+import { useAuth0 } from "./react-auth0-wrapper";
 
 const useStyles = makeStyles({
     card: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles({
 
 export default function BudgetForm() {
     const classes = useStyles();
+    const { loading, getTokenSilently } = useAuth0();
 
     return (
         <div>
@@ -47,15 +49,15 @@ export default function BudgetForm() {
                     }
                     return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                    postBudget(values)
-                        .then(() => {
-                            setSubmitting(false);
-                        }).catch(error => {
-                            setSubmitting(false);
-                            alert(error);
-                        });
-                }}
+                onSubmit={(values, { setSubmitting }) => 
+                    getTokenSilently()
+                        .then(token => postBudget(token, values))
+                        .then(() => setSubmitting(false))
+                        .catch(error => {
+                        setSubmitting(false);
+                        alert(error);
+                        })
+                    }
             >
                 {({
                     values,
