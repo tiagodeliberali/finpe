@@ -4,12 +4,16 @@ const webpack = require("webpack");
 module.exports = env => {
   const processEnv = {}
 
-  if (env.BRANCH != 'master') {
+  if (env.BRANCH == 'forno') {
     processEnv.API_URL = 'https://finpe-api-forno.azurewebsites.net/api/';
-    processEnv.AUTH_DOMAIN = 'dev-ufffqdk9.auth0.com';
-    processEnv.AUTH_CLIENT_ID = 'elsGCuiL2k3t83hWA5io6xbvlgtXMsX9';
     processEnv.AUTH_AUDIENCE = 'https://finpe-api-forno.azurewebsites.net';
+  } else {
+    processEnv.API_URL = 'https://finpe-api.azurewebsites.net/api/';
+    processEnv.AUTH_AUDIENCE = 'https://finpe-api.azurewebsites.net';
   }
+
+  processEnv.AUTH_DOMAIN = 'dev-ufffqdk9.auth0.com';
+  processEnv.AUTH_CLIENT_ID = 'elsGCuiL2k3t83hWA5io6xbvlgtXMsX9';
 
   return {
     entry: ['@babel/polyfill', './src/index.js'],
