@@ -6,7 +6,7 @@ import Chart from "./components/Chart"
 import RecurrencyTransactionForm from "./components/RecurrencyTransactionForm"
 import BudgetForm from "./components/BudgetForm"
 import { Router, Link } from "@reach/router";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute"
 import { useAuth0 } from "./components/react-auth0-wrapper";
 
 function App() {
@@ -23,15 +23,20 @@ function App() {
             {isAuthenticated && (
             <nav>
                 <Link to="/">Início</Link>{" "}
+                <Link to="/chart">Acumulado</Link>{" "}
                 <Link to="/add-recurrency">Conta Recorrente</Link>{" "}
-                <Link to="/add-budget">Conta Recorrente</Link>{" "}
+                <Link to="/add-budget">Budget</Link>{" "}
+            </nav>)}
+
+            {!isAuthenticated && (
+            <nav>
+                <Link to="/add-recurrency">Conta Recorrente</Link>{" "}
             </nav>)}
 
             <Router>
-                {/* <PrivateRoute path="/" component={Chart} /> */}
-                <Chart path="/chart" />
-                <RecurrencyTransactionForm path="/add-recurrency" />
-                <BudgetForm path="/add-budget" />
+                <PrivateRoute path="/chart" component={Chart} />
+                <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
+                <PrivateRoute path="/add-budget" component={BudgetForm} />
             </Router>
         </div>
     );
