@@ -4,10 +4,13 @@ const webpack = require("webpack");
 module.exports = env => {
   const processEnv = {}
 
-  if (env.BRANCH == 'forno') {
+  if (env.BRANCH == 'local') {
+    processEnv.API_URL = 'https://localhost:44362/api/';
+    processEnv.AUTH_AUDIENCE = 'https://finpe-api-forno.azurewebsites.net';
+  } else if (env.BRANCH == 'forno') {
     processEnv.API_URL = 'https://finpe-api-forno.azurewebsites.net/api/';
     processEnv.AUTH_AUDIENCE = 'https://finpe-api-forno.azurewebsites.net';
-  } else {
+  } else if (env.BRANCH == 'master') {
     processEnv.API_URL = 'https://finpe-api.azurewebsites.net/api/';
     processEnv.AUTH_AUDIENCE = 'https://finpe-api.azurewebsites.net';
   }

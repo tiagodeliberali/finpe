@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Finpe.Api.Budget
 {
     [Route("api/[controller]")]
-    [Authorize]
     public class BudgetController : BaseController
     {
         private MontlyBudgetRepository montlyBudgetRepository;
@@ -17,6 +16,7 @@ namespace Finpe.Api.Budget
         }
 
         [HttpPost]
+        [Authorize("write:all")]
         public IActionResult AddBudget(BudgetDto budget)
         {
             var recurrence = new MontlyBudget(

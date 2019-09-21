@@ -15,7 +15,6 @@ using System.Linq;
 namespace Finpe.Api.Visualization
 {
     [Route("api/[controller]")]
-    [Authorize]
     public class MonthlyViewController : BaseController
     {
         private readonly TransactionLineRepository transactionLineRepository;
@@ -33,6 +32,7 @@ namespace Finpe.Api.Visualization
         }
 
         [HttpGet]
+        [Authorize("view:all")]
         public IActionResult GetList()
         {
             List<MonthlyView> months = new MonthlyViewBuilder(

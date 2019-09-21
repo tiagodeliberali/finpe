@@ -1,9 +1,11 @@
 ﻿using Finpe.Api.Budget;
 using Finpe.Api.CashFlow;
+using Finpe.Api.Jwt;
 using Finpe.Api.RecurringCashFlow;
 using Finpe.Api.Utils;
 using Finpe.Parser;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,7 @@ namespace Finpe.Api
             services.AddTransient<RecurringTransactionRepository>();
             services.AddTransient<StatementParser>();
             services.AddTransient<CreditCardParser>();
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(options =>
@@ -53,6 +56,12 @@ namespace Finpe.Api
             {
                 options.Authority = domain;
                 options.Audience = Configuration["Auth0:Audience"];
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("view:all", policy => policy.Requirements.Add(new HasScopeRequirement("view:all", domain)));
+                options.AddPolicy("write:all", policy => policy.Requirements.Add(new HasScopeRequirement("write:all", domain)));
             });
         }
 

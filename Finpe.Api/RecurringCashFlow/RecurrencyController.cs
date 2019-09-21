@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Finpe.Api.RecurringCashFlow
 {
     [Route("api/[controller]")]
-    [Authorize]
     public class RecurrencyController : BaseController
     {
         private RecurringTransactionRepository recurringTransactionRepository;
@@ -19,6 +18,7 @@ namespace Finpe.Api.RecurringCashFlow
         }
 
         [HttpPost]
+        [Authorize("write:all")]
         public IActionResult AddStatement(RecurrencyDto statement)
         {
             var recurrence = new RecurringTransaction(
