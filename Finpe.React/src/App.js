@@ -23,7 +23,6 @@ function App() {
             {isAuthenticated && (
             <nav>
                 <Link to="/">Início</Link>{" "}
-                <Link to="/chart">Acumulado</Link>{" "}
                 <Link to="/add-recurrency">Conta Recorrente</Link>{" "}
                 <Link to="/add-budget">Budget</Link>{" "}
             </nav>)}
@@ -34,7 +33,7 @@ function App() {
             </nav>)}
 
             <Router>
-                <PrivateRoute path="/chart" component={Chart} />
+                <PrivateRoute path="/" component={Chart} />
                 <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
                 <PrivateRoute path="/add-budget" component={BudgetForm} />
             </Router>
