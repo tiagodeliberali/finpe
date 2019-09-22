@@ -5,12 +5,26 @@ import MenuBar from "./components/MenuBar"
 import Chart from "./components/Chart"
 import RecurrencyTransactionForm from "./components/RecurrencyTransactionForm"
 import BudgetForm from "./components/BudgetForm"
-import { Router, Link } from "@reach/router";
+import { Router } from "@reach/router";
+import { makeStyles } from '@material-ui/core/styles';
 import PrivateRoute from "./components/PrivateRoute"
 import { useAuth0 } from "./components/react-auth0-wrapper";
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+    },
+}));
 
 function App() {
-    const { loading, isAuthenticated } = useAuth0();
+    const { loading } = useAuth0();
+    const classes = useStyles();
 
     if (loading) {
         return (
@@ -19,24 +33,18 @@ function App() {
     }
     return (
         <div className="App">
-            <MenuBar />
-            {isAuthenticated && (
-            <nav>
-                <Link to="/">Início</Link>{" "}
-                <Link to="/add-recurrency">Conta Recorrente</Link>{" "}
-                <Link to="/add-budget">Budget</Link>{" "}
-            </nav>)}
-
-            {!isAuthenticated && (
-            <nav>
-                <Link to="/add-recurrency">Conta Recorrente</Link>{" "}
-            </nav>)}
-
-            <Router>
-                <PrivateRoute path="/" component={Chart} />
-                <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
-                <PrivateRoute path="/add-budget" component={BudgetForm} />
-            </Router>
+            <div className={classes.root}>
+                <CssBaseline />
+                <MenuBar />
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    <Router>
+                        <PrivateRoute path="/" component={Chart} />
+                        <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
+                        <PrivateRoute path="/add-budget" component={BudgetForm} />
+                    </Router>
+                </main>
+            </div>
         </div>
     );
 }
