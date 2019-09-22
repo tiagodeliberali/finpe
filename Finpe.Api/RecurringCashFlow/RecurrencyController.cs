@@ -30,6 +30,11 @@ namespace Finpe.Api.RecurringCashFlow
                 StartYearMonth = statement.Date.ToYearMonth()
             };
 
+            if (statement.EndDate.HasValue)
+            {
+                recurrence.EndYearMonth = statement.EndDate.Value.ToYearMonth();
+            }
+
             recurringTransactionRepository.Add(recurrence);
 
             return Ok();
