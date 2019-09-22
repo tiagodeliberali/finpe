@@ -18,6 +18,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { postRecurrency } from '../utils/FinpeFetchData'
 import { useAuth0 } from "./react-auth0-wrapper";
 
@@ -45,6 +47,7 @@ const useStyles = makeStyles({
 
 export default function SimpleCard() {
   const classes = useStyles();
+  const [hasEndDate, setHasEndDate] = React.useState(false);
   const { loading, getTokenSilently } = useAuth0();
 
   return (
@@ -108,7 +111,7 @@ export default function SimpleCard() {
                         format="dd/MM/yyyy"
                         margin="normal"
                         id="date"
-                        label="Data"
+                        label="Data de início"
                         onChange={e => setFieldValue('date', e)}
                         onBlur={handleBlur}
                         value={values.date}
@@ -118,6 +121,33 @@ export default function SimpleCard() {
                       />
                     </MuiPickersUtilsProvider>
                     {errors.date && touched.date && errors.date}
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={hasEndDate}
+                          onChange={event => setHasEndDate(event.target.checked)}
+                          value="hasEndDate"
+                          color="primary"
+                        />
+                      }
+                      label="Tem data de fim"
+                    />
+                    {hasEndDate && <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        format="dd/MM/yyyy"
+                        margin="normal"
+                        id="endDate"
+                        label="Data de fim"
+                        onChange={e => setFieldValue('endDate', e)}
+                        onBlur={handleBlur}
+                        value={values.endDate}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>}
+                    {hasEndDate && errors.endDate && touched.endDate && errors.endDate}
                     <TextField
                       id="responsible"
                       label="Responsável"
