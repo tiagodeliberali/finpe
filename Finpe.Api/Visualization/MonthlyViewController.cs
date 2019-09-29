@@ -36,15 +36,7 @@ namespace Finpe.Api.Visualization
         [Authorize(Permissions.ViewAll)]
         public IActionResult GetList()
         {
-            List<MonthlyView> months = new MonthlyViewBuilder(
-                    transactionLineRepository.GetList().ToList(),
-                    new List<IViewerPipeline>()
-                    {
-                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth()),
-                        new MontlyBudgetPipeline(montlyBudgetRepository.GetList().ToList())
-                    })
-                .Build(-3_175.16m);
-
+            List<MonthlyView> months = BuildStatements(montlyBudgetRepository.GetList().ToList());
             return Ok(months);
         }
 
@@ -52,16 +44,20 @@ namespace Finpe.Api.Visualization
         [Authorize(Permissions.ViewAll)]
         public IActionResult PutList(List<BudgetDto> budgets)
         {
-            List<MonthlyView> months = new MonthlyViewBuilder(
+            List<MonthlyView> months = BuildStatements(ParseBudgets(budgets));
+            return Ok(months);
+        }
+
+        private List<MonthlyView> BuildStatements(List<MontlyBudget> budgets)
+        {
+            return new MonthlyViewBuilder(
                     transactionLineRepository.GetList().ToList(),
                     new List<IViewerPipeline>()
                     {
                         new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth()),
-                        new MontlyBudgetPipeline(ParseBudgets(budgets))
+                        new MontlyBudgetPipeline(budgets)
                     })
-                .Build(-3_175.16m);
-
-            return Ok(months);
+                .Build(0);
         }
 
         private List<MontlyBudget> ParseBudgets(List<BudgetDto> budgets)
