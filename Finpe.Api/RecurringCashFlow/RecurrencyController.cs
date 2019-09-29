@@ -1,4 +1,5 @@
-﻿using Finpe.Api.Utils;
+﻿using Finpe.Api.Jwt;
+using Finpe.Api.Utils;
 using Finpe.CashFlow;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
@@ -18,7 +19,7 @@ namespace Finpe.Api.RecurringCashFlow
         }
 
         [HttpPost]
-        [Authorize("write:all")]
+        [Authorize(Permissions.WriteAll)]
         public IActionResult AddStatement(RecurrencyDto statement)
         {
             var recurrence = new RecurringTransaction(

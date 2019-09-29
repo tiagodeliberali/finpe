@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace Finpe.Api
 {
@@ -60,13 +58,13 @@ namespace Finpe.Api
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("view:all", policy => policy.Requirements.Add(new HasScopeRequirement("view:all", domain)));
-                options.AddPolicy("write:all", policy => policy.Requirements.Add(new HasScopeRequirement("write:all", domain)));
+                options.AddPolicy(Permissions.ViewAll, policy => policy.Requirements.Add(new HasScopeRequirement(Permissions.ViewAll, domain)));
+                options.AddPolicy(Permissions.WriteAll, policy => policy.Requirements.Add(new HasScopeRequirement(Permissions.WriteAll, domain)));
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
 

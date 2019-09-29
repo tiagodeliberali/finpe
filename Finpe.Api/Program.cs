@@ -9,15 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Finpe.Api
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
-            UpdateDatabase(args);
+            UpdateDatabase();
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        private static void UpdateDatabase(string[] args)
+        private static void UpdateDatabase()
         {
             Console.WriteLine("updating database...");
             var config = new ConfigurationBuilder()
@@ -33,7 +33,7 @@ namespace Finpe.Api
 
             using (var scope = serviceProvider.CreateScope())
             {
-                UpdateDatabase(scope.ServiceProvider);
+                RunMigrations(scope.ServiceProvider);
             }
             Console.WriteLine("Database update finished!");
         }
@@ -52,7 +52,7 @@ namespace Finpe.Api
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 .BuildServiceProvider(false);
 
-        private static void UpdateDatabase(IServiceProvider serviceProvider)
+        private static void RunMigrations(IServiceProvider serviceProvider)
         {
             var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
             runner.MigrateUp();

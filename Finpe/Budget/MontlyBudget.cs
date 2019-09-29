@@ -9,11 +9,11 @@ namespace Finpe.Budget
 {
     public class MontlyBudget : Entity
     {
-        protected virtual int ExecutionDay { get; set; }
-        protected virtual string Category { get; set; }
+        public virtual int ExecutionDay { get; set; }
+        public virtual string Category { get; set; }
 
         public virtual decimal Used { get; protected set; }
-        public virtual decimal Available { get; protected set; }
+        public virtual decimal Available { get; set; }
 
         public MontlyBudget(string category, decimal amount, int executionDay)
         {

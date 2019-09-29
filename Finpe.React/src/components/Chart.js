@@ -3,6 +3,7 @@ import {
     ComposedChart, Bar, Brush, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area,
 } from 'recharts';
 import ChartTooltip from "./ChartTooltip"
+import ChartBudgets from "./ChartBudgets"
 import { fetchApiData } from "../utils/FinpeFetchData"
 import { buildAcumulatedData } from "../utils/DataProcessor"
 import { useAuth0 } from "./react-auth0-wrapper";
@@ -41,24 +42,27 @@ const Chart = () => {
       }, [loading, isAuthenticated, getTokenSilently]);
 
     return (
-        <ComposedChart
-            width={2000}
-            height={500}
-            data={data.data}
-            margin={{
-                top: 5, right: 30, left: 20, bottom: 5,
-            }}
-        >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="formatedDate" />
-            <YAxis />
-            <Tooltip content={<CustomTooltip details={data.details} />} />
-            <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
-            <ReferenceLine y={0} stroke="#000" />
-            <Brush dataKey="formatedDate" height={30} stroke="#8884d8" />
-            <Bar dataKey="amount" fill="#82ca9d" />
-            <Area type="monotone" dataKey="accumulatedAmount" fill="#8884d8" stroke="#8884d8" />
-        </ComposedChart>
+        <div>
+            <ComposedChart
+                width={1500}
+                height={500}
+                data={data.data}
+                margin={{
+                    top: 5, right: 30, left: 20, bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="formatedDate" />
+                <YAxis />
+                <Tooltip content={<CustomTooltip details={data.details} />} />
+                <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
+                <ReferenceLine y={0} stroke="#000" />
+                <Brush dataKey="formatedDate" height={30} stroke="#8884d8" />
+                <Bar dataKey="amount" fill="#82ca9d" />
+                <Area type="monotone" dataKey="accumulatedAmount" fill="#8884d8" stroke="#8884d8" />
+            </ComposedChart>
+            <ChartBudgets updateChartData={(data) => buildAcumulatedData(setData, data)} />
+        </div>
     );
 }
 
