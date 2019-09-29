@@ -1,5 +1,6 @@
 ﻿using Finpe.Api.Budget;
 using Finpe.Api.CashFlow;
+using Finpe.Api.Jwt;
 using Finpe.Api.RecurringCashFlow;
 using Finpe.Api.Utils;
 using Finpe.Budget;
@@ -32,7 +33,7 @@ namespace Finpe.Api.Visualization
         }
 
         [HttpGet]
-        [Authorize("view:all")]
+        [Authorize(Permissions.ViewAll)]
         public IActionResult GetList()
         {
             List<MonthlyView> months = new MonthlyViewBuilder(
@@ -45,6 +46,34 @@ namespace Finpe.Api.Visualization
                 .Build(-3_175.16m);
 
             return Ok(months);
+        }
+
+        [HttpPut]
+        [Authorize(Permissions.ViewAll)]
+        public IActionResult PutList(List<BudgetDto> budgets)
+        {
+            List<MonthlyView> months = new MonthlyViewBuilder(
+                    transactionLineRepository.GetList().ToList(),
+                    new List<IViewerPipeline>()
+                    {
+                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth()),
+                        new MontlyBudgetPipeline(ParseBudgets(budgets))
+                    })
+                .Build(-3_175.16m);
+
+            return Ok(months);
+        }
+
+        private List<MontlyBudget> ParseBudgets(List<BudgetDto> budgets)
+        {
+            if (budgets == null)
+            {
+                return new List<MontlyBudget>();
+            }
+
+            return budgets
+                .Select(x => new MontlyBudget(x.Category, x.Amount, x.Day))
+                .ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Finpe.Api.Utils;
+﻿using Finpe.Api.Jwt;
+using Finpe.Api.Utils;
 using Finpe.Budget;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace Finpe.Api.Budget
         }
 
         [HttpPost]
-        [Authorize("write:all")]
+        [Authorize(Permissions.WriteAll)]
         public IActionResult AddBudget(BudgetDto budget)
         {
             var recurrence = new MontlyBudget(
@@ -28,5 +29,25 @@ namespace Finpe.Api.Budget
 
             return Ok();
         }
+
+        [HttpPut]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult UpdateBudget(BudgetDto dto)
+        {
+            MontlyBudget budget = 
+                dto.Id == 0
+                ? montlyBudgetRepository.GetByCategory(dto.Category)
+                : montlyBudgetRepository.GetById(dto.Id);
+
+            budget.Category = dto.Category;
+            budget.Available = dto.Amount;
+            budget.ExecutionDay = dto.Day;
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize(Permissions.ViewAll)]
+        public IActionResult GetBudgets() => Ok(montlyBudgetRepository.GetList());
     }
 }
