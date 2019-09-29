@@ -21,6 +21,8 @@ export const fetchApiDataWithBudgets = (token, budgets) => fetchWithToken(token,
 
 export const postRecurrency = (token, values) => fetchWithToken(token, 'Recurrency', 'POST', values);
 
+export const postTransaction = (token, values) => fetchWithToken(token, 'TransactionLine', 'POST', values);
+
 export const fetchBudgets = (token) => fetchWithToken(token, 'Budget');
 export const postBudget = (token, values) => fetchWithToken(token, 'Budget', 'POST', values);
 export const putBudget = (token, values) => fetchWithToken(token, 'Budget', 'PUT', values);

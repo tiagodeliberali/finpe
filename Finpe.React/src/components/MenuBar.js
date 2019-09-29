@@ -16,6 +16,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import LockIcon from '@material-ui/icons/Lock';
+import SettingsIcon from '@material-ui/icons/Settings';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { useAuth0 } from "./react-auth0-wrapper";
 import { Link } from "@reach/router";
@@ -74,6 +76,29 @@ export default function ButtonAppBar(props) {
             <div className={classes.toolbar} />
             <Divider />
             <List>
+                <ListItem button key="home" component={AdapterLink} to="/">
+                    <ListItemIcon><HomeIcon /></ListItemIcon>
+                    <ListItemText primary="Início" />
+                </ListItem>
+                <ListItem button key="add-transaction" component={AdapterLink} to="/add-transaction">
+                    <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
+                    <ListItemText primary="Despesa" />
+                </ListItem>
+                <ListItem button key="add-recurrency" component={AdapterLink} to="/add-recurrency">
+                    <ListItemIcon><SettingsIcon /></ListItemIcon>
+                    <ListItemText primary="Conta Recorrente" />
+                </ListItem>
+                <ListItem button key="add-budget" component={AdapterLink} to="/add-budget">
+                    <ListItemIcon><SettingsIcon /></ListItemIcon>
+                    <ListItemText primary="Budget" />
+                </ListItem>
+                <ListItem button key="monthly-budgets" component={AdapterLink} to="/monthly-budgets">
+                    <ListItemIcon><AssessmentIcon /></ListItemIcon>
+                    <ListItemText primary="Editar budgets" />
+                </ListItem>
+            </List>
+            <Divider />
+            <List>
                 {!isAuthenticated && <ListItem button key="Login" onClick={loginWithRedirect} disabled={loading}>
                     <ListItemIcon><LockIcon /></ListItemIcon>
                     <ListItemText primary="Login" />
@@ -82,21 +107,6 @@ export default function ButtonAppBar(props) {
                     <ListItemIcon><LockOpenIcon /></ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItem>}
-            </List>
-            <Divider />
-            <List>
-                <ListItem button key="home" component={AdapterLink} to="/">
-                    <ListItemIcon><HomeIcon /></ListItemIcon>
-                    <ListItemText primary="Início" />
-                </ListItem>
-                <ListItem button key="add-recurrency" component={AdapterLink} to="/add-recurrency">
-                    <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
-                    <ListItemText primary="Conta Recorrente" />
-                </ListItem>
-                <ListItem button key="add-budget" component={AdapterLink} to="/add-budget">
-                    <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
-                    <ListItemText primary="Budget" />
-                </ListItem>
             </List>
         </div>
     );
