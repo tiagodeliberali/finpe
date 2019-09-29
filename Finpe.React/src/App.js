@@ -4,6 +4,7 @@ import { hot } from "react-hot-loader";
 import MenuBar from "./components/MenuBar"
 import Chart from "./components/Chart"
 import RecurrencyTransactionForm from "./components/RecurrencyTransactionForm"
+import TransactionForm from "./components/TransactionForm"
 import BudgetForm from "./components/BudgetForm"
 import { Router } from "@reach/router";
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,9 +40,10 @@ function App() {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Router>
-                        <PrivateRoute path="/" component={Chart} />
+                        <PrivateRoute path="/add-transaction" component={TransactionForm} />
                         <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
                         <PrivateRoute path="/add-budget" component={BudgetForm} />
+                        <PrivateRoute path="/monthly-budgets" component={Chart} />
                     </Router>
                 </main>
             </div>
