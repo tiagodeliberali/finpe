@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finpe.Test", "Finpe.Test\Fi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finpe.ConsoleApp", "Finpe.ConsoleApp\Finpe.ConsoleApp.csproj", "{91D1F5D9-5A89-4F6F-966D-FD1223CE3A09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finpe.Api", "Finpe.Api\Finpe.Api.csproj", "{5DF4AF3F-E552-4995-AB97-28708E44B3D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finpe.Api", "Finpe.Api\Finpe.Api.csproj", "{5DF4AF3F-E552-4995-AB97-28708E44B3D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
