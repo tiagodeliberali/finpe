@@ -60,15 +60,24 @@ export default function ChartBudgets(props) {
     const classes = useStyles();
     const [submitting, setSubmitting] = useState(false);
     const [simulated, setSimulated] = useState(false);
-    const [budgetOriginalData, setBudgetOriginalData] = useState({});
+    const [totalBudget, setTotalBudget] = useState(0);
+    const [budgetOriginalData, setBudgetOriginalData] = useState([]);
     const [budgetEditedData, setBudgetEditedData] = React.useState({});
     const { loading, isAuthenticated, getTokenSilently } = useAuth0();
     const { updateChartData } = props;
 
     const loadData = (token) => fetchBudgets(token)
         .then(res => res.json())
-        .then(res => setBudgetOriginalData(res))
+        .then(res => setBudgetOriginalData(res.result))
         .catch(e => alert(e))
+
+    const calculateTotalBudget = () => {
+        const allBudgets = buildBudgetData()
+        const total = !allBudgets
+                ? 0
+                : allBudgets.reduce((total, nextItem) => total + nextItem.amount, 0)
+        setTotalBudget(total)
+    }
 
     const simulate = () => {
         setSubmitting(true);
@@ -104,15 +113,13 @@ export default function ChartBudgets(props) {
             })
     };
 
-    const parseBudgetEditedData = () => {
-        return Object.getOwnPropertyNames(budgetEditedData)
+    const parseBudgetEditedData = () => Object.getOwnPropertyNames(budgetEditedData)
             .map(category => Object.assign({ category }, budgetEditedData[category]))
-    }
 
     const buildBudgetData = () => {
         const budgets = parseBudgetEditedData()
 
-        const result =  budgetOriginalData.result.map(item => {
+        const result =  budgetOriginalData && budgetOriginalData.map(item => {
             const newBudget = budgets.filter(x => x.category == item.category)
             return newBudget.length > 0 ? newBudget[0] : { category: item.category, day: item.executionDay, amount: item.available }
         })
@@ -123,10 +130,10 @@ export default function ChartBudgets(props) {
     const handleInputChange = (componentName, amount, day) => {
         if (typeof amount == 'number') {
             setSimulated(false)
-            setBudgetEditedData(Object.assign(
-                budgetEditedData, { [componentName]: { amount, day } }));
-            }
-      };
+            setBudgetEditedData(Object.assign(budgetEditedData, { [componentName]: { amount, day } }));
+            calculateTotalBudget()
+        }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -140,7 +147,11 @@ export default function ChartBudgets(props) {
         fetchData();
     }, [loading, isAuthenticated, getTokenSilently]);
 
-    const budgets = budgetOriginalData.result && budgetOriginalData.result.map(item => (<Grid item xs={4} key={item.category}>
+    useEffect(() => {
+        calculateTotalBudget()
+    }, [budgetOriginalData]);
+
+    const budgets = budgetOriginalData && budgetOriginalData.map(item => (<Grid item xs={4} key={item.category}>
         <Typography gutterBottom>{item.category}</Typography>
         <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={item.available} max={5000} step={100} onChange={(event, newValue) => handleInputChange(item.category, newValue, item.executionDay)} />
     </Grid>
@@ -151,12 +162,21 @@ export default function ChartBudgets(props) {
             <Grid container className={classes.rootGrid} spacing={2}>
                 {budgets}
             </Grid>
-            <Button variant="contained" color="primary" className={classes.button} disabled={submitting} onClick={simulate}>
-                Simular
-            </Button>
-            <Button variant="contained" color="secondary" className={classes.button} disabled={submitting || !simulated} onClick={saveBudgets}>
-                Salvar
-            </Button>
+            <Grid container className={classes.rootGrid} spacing={2} alignItems="center">
+                <Grid item xs={1}>
+                    <Button variant="contained" color="primary" className={classes.button} disabled={submitting} onClick={simulate}>
+                        Simular
+                    </Button>
+                </Grid>
+                <Grid item xs={1}>
+                    <Button variant="contained" color="secondary" className={classes.button} disabled={submitting || !simulated} onClick={saveBudgets}>
+                        Salvar
+                    </Button>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography>Total de budgets: R$ {totalBudget}</Typography>
+                </Grid>
+            </Grid>
         </Paper>
     );
 }
