@@ -43,13 +43,13 @@ export default function ChartTooltip(props) {
                     Saldo do dia
                 </Typography>
                 <Typography variant="h5" component="h2">
-                    {resume.amount}
+                    {resume.amount.toFixed(2)}
                 </Typography>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Saldo acumulado
                 </Typography>
                 <Typography variant="h5" component="h2">
-                    {resume.accumulatedAmount}
+                    {resume.accumulatedAmount.toFixed(2)}
                 </Typography>
                 <Typography className={classes.titleDetails} color="textSecondary" gutterBottom>
                     Detalhes dos lançamentos
@@ -59,7 +59,7 @@ export default function ChartTooltip(props) {
                         ? (<Table><tbody>{details.items.map((item) => (<TableRow key={item.id}> 
                                     <TableCell>{item.description}</TableCell> 
                                     <TableCell>{item.category}</TableCell> 
-                                    <TableCell align="right">{item.amount}</TableCell> 
+                                    <TableCell align="right">{item.amount.toFixed(2)}</TableCell> 
                                 </TableRow>))}
                             </tbody></Table>) 
                         : (<span> Nenhum lançamento </span>)}
