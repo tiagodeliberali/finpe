@@ -27,7 +27,7 @@ export default function CategoryFormControl(props) {
                 id: 'category',
             }}
         >
-            <MenuItem value={"Assinaturas e Serviços"}>Assinaturas e Serviços</MenuItem>
+            <MenuItem value={"Assinaturas"}>Assinaturas e Serviços</MenuItem>
             <MenuItem value={"Cartões"}>Cartões</MenuItem>
             <MenuItem value={"Compras"}>Compras</MenuItem>
             <MenuItem value={"Cuidados pessoais"}>Cuidados pessoais</MenuItem>
@@ -39,7 +39,7 @@ export default function CategoryFormControl(props) {
             <MenuItem value={"Habitação"}>Habitação</MenuItem>
             <MenuItem value={"Hobbies"}>Hobbies</MenuItem>
             <MenuItem value={"Lazer e Eventos"}>Lazer e Eventos</MenuItem>
-            <MenuItem value={"Restaurantes e cafés"}>Restaurantes e cafés</MenuItem>
+            <MenuItem value={"Restaurantes"}>Restaurantes e cafés</MenuItem>
             <MenuItem value={"Saldo"}>Saldo</MenuItem>
             <MenuItem value={"Saúde"}>Saúde</MenuItem>
             <MenuItem value={"Supermercado"}>Supermercado</MenuItem>
