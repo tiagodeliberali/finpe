@@ -4,9 +4,9 @@ import {
 } from 'recharts';
 import ChartTooltip from "./ChartTooltip"
 import ChartBudgets from "./ChartBudgets"
-import { fetchApiData } from "../utils/FinpeFetchData"
-import { buildAcumulatedData } from "../utils/DataProcessor"
-import { useAuth0 } from "./react-auth0-wrapper";
+import { fetchApiData } from "../../utils/FinpeFetchData"
+import { buildAcumulatedData } from "../../utils/DataProcessor"
+import { useAuth0 } from "../../utils/Auth0Wrapper";
 
 const CustomTooltip = ({ active, payload, details }) => {
     if (active) {

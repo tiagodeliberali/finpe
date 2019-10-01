@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useAuth0 } from "./react-auth0-wrapper";
-import { fetchApiData } from "../utils/FinpeFetchData"
+import { useAuth0 } from "../../utils/Auth0Wrapper";
+import { fetchApiData } from "../../utils/FinpeFetchData"
 
 import OverviewBudgets from "./OverviewBudgets"
 import NextTransactions from "./NextTransactions"

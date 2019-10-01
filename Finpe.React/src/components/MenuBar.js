@@ -19,7 +19,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { useAuth0 } from "./react-auth0-wrapper";
+import { useAuth0 } from "../utils/Auth0Wrapper";
 import { Link } from "@reach/router";
 
 const drawerWidth = 240;

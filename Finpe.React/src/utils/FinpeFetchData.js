@@ -1,4 +1,4 @@
-const baseUrl = process.env.API_BASE_URL
+const baseUrl = 'https://localhost:44362/api/' //process.env.API_BASE_URL
 
 const fetchWithToken = (token, destination, method, body) => {
     const config = {}
