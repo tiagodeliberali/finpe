@@ -1,9 +1,16 @@
 import React, { useState, useEffect  } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { useAuth0 } from "./react-auth0-wrapper";
 import { fetchApiData } from "../utils/FinpeFetchData"
 
 import OverviewBudgets from "./OverviewBudgets"
 import NextTransactions from "./NextTransactions"
+
+const useStyles = makeStyles({
+    root: {
+        maxWidth: 400
+    },
+  });
 
 const loadData = (setState, token) => fetchApiData(token)
     .then(res => res.json())
@@ -15,6 +22,7 @@ const loadData = (setState, token) => fetchApiData(token)
 const HomeInfo = () => {
     const [apiData, setApiData] = useState([]);
     const { loading, isAuthenticated, getTokenSilently } = useAuth0();
+    const classes = useStyles();
 
     useEffect(() => {
         async function fetchData() {
@@ -29,7 +37,7 @@ const HomeInfo = () => {
       }, [loading, isAuthenticated, getTokenSilently]);
 
     return (
-        <div>
+        <div className={classes.root}>
             <OverviewBudgets data={apiData} />
             <NextTransactions data={apiData} />
         </div>
