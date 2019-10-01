@@ -1,25 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 650,
-  },
+    card: {
+    },
+    rootGrid: {
+      flexGrow: 1,
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 16,
+    },
+    subtitle: {
+      fontSize: 14,
+    },
+    amount: {
+        fontSize: 18,
+      },
+    pos: {
+        fontSize: 12,
+    },
 }));
 
 const buildTableData = (setData, data) => {
     setData(data.lines)
+}
+
+const formatDate = (dateStr) => {
+    const date = new Date(Date.parse(dateStr))
+
+    const weekday = new Array(7);
+    weekday[0] =  "Domingo";
+    weekday[1] = "Segunda";
+    weekday[2] = "Terça";
+    weekday[3] = "Quarta";
+    weekday[4] = "Quinta";
+    weekday[5] = "Sexta";
+    weekday[6] = "Sábado";
+
+    return `${weekday[date.getDay()]}, ${date.getDate()}`
 }
 
 export default function NextTransactions(props) {
@@ -32,29 +59,35 @@ export default function NextTransactions(props) {
   }, [data]);
 
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Descrição</TableCell>
-            <TableCell align="right">Categoria</TableCell>
-            <TableCell align="right">Dia</TableCell>
-            <TableCell align="right">Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {transactions.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.description}
-              </TableCell>
-              <TableCell align="right">{row.category}</TableCell>
-              <TableCell align="right">{row.transactionDate.substring(8, 10)}</TableCell>
-              <TableCell align="right">{row.amount.toFixed(2)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
+    <Grid container className={classes.rootGrid} spacing={2}>
+      {transactions.map(item => (
+          <Grid item xs={12} key={item.category}>
+            <Card className={classes.card}>
+                <Grid container className={classes.rootGrid} spacing={2}>
+                    <Grid item xs={8} key={item.category}>
+                        <CardContent>
+                        <Typography className={classes.title} color="textPrimary" gutterBottom>
+                            {item.description}
+                        </Typography>
+                        <Typography className={classes.subtitle} color="textSecondary" gutterBottom>
+                            {item.category}
+                        </Typography>
+                        </CardContent>
+                    </Grid>
+                    <Grid item xs={4} key={item.category}>
+                        <CardContent>
+                        <Typography className={classes.amount}>
+                            {item.amount.toFixed(2)}
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                            {formatDate(item.transactionDate)}
+                        </Typography>
+                        </CardContent>
+                    </Grid>
+                </Grid>
+          </Card>
+        </Grid>
+        ))}
+    </Grid>
   );
 }
