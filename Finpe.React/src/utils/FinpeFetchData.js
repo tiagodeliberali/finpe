@@ -16,7 +16,7 @@ const fetchWithToken = (token, destination, method, body) => {
     return fetch(baseUrl + destination, config);
 }
 
-export const fetchApiData = (token, budgets) => fetchWithToken(token, 'MonthlyView');
+export const fetchApiData = (token) => fetchWithToken(token, 'MonthlyView');
 export const fetchApiDataWithBudgets = (token, budgets) => fetchWithToken(token, 'MonthlyView', 'PUT', budgets);
 
 export const postRecurrency = (token, values) => fetchWithToken(token, 'Recurrency', 'POST', values);
