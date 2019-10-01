@@ -3,10 +3,6 @@ import { Formik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -18,6 +14,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+
+import ImportanceFormControl from './ImportanceFormControl'
+import CategoryFormControl from './CategoryFormControl'
 import { postTransaction } from '../utils/FinpeFetchData'
 import { useAuth0 } from "./react-auth0-wrapper";
 
@@ -127,33 +126,15 @@ export default function TransactionForm() {
                       value={values.responsible}
                     />
                     {errors.responsible && touched.responsible && errors.responsible}
-                    <FormControl>
-                      <InputLabel htmlFor="importance">Importância</InputLabel>
-                      <Select
-                        id="importance"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.importance}
-                        inputProps={{
-                          name: 'importance',
-                          id: 'importance',
-                        }}
-                      >
-                        <MenuItem value={0}>NotDefined</MenuItem>
-                        <MenuItem value={1}>WeLikeIt</MenuItem>
-                        <MenuItem value={2}>CanBeCut</MenuItem>
-                        <MenuItem value={3}>HardToCut</MenuItem>
-                        <MenuItem value={99}>Essential</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <ImportanceFormControl
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      value={values.importance} />
                     {errors.importance && touched.importance && errors.importance}
-                    <TextField
-                      id="category"
-                      label="Categoria"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.category}
-                    />
+                    <CategoryFormControl
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      value={values.category} />
                     {errors.category && touched.category && errors.category}
 
                   </Container>
