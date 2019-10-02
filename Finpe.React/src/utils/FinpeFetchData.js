@@ -1,4 +1,6 @@
-const baseUrl = 'https://localhost:44362/api/' //process.env.API_BASE_URL
+const baseUrl = process.env.API_BASE_URL
+
+console.log("LOG ENVIRONMENT process.env", process.env.API_BASE_URL)
 
 const fetchWithToken = (token, destination, method, body) => {
     const config = {}
@@ -18,6 +20,7 @@ const fetchWithToken = (token, destination, method, body) => {
 
 export const fetchApiData = (token) => fetchWithToken(token, 'MonthlyView');
 export const fetchApiDataWithBudgets = (token, budgets) => fetchWithToken(token, 'MonthlyView', 'PUT', budgets);
+export const fetchMultilineData = (token) => fetchWithToken(token, 'TransactionLine/multiline');
 
 export const postRecurrency = (token, values) => fetchWithToken(token, 'Recurrency', 'POST', values);
 

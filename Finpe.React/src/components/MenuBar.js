@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import LockIcon from '@material-ui/icons/Lock';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -84,6 +85,13 @@ export default function ButtonAppBar(props) {
                     <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
                     <ListItemText primary="Despesa" />
                 </ListItem>
+                <ListItem button key="add-multiline-transaction" component={AdapterLink} to="/add-multiline-transaction">
+                    <ListItemIcon><CreditCardIcon /></ListItemIcon>
+                    <ListItemText primary="Cartão" />
+                </ListItem>
+            </List>
+            <Divider />
+            <List>
                 <ListItem button key="add-recurrency" component={AdapterLink} to="/add-recurrency">
                     <ListItemIcon><SettingsIcon /></ListItemIcon>
                     <ListItemText primary="Conta Recorrente" />

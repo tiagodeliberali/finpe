@@ -6,6 +6,7 @@ import Chart from "./components/ChartInfo"
 import HomeInfo from "./components/HomeInfo/index"
 import RecurrencyTransactionForm from "./components/Forms/RecurrencyTransactionForm"
 import TransactionForm from "./components/Forms/TransactionForm"
+import MultilineTransactionForm from "./components/Forms/MultilineTransactionForm"
 import BudgetForm from "./components/Forms/BudgetForm"
 import { Router } from "@reach/router";
 import { makeStyles } from '@material-ui/core/styles';
@@ -43,6 +44,7 @@ function App() {
                     <Router>
                         <PrivateRoute path="/" component={HomeInfo} />
                         <PrivateRoute path="/add-transaction" component={TransactionForm} />
+                        <PrivateRoute path="/add-multiline-transaction" component={MultilineTransactionForm} />
                         <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
                         <PrivateRoute path="/add-budget" component={BudgetForm} />
                         <PrivateRoute path="/monthly-budgets" component={Chart} />

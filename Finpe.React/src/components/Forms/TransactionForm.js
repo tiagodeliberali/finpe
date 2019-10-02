@@ -42,23 +42,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TransactionForm() {
+export default function TransactionForm(props) {
   const classes = useStyles();
   const [] = React.useState(false);
   const { loading, getTokenSilently } = useAuth0();
+  const isMultiline = props.multiline || false
+  const parentId = props.parentId || 0
+  const isMultilineTransaction = isMultiline && parentId == 0
 
   return (
     <div>
       <Formik
-        initialValues={{ description: '', amount: '', date: new Date(), responsible: '', importance: 0, category: '' }}
-        validate={values => {
+        initialValues={{ description: '', amount: 0, date: new Date(), responsible: '', importance: 0, category: '', isMultiline, multilineParentId:parentId }}
+        validate={(values) => {
           let errors = {};
-          if (!values.amount) {
-            errors.amount = 'Campo obrigatório';
-          }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => 
+        onSubmit={(values, { setSubmitting }) =>
           getTokenSilently()
             .then(token => postTransaction(token, values))
             .then(() => setSubmitting(false))
@@ -93,7 +93,7 @@ export default function TransactionForm() {
                       value={values.description}
                     />
                     {errors.description && touched.description && errors.description}
-                    <TextField
+                    {!isMultilineTransaction && (<React.Fragment><TextField
                       id="amount"
                       label="Valor"
                       type="number"
@@ -102,6 +102,7 @@ export default function TransactionForm() {
                       value={values.amount}
                     />
                     {errors.amount && touched.amount && errors.amount}
+                    </React.Fragment>)}
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         disableToolbar
@@ -118,25 +119,26 @@ export default function TransactionForm() {
                       />
                     </MuiPickersUtilsProvider>
                     {errors.date && touched.date && errors.date}
-                    <TextField
-                      id="responsible"
-                      label="Responsável"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.responsible}
-                    />
-                    {errors.responsible && touched.responsible && errors.responsible}
-                    <ImportanceFormControl
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      value={values.importance} />
-                    {errors.importance && touched.importance && errors.importance}
-                    <CategoryFormControl
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      value={values.category} />
-                    {errors.category && touched.category && errors.category}
-
+                    {!isMultilineTransaction && (<React.Fragment>
+                      <TextField
+                        id="responsible"
+                        label="Responsável"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.responsible}
+                      />
+                      {errors.responsible && touched.responsible && errors.responsible}
+                      <ImportanceFormControl
+                        handleChange={handleChange}
+                        handleBlur={handleBlur}
+                        value={values.importance} />
+                      {errors.importance && touched.importance && errors.importance}
+                      <CategoryFormControl
+                        handleChange={handleChange}
+                        handleBlur={handleBlur}
+                        value={values.category} />
+                      {errors.category && touched.category && errors.category}
+                    </React.Fragment>)}
                   </Container>
                 </CardContent>
                 <CardActions>
