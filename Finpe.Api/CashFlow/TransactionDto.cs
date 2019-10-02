@@ -11,5 +11,7 @@ namespace Finpe.Api.CashFlow
         public string Category { get; set; }
         public string Responsible { get; set; }
         public Importance Importance { get; set; }
+        public bool IsMultiline { get; set; }
+        public long? MultilineParentId { get; set; }
     }
 }

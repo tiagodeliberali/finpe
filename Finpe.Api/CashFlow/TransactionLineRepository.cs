@@ -19,5 +19,13 @@ namespace Finpe.Api.CashFlow
                 .Where(x => !(x is MultilineDetailTransactionLine))
                 .ToList();
         }
+
+        public IReadOnlyList<TransactionLine> GetMultilineList()
+        {
+            return _unitOfWork
+                .Query<TransactionLine>()
+                .Where(x => x is MultilineTransactionLine)
+                .ToList();
+        }
     }
 }
