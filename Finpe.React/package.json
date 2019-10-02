@@ -8,7 +8,9 @@
     "start:forno": "webpack-dev-server -d --progress --colors --env.BRANCH=forno",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:forno": "webpack --mode production --env.BRANCH=forno",
-    "build:master": "webpack --mode production --env.BRANCH=master"
+    "build:master": "webpack --mode production --env.BRANCH=master",
+    "lint": "./node_modules/.bin/eslint ./src/  webpack.config.js",
+    "lint:fix": "./node_modules/.bin/eslint ./src/  webpack.config.js --fix"
   },
   "author": "",
   "license": "ISC",
