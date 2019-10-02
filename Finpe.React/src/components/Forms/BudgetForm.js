@@ -74,30 +74,30 @@ export default function BudgetForm() {
                 </Typography>
                 <Container maxWidth="sm">
                   <TextField
-                      id="category"
-                      label="Categoria"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.category}
-                    />
+                    id="category"
+                    label="Categoria"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.category}
+                  />
                   {errors.category && touched.category && errors.category}
                   <TextField
-                      id="amount"
-                      label="Valor"
-                      type="number"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.amount}
-                    />
+                    id="amount"
+                    label="Valor"
+                    type="number"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.amount}
+                  />
                   {errors.amount && touched.amount && errors.amount}
                   <TextField
-                      id="day"
-                      label="Dia do mês"
-                      type="number"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.day}
-                    />
+                    id="day"
+                    label="Dia do mês"
+                    type="number"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.day}
+                  />
                   {errors.day && touched.day && errors.day}
                 </Container>
               </CardContent>

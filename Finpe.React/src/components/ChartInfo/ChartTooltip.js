@@ -61,10 +61,10 @@ export default function ChartTooltip(props) {
                 <tbody>
                   {details.items.map((item) => (
                     <TableRow key={item.id}>
-                        <TableCell>{item.description}</TableCell>
-                        <TableCell>{item.category}</TableCell>
-                        <TableCell align="right">{item.amount.toFixed(2)}</TableCell>
-                      </TableRow>
+                      <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.category}</TableCell>
+                      <TableCell align="right">{item.amount.toFixed(2)}</TableCell>
+                    </TableRow>
                   ))}
                 </tbody>
               </Table>
