@@ -20,147 +20,153 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { useAuth0 } from "../utils/Auth0Wrapper";
-import { Link } from "@reach/router";
+import { Link } from '@reach/router';
+import { useAuth0 } from '../utils/Auth0Wrapper';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
+const useStyles = makeStyles((theme) => ({
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
-    appBar: {
-        marginLeft: drawerWidth,
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-        },
+  },
+  appBar: {
+    marginLeft: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
     },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    title: {
-        flexGrow: 1,
-    },
+  },
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 const AdapterLink = React.forwardRef((props, ref) => (
-    <Link to={ref} {...props} />
+  <Link to={ref} {...props} />
 ));
 
 export default function ButtonAppBar(props) {
-    const { loading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
-    const classes = useStyles();
-    const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const { container } = props;
+  const {
+    loading, isAuthenticated, loginWithRedirect, logout, user,
+  } = useAuth0();
+  const classes = useStyles();
+  const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { container } = props;
 
-    function handleDrawerToggle() {
-        setMobileOpen(!mobileOpen);
-    }
+  function handleDrawerToggle() {
+    setMobileOpen(!mobileOpen);
+  }
 
-    const drawer = (
-        <div>
-            <div className={classes.toolbar} />
-            <Divider />
-            <List>
-                <ListItem button key="home" component={AdapterLink} to="/">
-                    <ListItemIcon><HomeIcon /></ListItemIcon>
-                    <ListItemText primary="Início" />
-                </ListItem>
-                <ListItem button key="add-transaction" component={AdapterLink} to="/add-transaction">
-                    <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
-                    <ListItemText primary="Despesa" />
-                </ListItem>
-                <ListItem button key="add-multiline-transaction" component={AdapterLink} to="/add-multiline-transaction">
-                    <ListItemIcon><CreditCardIcon /></ListItemIcon>
-                    <ListItemText primary="Cartão" />
-                </ListItem>
-            </List>
-            <Divider />
-            <List>
-                <ListItem button key="add-recurrency" component={AdapterLink} to="/add-recurrency">
-                    <ListItemIcon><SettingsIcon /></ListItemIcon>
-                    <ListItemText primary="Conta Recorrente" />
-                </ListItem>
-                <ListItem button key="add-budget" component={AdapterLink} to="/add-budget">
-                    <ListItemIcon><SettingsIcon /></ListItemIcon>
-                    <ListItemText primary="Budget" />
-                </ListItem>
-                <ListItem button key="monthly-budgets" component={AdapterLink} to="/monthly-budgets">
-                    <ListItemIcon><AssessmentIcon /></ListItemIcon>
-                    <ListItemText primary="Editar budgets" />
-                </ListItem>
-            </List>
-            <Divider />
-            <List>
-                {!isAuthenticated && <ListItem button key="Login" onClick={loginWithRedirect} disabled={loading}>
-                    <ListItemIcon><LockIcon /></ListItemIcon>
-                    <ListItemText primary="Login" />
-                </ListItem>}
-                {isAuthenticated && <ListItem button key="Logout" onClick={logout} disabled={loading}>
-                    <ListItemIcon><LockOpenIcon /></ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </ListItem>}
-            </List>
-        </div>
-    );
+  const drawer = (
+    <div>
+      <div className={classes.toolbar} />
+      <Divider />
+      <List>
+        <ListItem button key="home" component={AdapterLink} to="/">
+          <ListItemIcon><HomeIcon /></ListItemIcon>
+          <ListItemText primary="Início" />
+        </ListItem>
+        <ListItem button key="add-transaction" component={AdapterLink} to="/add-transaction">
+          <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
+          <ListItemText primary="Despesa" />
+        </ListItem>
+        <ListItem button key="add-multiline-transaction" component={AdapterLink} to="/add-multiline-transaction">
+          <ListItemIcon><CreditCardIcon /></ListItemIcon>
+          <ListItemText primary="Cartão" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button key="add-recurrency" component={AdapterLink} to="/add-recurrency">
+          <ListItemIcon><SettingsIcon /></ListItemIcon>
+          <ListItemText primary="Conta Recorrente" />
+        </ListItem>
+        <ListItem button key="add-budget" component={AdapterLink} to="/add-budget">
+          <ListItemIcon><SettingsIcon /></ListItemIcon>
+          <ListItemText primary="Budget" />
+        </ListItem>
+        <ListItem button key="monthly-budgets" component={AdapterLink} to="/monthly-budgets">
+          <ListItemIcon><AssessmentIcon /></ListItemIcon>
+          <ListItemText primary="Editar budgets" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        {!isAuthenticated && (
+          <ListItem button key="Login" onClick={loginWithRedirect} disabled={loading}>
+            <ListItemIcon><LockIcon /></ListItemIcon>
+            <ListItemText primary="Login" />
+          </ListItem>
+        )}
+        {isAuthenticated && (
+          <ListItem button key="Logout" onClick={logout} disabled={loading}>
+            <ListItemIcon><LockOpenIcon /></ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        )}
+      </List>
+    </div>
+  );
 
-    return (
-        <div>
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} onClick={handleDrawerToggle} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+  return (
+    <div>
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} onClick={handleDrawerToggle} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
                         Finpe
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <nav className={classes.drawer} aria-label="finpe actions">
-                <Hidden smUp implementation="css">
-                    <Drawer
-                        container={container}
-                        variant="temporary"
-                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        ModalProps={{
-                            keepMounted: true, // Better open performance on mobile.
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-                <Hidden xsDown implementation="css">
-                    <Drawer
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        variant="permanent"
-                        open
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-            </nav>
-        </div>
-    )
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer} aria-label="finpe actions">
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+    </div>
+  );
 }

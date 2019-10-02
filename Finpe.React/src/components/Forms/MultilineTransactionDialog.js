@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import TransactionForm from "./TransactionForm"
+import TransactionForm from './TransactionForm';
 
 function MultilineTransactionDialog(props) {
   const { onClose, open, parentId } = props;
@@ -12,7 +12,7 @@ function MultilineTransactionDialog(props) {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <TransactionForm multiline={true} parentId={parentId} />
+      <TransactionForm multiline parentId={parentId} />
     </Dialog>
   );
 }
@@ -23,4 +23,4 @@ MultilineTransactionDialog.propTypes = {
   parentId: PropTypes.number.isRequired,
 };
 
-export default MultilineTransactionDialog
+export default MultilineTransactionDialog;
