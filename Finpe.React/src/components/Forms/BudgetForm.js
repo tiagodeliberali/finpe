@@ -9,8 +9,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { postBudget } from '../utils/FinpeFetchData'
-import { useAuth0 } from "./react-auth0-wrapper";
+import { postBudget } from '../../utils/FinpeFetchData'
+import { useAuth0 } from "../../utils/Auth0Wrapper";
 
 const useStyles = makeStyles({
     card: {

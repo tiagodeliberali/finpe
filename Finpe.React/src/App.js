@@ -2,15 +2,16 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import MenuBar from "./components/MenuBar"
-import Chart from "./components/Chart"
-import HomeInfo from "./components/HomeInfo"
-import RecurrencyTransactionForm from "./components/RecurrencyTransactionForm"
-import TransactionForm from "./components/TransactionForm"
-import BudgetForm from "./components/BudgetForm"
+import Chart from "./components/ChartInfo"
+import HomeInfo from "./components/HomeInfo/index"
+import RecurrencyTransactionForm from "./components/Forms/RecurrencyTransactionForm"
+import TransactionForm from "./components/Forms/TransactionForm"
+import MultilineTransactionForm from "./components/Forms/MultilineTransactionForm"
+import BudgetForm from "./components/Forms/BudgetForm"
 import { Router } from "@reach/router";
 import { makeStyles } from '@material-ui/core/styles';
-import PrivateRoute from "./components/PrivateRoute"
-import { useAuth0 } from "./components/react-auth0-wrapper";
+import PrivateRoute from "./utils/PrivateRoute"
+import { useAuth0 } from "./utils/Auth0Wrapper";
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +44,7 @@ function App() {
                     <Router>
                         <PrivateRoute path="/" component={HomeInfo} />
                         <PrivateRoute path="/add-transaction" component={TransactionForm} />
+                        <PrivateRoute path="/add-multiline-transaction" component={MultilineTransactionForm} />
                         <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
                         <PrivateRoute path="/add-budget" component={BudgetForm} />
                         <PrivateRoute path="/monthly-budgets" component={Chart} />

@@ -14,11 +14,13 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import ImportanceFormControl from './ImportanceFormControl'
 import CategoryFormControl from './CategoryFormControl'
-import { postTransaction } from '../utils/FinpeFetchData'
-import { useAuth0 } from "./react-auth0-wrapper";
+import { postRecurrency } from '../../utils/FinpeFetchData'
+import { useAuth0 } from "../../utils/Auth0Wrapper";
 
 const useStyles = makeStyles({
   card: {
@@ -42,9 +44,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TransactionForm() {
+export default function RecurrencyTransactionForm() {
   const classes = useStyles();
-  const [] = React.useState(false);
+  const [hasEndDate, setHasEndDate] = React.useState(false);
   const { loading, getTokenSilently } = useAuth0();
 
   return (
@@ -60,7 +62,7 @@ export default function TransactionForm() {
         }}
         onSubmit={(values, { setSubmitting }) => 
           getTokenSilently()
-            .then(token => postTransaction(token, values))
+            .then(token => postRecurrency(token, values))
             .then(() => setSubmitting(false))
             .catch(error => {
               setSubmitting(false);
@@ -82,7 +84,7 @@ export default function TransactionForm() {
               <Card className={classes.card}>
                 <CardContent>
                   <Typography variant="h5" component="h2">
-                    Despesa
+                    Conta recorrente
                   </Typography>
                   <Container maxWidth="sm">
                     <TextField
@@ -118,6 +120,33 @@ export default function TransactionForm() {
                       />
                     </MuiPickersUtilsProvider>
                     {errors.date && touched.date && errors.date}
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={hasEndDate}
+                          onChange={event => setHasEndDate(event.target.checked)}
+                          value="hasEndDate"
+                          color="primary"
+                        />
+                      }
+                      label="Tem data de fim"
+                    />
+                    {hasEndDate && <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        format="dd/MM/yyyy"
+                        margin="normal"
+                        id="endDate"
+                        label="Data de fim"
+                        onChange={e => setFieldValue('endDate', e)}
+                        onBlur={handleBlur}
+                        value={values.endDate}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>}
+                    {hasEndDate && errors.endDate && touched.endDate && errors.endDate}
                     <TextField
                       id="responsible"
                       label="Responsável"
@@ -129,12 +158,14 @@ export default function TransactionForm() {
                     <ImportanceFormControl
                       handleChange={handleChange}
                       handleBlur={handleBlur}
-                      value={values.importance} />
+                      value={values.importance} 
+                    />
                     {errors.importance && touched.importance && errors.importance}
                     <CategoryFormControl
                       handleChange={handleChange}
                       handleBlur={handleBlur}
-                      value={values.category} />
+                      value={values.category}
+                    />
                     {errors.category && touched.category && errors.category}
 
                   </Container>

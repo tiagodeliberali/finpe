@@ -5,8 +5,8 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { fetchBudgets, fetchApiDataWithBudgets, putBudget } from "../utils/FinpeFetchData"
-import { useAuth0 } from "./react-auth0-wrapper";
+import { fetchBudgets, fetchApiDataWithBudgets, putBudget } from "../../utils/FinpeFetchData"
+import { useAuth0 } from "../../utils/Auth0Wrapper";
 
 
 const useStyles = makeStyles(theme => ({
