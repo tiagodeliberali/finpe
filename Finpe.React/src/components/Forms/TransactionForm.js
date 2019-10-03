@@ -4,11 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -109,21 +106,19 @@ export default function TransactionForm(props) {
                         {errors.amount && touched.amount && errors.amount}
                     </>
                   )}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      disableToolbar
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="date"
-                      label="Data de início"
-                      onChange={(e) => setFieldValue('date', e)}
-                      onBlur={handleBlur}
-                      value={values.date}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    id="date"
+                    label="Data de início"
+                    onChange={(e) => setFieldValue('date', e)}
+                    onBlur={handleBlur}
+                    value={values.date}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
                   {errors.date && touched.date && errors.date}
                   {!isMultilineTransaction && (
                     <>
