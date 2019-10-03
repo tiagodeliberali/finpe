@@ -48,9 +48,6 @@ module.exports = (env) => {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[hash].js',
     },
-    optimization: {
-      runtimeChunk: 'single',
-    },
     devServer: {
       contentBase: path.join(__dirname, 'public/'),
       port: 3000,
