@@ -21,7 +21,7 @@ const loadData = (setState, token) => fetchApiData(token)
   .catch(logError);
 
 const HomeInfo = () => {
-  const [apiData, setApiData] = useState([]);
+  const [apiData, setApiData] = useState({ result: [] });
   const { loading, isAuthenticated, getTokenSilently } = useAuth0();
   const classes = useStyles();
 
@@ -39,8 +39,8 @@ const HomeInfo = () => {
 
   return (
     <div className={classes.root}>
-      <OverviewBudgets data={apiData} />
-      <NextTransactions data={apiData} />
+      <OverviewBudgets data={apiData.result} />
+      <NextTransactions data={apiData.result} />
     </div>
   );
 };

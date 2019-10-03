@@ -42,7 +42,7 @@ const ImportanceFormControl = (props) => {
 ImportanceFormControl.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
 };
 
 export default ImportanceFormControl;

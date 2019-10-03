@@ -83,7 +83,7 @@ const MultilineTransactionForm = () => {
   }, [loading, isAuthenticated, getTokenSilently]);
 
   const multilineDetails = apiData && apiData.map((item) => (
-    <Grid item xs={12} key={item.category}>
+    <Grid item xs={12} key={item.category} key={JSON.stringify(item)}>
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>

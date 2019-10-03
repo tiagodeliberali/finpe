@@ -12,7 +12,7 @@ function MultilineTransactionDialog(props) {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <TransactionForm multiline parentId={parentId} />
+      <TransactionForm isMultiline parentId={parentId} />
     </Dialog>
   );
 }

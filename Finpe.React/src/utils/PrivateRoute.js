@@ -23,7 +23,7 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
 };
 
 PrivateRoute.propTypes = {
-  component: PropTypes.element.isRequired,
+  component: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
   path: PropTypes.string.isRequired,
 };
 

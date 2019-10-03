@@ -165,6 +165,11 @@ export default function TransactionForm(props) {
 }
 
 TransactionForm.propTypes = {
-  isMultiline: PropTypes.bool.isRequired,
-  parentId: PropTypes.number.isRequired,
+  isMultiline: PropTypes.bool,
+  parentId: PropTypes.number,
+};
+
+TransactionForm.defaultProps  = {
+  isMultiline: false,
+  parentId: 0,
 };

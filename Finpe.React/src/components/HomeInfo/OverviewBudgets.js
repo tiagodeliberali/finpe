@@ -33,8 +33,8 @@ const OverviewBudgets = (props) => {
   const { data } = props;
 
   useEffect(() => {
-    if (data && data.result && data.result[0]) {
-      buildBudgetData(setBudgets, data.result[0]);
+    if (data && data[0]) {
+      buildBudgetData(setBudgets, data[0]);
     }
   }, [data]);
 
@@ -68,9 +68,7 @@ const OverviewBudgets = (props) => {
 };
 
 OverviewBudgets.propTypes = {
-  data: PropTypes.exact({
-    result: PropTypes.array.isRequired,
-  }).isRequired,
+  data: PropTypes.array.isRequired,
 };
 
 export default OverviewBudgets;

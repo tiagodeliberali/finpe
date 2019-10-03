@@ -59,8 +59,8 @@ const NextTransactions = (props) => {
   const { data } = props;
 
   useEffect(() => {
-    if (data && data.result && data.result[0]) {
-      buildTableData(setTransactions, data.result[0]);
+    if (data && data[0]) {
+      buildTableData(setTransactions, data[0]);
     }
   }, [data]);
 
@@ -68,7 +68,7 @@ const NextTransactions = (props) => {
     <Card className={classes.card}>
       <List subheader={<ListSubheader>Próximas transações</ListSubheader>} className={classes.root}>
         {transactions.map((item) => (
-          <ListItem>
+          <ListItem key={JSON.stringify(item)}>
             <ListItemText primary={item.description} secondary={item.category} />
             <ListItemSecondaryAction>
               <>
@@ -88,9 +88,7 @@ const NextTransactions = (props) => {
 };
 
 NextTransactions.propTypes = {
-  data: PropTypes.exact({
-    lines: PropTypes.array.isRequired,
-  }).isRequired,
+  data: PropTypes.array.isRequired,
 };
 
 export default NextTransactions;
