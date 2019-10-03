@@ -4,6 +4,8 @@ import { hot } from 'react-hot-loader';
 import { Router } from '@reach/router';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import MenuBar from './components/MenuBar';
 import Chart from './components/ChartInfo';
 import HomeInfo from './components/HomeInfo/index';
@@ -36,21 +38,23 @@ function App() {
   }
   return (
     <div className="App">
-      <div className={classes.root}>
-        <CssBaseline />
-        <MenuBar />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Router>
-            <PrivateRoute path="/" component={HomeInfo} />
-            <PrivateRoute path="/add-transaction" component={TransactionForm} />
-            <PrivateRoute path="/add-multiline-transaction" component={MultilineTransactionForm} />
-            <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
-            <PrivateRoute path="/add-budget" component={BudgetForm} />
-            <PrivateRoute path="/monthly-budgets" component={Chart} />
-          </Router>
-        </main>
-      </div>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className={classes.root}>
+          <CssBaseline />
+          <MenuBar />
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Router>
+              <PrivateRoute path="/" component={HomeInfo} />
+              <PrivateRoute path="/add-transaction" component={TransactionForm} />
+              <PrivateRoute path="/add-multiline-transaction" component={MultilineTransactionForm} />
+              <PrivateRoute path="/add-recurrency" component={RecurrencyTransactionForm} />
+              <PrivateRoute path="/add-budget" component={BudgetForm} />
+              <PrivateRoute path="/monthly-budgets" component={Chart} />
+            </Router>
+          </main>
+        </div>
+      </MuiPickersUtilsProvider>
     </div>
   );
 }
