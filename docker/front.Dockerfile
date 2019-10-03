@@ -11,7 +11,7 @@ RUN npm run build:${API_URL}
 
 # production environment
 FROM nginx:1.16.0-alpine AS runtime
-COPY --from=build /app/public /var/www
+COPY --from=build /app/dist /var/www
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
