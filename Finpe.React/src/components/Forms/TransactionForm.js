@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -106,7 +105,7 @@ export default function TransactionForm(props) {
                         {errors.amount && touched.amount && errors.amount}
                     </>
                   )}
-                  <KeyboardDatePicker
+                  {/* <KeyboardDatePicker
                     disableToolbar
                     format="dd/MM/yyyy"
                     margin="normal"
@@ -118,7 +117,7 @@ export default function TransactionForm(props) {
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                  />
+                  /> */}
                   {errors.date && touched.date && errors.date}
                   {!isMultilineTransaction && (
                     <>

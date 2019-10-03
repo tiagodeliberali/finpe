@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -101,7 +100,7 @@ export default function RecurrencyTransactionForm() {
                     value={values.amount}
                   />
                   {errors.amount && touched.amount && errors.amount}
-                  <KeyboardDatePicker
+                  {/* <KeyboardDatePicker
                     disableToolbar
                     format="dd/MM/yyyy"
                     margin="normal"
@@ -113,7 +112,7 @@ export default function RecurrencyTransactionForm() {
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                  />
+                  /> */}
                   {errors.date && touched.date && errors.date}
                   <FormControlLabel
                     control={(
@@ -126,7 +125,7 @@ export default function RecurrencyTransactionForm() {
                       )}
                     label="Tem data de fim"
                   />
-                  {hasEndDate && (
+                  {/* {hasEndDate && (
                     <KeyboardDatePicker
                       disableToolbar
                       format="dd/MM/yyyy"
@@ -140,7 +139,7 @@ export default function RecurrencyTransactionForm() {
                         'aria-label': 'change date',
                       }}
                     />
-                  )}
+                  )} */}
                   {hasEndDate && errors.endDate && touched.endDate && errors.endDate}
                   <TextField
                     id="responsible"
