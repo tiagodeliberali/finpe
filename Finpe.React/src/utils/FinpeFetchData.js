@@ -1,22 +1,20 @@
-const baseUrl = process.env.API_BASE_URL
-
-console.log("LOG ENVIRONMENT process.env", process.env.API_BASE_URL)
+const baseUrl = process.env.API_BASE_URL;
 
 const fetchWithToken = (token, destination, method, body) => {
-    const config = {}
-    
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
-    
-    if (method) config.method = method;
-    if (body) {
-        config.body = JSON.stringify(body)
-        myHeaders.append("Content-type", "application/json; charset=UTF-8");
-    }
-    config.headers = myHeaders;
+  const config = {};
 
-    return fetch(baseUrl + destination, config);
-}
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  if (method) config.method = method;
+  if (body) {
+    config.body = JSON.stringify(body);
+    myHeaders.append('Content-type', 'application/json; charset=UTF-8');
+  }
+  config.headers = myHeaders;
+
+  return fetch(baseUrl + destination, config);
+};
 
 export const fetchApiData = (token) => fetchWithToken(token, 'MonthlyView');
 export const fetchApiDataWithBudgets = (token, budgets) => fetchWithToken(token, 'MonthlyView', 'PUT', budgets);
