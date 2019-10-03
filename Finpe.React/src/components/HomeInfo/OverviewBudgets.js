@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   card: {
@@ -32,7 +33,9 @@ const OverviewBudgets = (props) => {
   const { data } = props;
 
   useEffect(() => {
-    data && data.result && data.result[0] && buildBudgetData(setBudgets, data.result[0]);
+    if (data && data.result && data.result[0]) {
+      buildBudgetData(setBudgets, data.result[0]);
+    }
   }, [data]);
 
   const budgetDetails = budgets && budgets.map((item) => (
@@ -64,5 +67,10 @@ const OverviewBudgets = (props) => {
   );
 };
 
+OverviewBudgets.propTypes = {
+  data: PropTypes.exact({
+    result: PropTypes.array.isRequired,
+  }).isRequired,
+};
 
 export default OverviewBudgets;

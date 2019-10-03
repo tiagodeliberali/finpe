@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import { fetchApiData } from '../../utils/FinpeFetchData';
+import logError from '../../utils/Logger';
 
 import OverviewBudgets from './OverviewBudgets';
 import NextTransactions from './NextTransactions';
@@ -17,7 +18,7 @@ const loadData = (setState, token) => fetchApiData(token)
   .then((data) => {
     setState(data);
   })
-  .catch(console.log);
+  .catch(logError);
 
 const HomeInfo = () => {
   const [apiData, setApiData] = useState([]);

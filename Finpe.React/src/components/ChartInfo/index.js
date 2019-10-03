@@ -5,13 +5,20 @@ import {
 import ChartTooltip from './ChartTooltip';
 import ChartBudgets from './ChartBudgets';
 import { fetchApiData } from '../../utils/FinpeFetchData';
-import { buildAcumulatedData } from '../../utils/DataProcessor';
+import buildAcumulatedData from '../../utils/DataProcessor';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
+import logError from '../../utils/Logger';
 
 const CustomTooltip = ({ active, payload, details }) => {
   if (active) {
     return (
-      payload && payload.length > 0 && details && <ChartTooltip resume={payload[0].payload} details={details[payload[0].payload.longDate]} />
+      payload && payload.length > 0 && details
+        && (
+        <ChartTooltip
+          resume={payload[0].payload}
+          details={details[payload[0].payload.longDate]}
+        />
+        )
     );
   }
 
@@ -23,7 +30,7 @@ const loadData = (setState, token) => fetchApiData(token)
   .then((data) => {
     buildAcumulatedData(setState, data);
   })
-  .catch(console.log);
+  .catch(logError);
 
 const Chart = () => {
   const [data, setData] = useState({});
@@ -61,7 +68,7 @@ const Chart = () => {
         <Bar dataKey="amount" fill="#82ca9d" />
         <Area type="monotone" dataKey="accumulatedAmount" fill="#8884d8" stroke="#8884d8" />
       </ComposedChart>
-      <ChartBudgets updateChartData={(data) => buildAcumulatedData(setData, data)} />
+      <ChartBudgets updateChartData={(chartData) => buildAcumulatedData(setData, chartData)} />
     </div>
   );
 };

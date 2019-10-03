@@ -9,6 +9,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import { fetchMultilineData } from '../../utils/FinpeFetchData';
+import logError from '../../utils/Logger';
 import MultilineTransactionDialog from './MultilineTransactionDialog';
 
 const useStyles = makeStyles({
@@ -46,9 +47,9 @@ const loadData = (setState, token) => fetchMultilineData(token)
   .then((data) => {
     setState(data.result);
   })
-  .catch(console.log);
+  .catch(logError);
 
-const MultilineTransactionForm = (props) => {
+const MultilineTransactionForm = () => {
   const [apiData, setApiData] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [parentId, setParentId] = React.useState(0);

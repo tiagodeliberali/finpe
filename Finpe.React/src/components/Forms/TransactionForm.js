@@ -15,10 +15,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+import PropTypes from 'prop-types';
 import ImportanceFormControl from './ImportanceFormControl';
 import CategoryFormControl from './CategoryFormControl';
 import { postTransaction } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
+import logError from '../../utils/Logger';
 
 const useStyles = makeStyles({
   card: {
@@ -44,11 +46,12 @@ const useStyles = makeStyles({
 
 export default function TransactionForm(props) {
   const classes = useStyles();
-  const [] = React.useState(false);
   const { loading, getTokenSilently } = useAuth0();
-  const isMultiline = props.multiline || false;
-  const parentId = props.parentId || 0;
-  const isMultilineTransaction = isMultiline && parentId == 0;
+  let { isMultiline, parentId } = props;
+
+  isMultiline = isMultiline || false;
+  parentId = parentId || 0;
+  const isMultilineTransaction = isMultiline && parentId === 0;
 
   return (
     <div>
@@ -56,7 +59,7 @@ export default function TransactionForm(props) {
         initialValues={{
           description: '', amount: 0, date: new Date(), responsible: '', importance: 0, category: '', isMultiline, multilineParentId: parentId,
         }}
-        validate={(values) => {
+        validate={() => {
           const errors = {};
           return errors;
         }}
@@ -65,7 +68,7 @@ export default function TransactionForm(props) {
           .then(() => setSubmitting(false))
           .catch((error) => {
             setSubmitting(false);
-            alert(error);
+            logError(error);
           })}
       >
         {({
@@ -160,3 +163,8 @@ export default function TransactionForm(props) {
     </div>
   );
 }
+
+TransactionForm.propTypes = {
+  isMultiline: PropTypes.bool.isRequired,
+  parentId: PropTypes.number.isRequired,
+};

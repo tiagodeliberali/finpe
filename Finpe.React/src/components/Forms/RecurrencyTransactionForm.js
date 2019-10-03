@@ -21,6 +21,7 @@ import ImportanceFormControl from './ImportanceFormControl';
 import CategoryFormControl from './CategoryFormControl';
 import { postRecurrency } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
+import logError from '../../utils/Logger';
 
 const useStyles = makeStyles({
   card: {
@@ -67,7 +68,7 @@ export default function RecurrencyTransactionForm() {
           .then(() => setSubmitting(false))
           .catch((error) => {
             setSubmitting(false);
-            alert(error);
+            logError(error);
           })}
       >
         {({

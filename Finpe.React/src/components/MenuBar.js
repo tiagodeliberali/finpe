@@ -61,14 +61,13 @@ const AdapterLink = React.forwardRef((props, ref) => (
   <Link to={ref} {...props} />
 ));
 
-export default function ButtonAppBar(props) {
+export default function ButtonAppBar() {
   const {
-    loading, isAuthenticated, loginWithRedirect, logout, user,
+    loading, isAuthenticated, loginWithRedirect, logout,
   } = useAuth0();
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { container } = props;
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
@@ -140,7 +139,6 @@ export default function ButtonAppBar(props) {
       <nav className={classes.drawer} aria-label="finpe actions">
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}

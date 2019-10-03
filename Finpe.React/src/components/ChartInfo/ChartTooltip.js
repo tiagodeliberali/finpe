@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   card: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ChartTooltip(props) {
+const ChartTooltip = (props) => {
   const classes = useStyles();
   const { resume, details } = props;
 
@@ -74,4 +75,17 @@ export default function ChartTooltip(props) {
       </CardContent>
     </Card>
   );
-}
+};
+
+ChartTooltip.propTypes = {
+  resume: PropTypes.exact({
+    longDate: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+    accumulatedAmount: PropTypes.number.isRequired,
+  }).isRequired,
+  details: PropTypes.exact({
+    items: PropTypes.array.isRequired,
+  }).isRequired,
+};
+
+export default ChartTooltip;

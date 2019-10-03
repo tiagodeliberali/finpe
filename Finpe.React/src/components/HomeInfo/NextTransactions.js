@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,13 +53,15 @@ const formatDate = (dateStr) => {
   return `${weekday[date.getDay()]}, ${date.getDate()}`;
 };
 
-export default function NextTransactions(props) {
+const NextTransactions = (props) => {
   const [transactions, setTransactions] = useState([]);
   const classes = useStyles();
   const { data } = props;
 
   useEffect(() => {
-    data && data.result && data.result[0] && buildTableData(setTransactions, data.result[0]);
+    if (data && data.result && data.result[0]) {
+      buildTableData(setTransactions, data.result[0]);
+    }
   }, [data]);
 
   return (
@@ -83,4 +85,12 @@ export default function NextTransactions(props) {
       </List>
     </Card>
   );
-}
+};
+
+NextTransactions.propTypes = {
+  data: PropTypes.exact({
+    lines: PropTypes.array.isRequired,
+  }).isRequired,
+};
+
+export default NextTransactions;

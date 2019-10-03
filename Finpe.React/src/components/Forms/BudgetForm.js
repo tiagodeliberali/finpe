@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { postBudget } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
+import logError from '../../utils/Logger';
 
 const useStyles = makeStyles({
   card: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
 
 export default function BudgetForm() {
   const classes = useStyles();
-  const { loading, getTokenSilently } = useAuth0();
+  const { getTokenSilently } = useAuth0();
 
   return (
     <div>
@@ -54,7 +55,7 @@ export default function BudgetForm() {
           .then(() => setSubmitting(false))
           .catch((error) => {
             setSubmitting(false);
-            alert(error);
+            logError(error);
           })}
       >
         {({

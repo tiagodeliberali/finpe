@@ -1,7 +1,5 @@
 const baseUrl = process.env.API_BASE_URL;
 
-console.log('LOG ENVIRONMENT process.env', process.env.API_BASE_URL);
-
 const fetchWithToken = (token, destination, method, body) => {
   const config = {};
 

@@ -4,14 +4,15 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   formControl: {
     minWidth: 150,
   },
 }));
 
-export default function ImportanceFormControl(props) {
+const ImportanceFormControl = (props) => {
   const { handleChange, handleBlur, value } = props;
   const classes = useStyles();
 
@@ -36,4 +37,12 @@ export default function ImportanceFormControl(props) {
       </Select>
     </FormControl>
   );
-}
+};
+
+ImportanceFormControl.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
+
+export default ImportanceFormControl;

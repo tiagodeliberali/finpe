@@ -5,8 +5,10 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import PropTypes from 'prop-types';
 import { fetchBudgets, fetchApiDataWithBudgets, putBudget } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
+import logError from '../../utils/Logger';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +58,7 @@ const PrettoSlider = withStyles({
   },
 })(Slider);
 
-export default function ChartBudgets(props) {
+const ChartBudgets = (props) => {
   const classes = useStyles();
   const [submitting, setSubmitting] = useState(false);
   const [simulated, setSimulated] = useState(false);
@@ -69,14 +71,30 @@ export default function ChartBudgets(props) {
   const loadData = (token) => fetchBudgets(token)
     .then((res) => res.json())
     .then((res) => setBudgetOriginalData(res.result))
-    .catch((e) => alert(e));
+    .catch((e) => logError(e));
+
+  const parseBudgetEditedData = () => Object.getOwnPropertyNames(budgetEditedData)
+    .map((category) => ({ category, ...budgetEditedData[category] }));
+
+  const buildBudgetData = () => {
+    const budgets = parseBudgetEditedData();
+
+    const result = budgetOriginalData && budgetOriginalData.map((item) => {
+      const newBudget = budgets.filter((x) => x.category === item.category);
+      return newBudget.length > 0
+        ? newBudget[0]
+        : { category: item.category, day: item.executionDay, amount: item.available };
+    });
+
+    return result;
+  };
 
   const calculateTotalBudget = () => {
     const allBudgets = buildBudgetData();
-    const total = !allBudgets
+    const totalBudgetAmount = !allBudgets
       ? 0
       : allBudgets.reduce((total, nextItem) => total + nextItem.amount, 0);
-    setTotalBudget(total);
+    setTotalBudget(totalBudgetAmount);
   };
 
   const simulate = () => {
@@ -92,39 +110,25 @@ export default function ChartBudgets(props) {
       })
       .catch((error) => {
         setSubmitting(false);
-        alert(error);
+        logError(error);
       });
   };
 
   const saveBudgets = () => {
     const budgets = parseBudgetEditedData();
 
-    if (!budgets || budgets.length == 0) {
+    if (!budgets || budgets.length === 0) {
       return;
     }
 
     setSubmitting(true);
-    return getTokenSilently()
+    getTokenSilently()
       .then((token) => budgets.forEach((item) => putBudget(token, item)))
       .then(() => setSubmitting(false))
       .catch((error) => {
         setSubmitting(false);
-        alert(error);
+        logError(error);
       });
-  };
-
-  const parseBudgetEditedData = () => Object.getOwnPropertyNames(budgetEditedData)
-    .map((category) => ({ category, ...budgetEditedData[category] }));
-
-  const buildBudgetData = () => {
-    const budgets = parseBudgetEditedData();
-
-    const result = budgetOriginalData && budgetOriginalData.map((item) => {
-      const newBudget = budgets.filter((x) => x.category == item.category);
-      return newBudget.length > 0 ? newBudget[0] : { category: item.category, day: item.executionDay, amount: item.available };
-    });
-
-    return result;
   };
 
   const handleInputChange = (componentName, amount, day) => {
@@ -176,11 +180,17 @@ export default function ChartBudgets(props) {
         </Grid>
         <Grid item xs={2}>
           <Typography>
-Total de budgets: R$
+                        Total de budgets: R$
             {totalBudget}
           </Typography>
         </Grid>
       </Grid>
     </Paper>
   );
-}
+};
+
+ChartBudgets.propTypes = {
+  updateChartData: PropTypes.func.isRequired,
+};
+
+export default ChartBudgets;

@@ -1,14 +1,18 @@
-export const buildAcumulatedData = (setState, data) => {
-  const startTime = new Date();
+const buildAcumulatedData = (setState, data) => {
   const dataStatements = data.result
     .reduce((prev, x) => prev.concat(x.lines), [])
-    .map((x) => Object.assign(x, { ticks: new Date(x.transactionDate).getTime(), longDate: x.transactionDate.substring(0, 10) }))
+    .map((x) => Object.assign(x, {
+      ticks: new Date(x.transactionDate).getTime(),
+      longDate: x.transactionDate.substring(0, 10),
+    }))
     .sort((a, b) => a - b)
     .reduce((prev, x) => {
       if (!prev[x.longDate]) {
-        prev[x.longDate] = { amount: x.amount, items: [x] };
+        prev[x.longDate] = { // eslint-disable-line no-param-reassign
+          amount: x.amount, items: [x],
+        };
       } else {
-        prev[x.longDate].amount += x.amount;
+        prev[x.longDate].amount += x.amount; // eslint-disable-line no-param-reassign
         prev[x.longDate].items.push(x);
       }
       return prev;
@@ -35,5 +39,6 @@ export const buildAcumulatedData = (setState, data) => {
   }
 
   setState({ data: statements, details: dataStatements });
-  console.log('Dados processados em ', new Date() - startTime, 'ms');
 };
+
+export default buildAcumulatedData;
