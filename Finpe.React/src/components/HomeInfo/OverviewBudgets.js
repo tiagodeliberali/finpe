@@ -68,7 +68,7 @@ const OverviewBudgets = (props) => {
 };
 
 OverviewBudgets.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default OverviewBudgets;

@@ -169,7 +169,7 @@ TransactionForm.propTypes = {
   parentId: PropTypes.number,
 };
 
-TransactionForm.defaultProps  = {
+TransactionForm.defaultProps = {
   isMultiline: false,
   parentId: 0,
 };

@@ -88,7 +88,7 @@ const NextTransactions = (props) => {
 };
 
 NextTransactions.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default NextTransactions;
