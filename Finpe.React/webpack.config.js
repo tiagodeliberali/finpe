@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env) => {
   const processEnv = {};
@@ -43,9 +45,11 @@ module.exports = (env) => {
       extensions: ['*', '.js', '.jsx'],
     },
     output: {
-      path: path.resolve(__dirname, 'public/dist/'),
-      publicPath: '/dist/',
-      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].[hash].js',
+    },
+    optimization: {
+      runtimeChunk: 'single',
     },
     devServer: {
       contentBase: path.join(__dirname, 'public/'),
@@ -60,6 +64,10 @@ module.exports = (env) => {
         'process.env.AUTH_DOMAIN': JSON.stringify(processEnv.AUTH_DOMAIN),
         'process.env.AUTH_CLIENT_ID': JSON.stringify(processEnv.AUTH_CLIENT_ID),
         'process.env.AUTH_AUDIENCE': JSON.stringify(processEnv.AUTH_AUDIENCE),
+      }),
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: 'public/index.hbs'
       }),
     ],
   };
