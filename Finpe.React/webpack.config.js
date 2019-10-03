@@ -67,7 +67,7 @@ module.exports = (env) => {
       }),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
-        template: 'public/index.hbs'
+        template: 'public/index.hbs',
       }),
     ],
   };
