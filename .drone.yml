@@ -4,34 +4,34 @@ clone:
     depth: 1
 
 pipeline:
-  install:
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2
-    commands:
-      - dotnet restore
+  # install:
+  #   image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  #   commands:
+  #     - dotnet restore
 
-  test:
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2
-    commands:
-      - dotnet test ./Finpe.Test
+  # test:
+  #   image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  #   commands:
+  #     - dotnet test ./Finpe.Test
 
-  lint:
-    image: node:10.16.3-alpine
-    commands:
-      - cd Finpe.React
-      - npm install --silent
-      - npm run lint
+  # lint:
+  #   image: node:10.16.3-alpine
+  #   commands:
+  #     - cd Finpe.React
+  #     - npm install --silent
+  #     - npm run lint
 
-  docker-api:
-    image: plugins/docker
-    dockerfile: docker/api.Dockerfile
-    secrets: [docker_username, docker_password]
-    repo: tiagodeliberali/finpeapi
-    tag: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
-    build_args:
-        - COMMIT=${DRONE_COMMIT:0:7}
-    when:
-      event: push
-      branch: [master, forno]
+  # docker-api:
+  #   image: plugins/docker
+  #   dockerfile: docker/api.Dockerfile
+  #   secrets: [docker_username, docker_password]
+  #   repo: tiagodeliberali/finpeapi
+  #   tag: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
+  #   build_args:
+  #       - COMMIT=${DRONE_COMMIT:0:7}
+  #   when:
+  #     event: push
+  #     branch: [master, forno]
 
   docker-front:
     image: plugins/docker
