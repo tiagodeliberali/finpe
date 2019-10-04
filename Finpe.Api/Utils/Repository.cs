@@ -21,5 +21,10 @@ namespace Finpe.Api.Utils
         {
             _unitOfWork.SaveOrUpdate(entity);
         }
+
+        public void Delete(T entity)
+        {
+            _unitOfWork.Delete(entity);
+        }
     }
 }

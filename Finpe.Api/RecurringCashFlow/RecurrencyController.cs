@@ -1,21 +1,27 @@
-﻿using Finpe.Api.Jwt;
+﻿using Finpe.Api.CashFlow;
+using Finpe.Api.Jwt;
 using Finpe.Api.Utils;
 using Finpe.CashFlow;
 using Finpe.RecurringCashFlow;
 using Finpe.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Finpe.Api.RecurringCashFlow
 {
     [Route("api/[controller]")]
     public class RecurrencyController : BaseController
     {
-        private RecurringTransactionRepository recurringTransactionRepository;
+        private readonly RecurringTransactionRepository recurringTransactionRepository;
+        private readonly TransactionLineRepository transactionLineRepository;
 
-        public RecurrencyController(UnitOfWork unitOfWork, RecurringTransactionRepository recurringTransactionRepository) : base(unitOfWork)
+        public RecurrencyController(UnitOfWork unitOfWork, 
+            RecurringTransactionRepository recurringTransactionRepository,
+            TransactionLineRepository transactionLineRepository) : base(unitOfWork)
         {
             this.recurringTransactionRepository = recurringTransactionRepository;
+            this.transactionLineRepository = transactionLineRepository;
         }
 
         [HttpPost]
@@ -37,6 +43,25 @@ namespace Finpe.Api.RecurringCashFlow
             }
 
             recurringTransactionRepository.Add(recurrence);
+
+            return Ok();
+        }
+
+        [HttpPost("consolidate")]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult Consolidate(long id, int year, int month)
+        {
+            var transaction = recurringTransactionRepository.GetById(id);
+
+            if (transaction == null)
+            {
+                return this.Error("Recurring transaction not found");
+            }
+
+            var consolidatedLine = new ExecutedRecurringTransactionLine(
+                new TransactionLineInfo(new DateTime(year, month, transaction.Day), transaction.Amount, transaction.Description));
+
+            transactionLineRepository.Add(consolidatedLine);
 
             return Ok();
         }
