@@ -78,30 +78,30 @@ export default function ButtonAppBar() {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button key="home" component={AdapterLink} to="/">
+        <ListItem button key="home" onClick={handleDrawerToggle} component={AdapterLink} to="/">
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary="Início" />
         </ListItem>
-        <ListItem button key="add-transaction" component={AdapterLink} to="/add-transaction">
+        <ListItem button key="add-transaction" onClick={handleDrawerToggle} component={AdapterLink} to="/add-transaction">
           <ListItemIcon><AddCircleOutlineIcon /></ListItemIcon>
           <ListItemText primary="Despesa" />
         </ListItem>
-        <ListItem button key="add-multiline-transaction" component={AdapterLink} to="/add-multiline-transaction">
+        <ListItem button key="add-multiline-transaction" onClick={handleDrawerToggle} component={AdapterLink} to="/add-multiline-transaction">
           <ListItemIcon><CreditCardIcon /></ListItemIcon>
           <ListItemText primary="Cartão" />
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem button key="add-recurrency" component={AdapterLink} to="/add-recurrency">
+        <ListItem button key="add-recurrency" onClick={handleDrawerToggle} component={AdapterLink} to="/add-recurrency">
           <ListItemIcon><SettingsIcon /></ListItemIcon>
           <ListItemText primary="Conta Recorrente" />
         </ListItem>
-        <ListItem button key="add-budget" component={AdapterLink} to="/add-budget">
+        <ListItem button key="add-budget" onClick={handleDrawerToggle} component={AdapterLink} to="/add-budget">
           <ListItemIcon><SettingsIcon /></ListItemIcon>
           <ListItemText primary="Budget" />
         </ListItem>
-        <ListItem button key="monthly-budgets" component={AdapterLink} to="/monthly-budgets">
+        <ListItem button key="monthly-budgets" onClick={handleDrawerToggle} component={AdapterLink} to="/monthly-budgets">
           <ListItemIcon><AssessmentIcon /></ListItemIcon>
           <ListItemText primary="Editar budgets" />
         </ListItem>

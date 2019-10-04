@@ -17,11 +17,17 @@ import CategoryFormControl from './CategoryFormControl';
 import { postRecurrency } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import logError from '../../utils/Logger';
+import DatePicker from 'react-datepicker';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const useStyles = makeStyles({
   card: {
     width: 250,
     margin: 20,
+  },
+  datepicker: {
+    marginTop: 20,
   },
   bullet: {
     display: 'inline-block',
@@ -100,19 +106,13 @@ export default function RecurrencyTransactionForm() {
                     value={values.amount}
                   />
                   {errors.amount && touched.amount && errors.amount}
-                  {/* <KeyboardDatePicker
-                    disableToolbar
-                    format="dd/MM/yyyy"
-                    margin="normal"
+                  <DatePicker
+                    className={classes.datepicker}
                     id="date"
-                    label="Data de início"
-                    onChange={(e) => setFieldValue('date', e)}
+                    selected={values.date}
+                    onChange={(date) => setFieldValue('date', date)}
                     onBlur={handleBlur}
-                    value={values.date}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  /> */}
+                  />
                   {errors.date && touched.date && errors.date}
                   <FormControlLabel
                     control={(
@@ -125,21 +125,14 @@ export default function RecurrencyTransactionForm() {
                       )}
                     label="Tem data de fim"
                   />
-                  {/* {hasEndDate && (
-                    <KeyboardDatePicker
-                      disableToolbar
-                      format="dd/MM/yyyy"
-                      margin="normal"
+                  {hasEndDate && (
+                    <DatePicker
+                      className={classes.datepicker}
                       id="endDate"
-                      label="Data de fim"
-                      onChange={(e) => setFieldValue('endDate', e)}
+                      selected={values.endDate}
+                      onChange={(date) => setFieldValue('endDate', date)}
                       onBlur={handleBlur}
-                      value={values.endDate}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
-                    />
-                  )} */}
+                    />)}
                   {hasEndDate && errors.endDate && touched.endDate && errors.endDate}
                   <TextField
                     id="responsible"

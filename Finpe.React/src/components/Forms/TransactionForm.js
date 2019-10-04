@@ -12,16 +12,22 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 import PropTypes from 'prop-types';
+import DatePicker from 'react-datepicker';
 import ImportanceFormControl from './ImportanceFormControl';
 import CategoryFormControl from './CategoryFormControl';
 import { postTransaction } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import logError from '../../utils/Logger';
 
+import "react-datepicker/dist/react-datepicker.css";
+
 const useStyles = makeStyles({
   card: {
     width: 250,
     margin: 20,
+  },
+  datepicker: {
+    marginTop: 20,
   },
   bullet: {
     display: 'inline-block',
@@ -43,7 +49,7 @@ const useStyles = makeStyles({
 export default function TransactionForm(props) {
   const classes = useStyles();
   const { loading, getTokenSilently } = useAuth0();
-  let { isMultiline, parentId } = props;
+  let { isMultiline, parentId, onSuccess } = props;
 
   isMultiline = isMultiline || false;
   parentId = parentId || 0;
@@ -61,7 +67,10 @@ export default function TransactionForm(props) {
         }}
         onSubmit={(values, { setSubmitting }) => getTokenSilently()
           .then((token) => postTransaction(token, values))
-          .then(() => setSubmitting(false))
+          .then(() => {
+            setSubmitting(false);
+            onSuccess();
+          })
           .catch((error) => {
             setSubmitting(false);
             logError(error);
@@ -105,19 +114,13 @@ export default function TransactionForm(props) {
                         {errors.amount && touched.amount && errors.amount}
                     </>
                   )}
-                  {/* <KeyboardDatePicker
-                    disableToolbar
-                    format="dd/MM/yyyy"
-                    margin="normal"
+                  <DatePicker
+                    className={classes.datepicker}
                     id="date"
-                    label="Data de início"
-                    onChange={(e) => setFieldValue('date', e)}
+                    selected={values.date}
+                    onChange={(date) => setFieldValue('date', date)}
                     onBlur={handleBlur}
-                    value={values.date}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  /> */}
+                  />
                   {errors.date && touched.date && errors.date}
                   {!isMultilineTransaction && (
                     <>
@@ -161,9 +164,11 @@ export default function TransactionForm(props) {
 TransactionForm.propTypes = {
   isMultiline: PropTypes.bool,
   parentId: PropTypes.number,
+  onSuccess: PropTypes.func,
 };
 
 TransactionForm.defaultProps = {
   isMultiline: false,
   parentId: 0,
+  onSuccess: () => {},
 };

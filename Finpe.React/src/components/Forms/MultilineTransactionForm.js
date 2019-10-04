@@ -79,8 +79,10 @@ const MultilineTransactionForm = () => {
       const token = await getTokenSilently();
       await loadData(setApiData, token);
     }
-    fetchData();
-  }, [loading, isAuthenticated, getTokenSilently]);
+    if (!open) {
+      fetchData();
+    }
+  }, [loading, isAuthenticated, getTokenSilently, open]);
 
   const multilineDetails = apiData && apiData.map((item) => (
     <Grid item xs={12} key={JSON.stringify(item)}>
