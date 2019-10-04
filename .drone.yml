@@ -47,11 +47,11 @@ pipeline:
 
   sentry-release:
     image: plugins/webhook
-    secrets: [sentry_auth_token]
+    secrets:
++     - source: sentry_auth_token
++       target: webhook_token
     urls: https://sentry.io/api/0/organizations/finpe/releases/${DRONE_COMMIT:0:20}/deploys/
     method: POST
-    headers:
-      - Authorization=Bearer ${sentry_auth_token}
     template: |
       {
        "environment": ${DRONE_BRANCH}
