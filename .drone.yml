@@ -8,15 +8,15 @@ pipeline:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     commands:
       - dotnet restore
-  when:
-      event: push
+    when:
+        event: push
 
   test:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     commands:
       - dotnet test ./Finpe.Test
-  when:
-      event: push
+    when:
+        event: push
 
   lint:
     image: node:10.16.3-alpine
@@ -24,8 +24,8 @@ pipeline:
       - cd Finpe.React
       - npm install --silent
       - npm run lint
-  when:
-      event: push
+    when:
+        event: push
 
   docker-api:
     image: plugins/docker
