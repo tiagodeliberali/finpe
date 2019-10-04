@@ -23,6 +23,8 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Link } from '@reach/router';
 import { useAuth0 } from '../utils/Auth0Wrapper';
 
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -69,8 +71,12 @@ export default function ButtonAppBar() {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
   function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen);
+    if (!isDesktop) {
+      setMobileOpen(!mobileOpen);
+    }
   }
 
   const drawer = (
