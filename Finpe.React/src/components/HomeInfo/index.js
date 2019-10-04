@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Grid from '@material-ui/core/Grid';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import { fetchApiData } from '../../utils/FinpeFetchData';
 import logError from '../../utils/Logger';
@@ -7,9 +9,18 @@ import logError from '../../utils/Logger';
 import OverviewBudgets from './OverviewBudgets';
 import NextTransactions from './NextTransactions';
 
+
 const useStyles = makeStyles({
-  root: {
+  rootDesktop: {
+    maxWidth: 1000,
+    flexGrow: 1,
+  },
+  rootMobile: {
     maxWidth: 400,
+    flexGrow: 1,
+  },
+  gridItem: {
+    padding: 10,
   },
 });
 
@@ -25,6 +36,9 @@ const HomeInfo = () => {
   const { loading, isAuthenticated, getTokenSilently } = useAuth0();
   const classes = useStyles();
 
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
   useEffect(() => {
     async function fetchData() {
       if (loading || !isAuthenticated) {
@@ -37,11 +51,17 @@ const HomeInfo = () => {
     fetchData();
   }, [loading, isAuthenticated, getTokenSilently]);
 
+  const gridSize = isDesktop ? 6 : 12;
+
   return (
-    <div className={classes.root}>
-      <OverviewBudgets data={apiData.result} />
-      <NextTransactions data={apiData.result} />
-    </div>
+    <Grid container className={isDesktop ? classes.rootDesktop : classes.rootMobile} spacing={2}>
+      <Grid xs={gridSize} className={classes.gridItem}>
+        <OverviewBudgets data={apiData.result} />
+      </Grid>
+      <Grid xs={gridSize} className={classes.gridItem}>
+        <NextTransactions data={apiData.result} />
+      </Grid>
+    </Grid>
   );
 };
 

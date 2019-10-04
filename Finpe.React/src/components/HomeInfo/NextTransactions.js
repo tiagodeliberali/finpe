@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   card: {
-    marginTop: 20,
+    marginBotton: 20,
   },
   title: {
     fontSize: 16,

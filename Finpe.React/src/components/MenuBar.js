@@ -21,9 +21,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Link } from '@reach/router';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useAuth0 } from '../utils/Auth0Wrapper';
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const drawerWidth = 240;
 
