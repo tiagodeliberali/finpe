@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { postBudget } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import logError from '../../utils/Logger';
+import CategoryFormControl from './CategoryFormControl';
 
 const useStyles = makeStyles({
   card: {
@@ -74,11 +75,9 @@ export default function BudgetForm() {
                                         Budget
                 </Typography>
                 <Container maxWidth="sm">
-                  <TextField
-                    id="category"
-                    label="Categoria"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                  <CategoryFormControl
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
                     value={values.category}
                   />
                   {errors.category && touched.category && errors.category}
