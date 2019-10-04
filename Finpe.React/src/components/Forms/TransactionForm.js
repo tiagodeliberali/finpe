@@ -19,7 +19,7 @@ import { postTransaction } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import logError from '../../utils/Logger';
 
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 const useStyles = makeStyles({
   card: {
@@ -49,7 +49,8 @@ const useStyles = makeStyles({
 export default function TransactionForm(props) {
   const classes = useStyles();
   const { loading, getTokenSilently } = useAuth0();
-  let { isMultiline, parentId, onSuccess } = props;
+  const { onSuccess } = props;
+  let { isMultiline, parentId } = props;
 
   isMultiline = isMultiline || false;
   parentId = parentId || 0;

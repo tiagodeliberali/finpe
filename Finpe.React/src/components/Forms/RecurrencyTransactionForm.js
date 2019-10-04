@@ -12,14 +12,14 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
+import DatePicker from 'react-datepicker';
 import ImportanceFormControl from './ImportanceFormControl';
 import CategoryFormControl from './CategoryFormControl';
 import { postRecurrency } from '../../utils/FinpeFetchData';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import logError from '../../utils/Logger';
-import DatePicker from 'react-datepicker';
 
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 const useStyles = makeStyles({
   card: {
@@ -132,7 +132,8 @@ export default function RecurrencyTransactionForm() {
                       selected={values.endDate}
                       onChange={(date) => setFieldValue('endDate', date)}
                       onBlur={handleBlur}
-                    />)}
+                    />
+                  )}
                   {hasEndDate && errors.endDate && touched.endDate && errors.endDate}
                   <TextField
                     id="responsible"
