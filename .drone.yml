@@ -2,6 +2,8 @@ clone:
   git:
     image: plugins/git
     depth: 1
+    when:
+        event: push
 
 pipeline:
   install:
