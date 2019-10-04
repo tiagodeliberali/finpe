@@ -26,7 +26,7 @@ namespace Finpe.Budget
         {
             Category = category;
             ExecutionDay = executionDay;
-            Available = amount - used;
+            Available = Math.Max(amount - used, 0);
             Used = used;
         }
 
