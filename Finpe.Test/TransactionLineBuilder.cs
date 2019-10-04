@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Finpe.Test
 {
-    public class TransactionLineBuilder
+    public static class TransactionLineBuilder
     {
         public static readonly string DefaultCategory = "Moradia";
         public static readonly string DefaultDescription = "farmácia";
@@ -75,7 +75,7 @@ namespace Finpe.Test
         {
             Assert.Equal(description, line.Description);
             Assert.Equal(DefaultAmount, line.Amount);
-            Assert.Equal(date.HasValue ? date.Value : DefaultDate, line.TransactionDate);
+            Assert.Equal(date ?? DefaultDate, line.TransactionDate);
             Assert.Equal(importance, line.Importance);
             Assert.Equal(responsible, line.Responsible);
             Assert.Equal(category, line.Category);
@@ -84,7 +84,7 @@ namespace Finpe.Test
 
     public class TransactionListBuilder
     {
-        List<TransactionLine> transactionList = new List<TransactionLine>();
+        readonly List<TransactionLine> transactionList = new List<TransactionLine>();
 
         internal TransactionListBuilder()
         {

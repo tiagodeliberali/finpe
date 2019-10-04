@@ -67,7 +67,7 @@ namespace Finpe.Parser
         private DateTime ParseDate(string value)
         {
             string dateValue = value.Length <= 5 ? value + "/" + DateTime.Today.Year : value;
-            return DateTime.ParseExact(dateValue, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+            return DateTime.ParseExact(dateValue, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
 
         class LineProcessor
