@@ -14,6 +14,6 @@ curl https://sentry.io/api/0/organizations/finpe/releases/ \
         "repository":"tiagodeliberali/finpe",
         "commit":"'${DRONE_COMMIT_SHA}'"
     }],
-    "projects":["finpe-api"]
+    "projects":["finpe-api", "finpe-front"]
 }
 '
