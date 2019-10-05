@@ -27,8 +27,8 @@ namespace Finpe.Api
             SentryOptions options = new SentryOptions()
             {
                 Dsn = new Dsn(config.GetValue<string>("SentryKey")),
-                Environment = config.GetValue<string>("SentryEnvironment")
-
+                Environment = config.GetValue<string>("SentryEnvironment"),
+                Release = Environment.GetEnvironmentVariable("APP_VERSION")
             };
             return options;
         }
