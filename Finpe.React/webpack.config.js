@@ -59,8 +59,8 @@ module.exports = (env) => {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
-        'process.env.BRANCH': JSON.stringify(processEnv.BRANCH),
-        'process.env.APP_VERSION': JSON.stringify(processEnv.APP_VERSION),
+        BRANCH: JSON.stringify(processEnv.BRANCH),
+        APP_VERSION: JSON.stringify(processEnv.APP_VERSION),
         'process.env.API_BASE_URL': JSON.stringify(processEnv.API_URL),
         'process.env.AUTH_DOMAIN': JSON.stringify(processEnv.AUTH_DOMAIN),
         'process.env.AUTH_CLIENT_ID': JSON.stringify(processEnv.AUTH_CLIENT_ID),
