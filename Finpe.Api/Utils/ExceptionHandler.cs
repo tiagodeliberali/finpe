@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Sentry;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -29,7 +30,8 @@ namespace Finpe.Api.Utils
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            // Log exception here
+            SentrySdk.CaptureException(exception);
+
             string result = JsonConvert.SerializeObject(Envelope.Error(exception.Message));
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
