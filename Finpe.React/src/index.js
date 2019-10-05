@@ -4,7 +4,11 @@ import { init as sentryInit } from '@sentry/browser';
 import App from './App';
 import { Auth0Provider } from './utils/Auth0Wrapper';
 
-sentryInit({ dsn: 'https://e1956abeb17d41e8953a942ebc4f3499@sentry.io/1770791' });
+sentryInit({
+  dsn: 'https://e1956abeb17d41e8953a942ebc4f3499@sentry.io/1770791',
+  environment: process.env.BRANCH,
+  release: process.env.APP_VERSION,
+});
 
 // A function that routes the user to the right place
 // after login
