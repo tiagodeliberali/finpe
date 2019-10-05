@@ -9,7 +9,7 @@ pipeline:
     commands:
       - dotnet restore
 
-        test:
+  test:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     commands:
       - dotnet test ./Finpe.Test
