@@ -6,8 +6,9 @@ COPY Finpe.React/package.json /app/package.json
 RUN npm install --silent
 RUN npm install react-scripts@3.0.1 -g --silent
 COPY Finpe.React/. /app
-ARG API_URL
-RUN npm run build:${API_URL}
+ARG BRANCH
+ARG COMMIT
+RUN npm run build -- --env.COMMIT=${COMMIT} --env.BRANCH=${BRANCH}
 
 # production environment
 FROM nginx:1.16.0-alpine AS runtime

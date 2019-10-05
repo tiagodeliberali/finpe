@@ -40,7 +40,8 @@ pipeline:
     repo: tiagodeliberali/finpereact
     tag: ["${DRONE_BRANCH}-${DRONE_COMMIT:0:7}", "${DRONE_BRANCH}-latest"]
     build_args:
-        - API_URL=${DRONE_BRANCH}
+        - BRANCH=${DRONE_BRANCH}
+        - COMMIT=${DRONE_COMMIT:0:7}
     when:
       event: push
       branch: [forno, master]

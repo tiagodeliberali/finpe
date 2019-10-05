@@ -6,6 +6,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = (env) => {
   const processEnv = {};
 
+  processEnv.BRANCH = env.BRANCH;
+  processEnv.APP_VERSION = env.COMMIT;
+
   if (env.BRANCH === 'local') {
     processEnv.API_URL = 'https://localhost:44362/api/';
     processEnv.AUTH_AUDIENCE = 'https://finpe-api-forno.azurewebsites.net';
@@ -56,6 +59,8 @@ module.exports = (env) => {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
+        BRANCH: JSON.stringify(processEnv.BRANCH),
+        APP_VERSION: JSON.stringify(processEnv.APP_VERSION),
         'process.env.API_BASE_URL': JSON.stringify(processEnv.API_URL),
         'process.env.AUTH_DOMAIN': JSON.stringify(processEnv.AUTH_DOMAIN),
         'process.env.AUTH_CLIENT_ID': JSON.stringify(processEnv.AUTH_CLIENT_ID),
