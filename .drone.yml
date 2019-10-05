@@ -55,5 +55,5 @@ pipeline:
         - ./sentry.sh
     when:
       event: push
-      branch: [forno, master]
+      branch: [ master ]
       status: [ success ]
