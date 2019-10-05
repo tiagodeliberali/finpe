@@ -44,3 +44,16 @@ pipeline:
     when:
       event: push
       branch: [forno, master]
+
+  sentry-release:
+    image: node:10.16.3-alpine
+    secrets: [sentry_auth_token]
+    commands:
+        - cd docker
+        - chmod +x ./sentry.sh
+        - apk -Uuv add curl ca-certificates
+        - ./sentry.sh
+    when:
+      event: push
+      branch: [ master ]
+      status: [ success ]

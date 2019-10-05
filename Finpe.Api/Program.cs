@@ -6,6 +6,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sentry;
 
 namespace Finpe.Api
 {
@@ -13,19 +14,29 @@ namespace Finpe.Api
     {
         public static void Main(string[] args)
         {
-            UpdateDatabase();
-            CreateWebHostBuilder(args).Build().Run();
+            using (SentrySdk.Init(GetSentryOptions()))
+            {
+                UpdateDatabase();
+                CreateWebHostBuilder(args).Build().Run();
+            }
+        }
+
+        private static SentryOptions GetSentryOptions()
+        {
+            IConfigurationRoot config = GetConfigValues();
+            SentryOptions options = new SentryOptions()
+            {
+                Dsn = new Dsn(config.GetValue<string>("SentryKey")),
+                Environment = config.GetValue<string>("SentryEnvironment")
+
+            };
+            return options;
         }
 
         private static void UpdateDatabase()
         {
             Console.WriteLine("updating database...");
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true)
-                .AddJsonFile("appsettings.Development.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
+            IConfigurationRoot config = GetConfigValues();
 
             string connectionString = config.GetValue<string>("ConnectionString") ?? "NOT FOUND...";
             var serviceProvider = CreateServices(connectionString);
@@ -36,6 +47,16 @@ namespace Finpe.Api
                 RunMigrations(scope.ServiceProvider);
             }
             Console.WriteLine("Database update finished!");
+        }
+
+        private static IConfigurationRoot GetConfigValues()
+        {
+            return new ConfigurationBuilder()
+                            .SetBasePath(Directory.GetCurrentDirectory())
+                            .AddJsonFile("appsettings.json", optional: true)
+                            .AddJsonFile("appsettings.Development.json", optional: true)
+                            .AddEnvironmentVariables()
+                            .Build();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
