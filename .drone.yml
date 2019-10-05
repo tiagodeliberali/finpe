@@ -9,7 +9,7 @@ pipeline:
     commands:
       - dotnet restore
 
-  test:
+        test:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     commands:
       - dotnet test ./Finpe.Test
@@ -46,17 +46,13 @@ pipeline:
       branch: [forno, master]
 
   sentry-release:
-    image: plugins/webhook
-    secrets:
-+     - source: sentry_auth_token
-+       target: webhook_token
-    urls: https://sentry.io/api/0/organizations/finpe/releases/${DRONE_COMMIT:0:20}/deploys/
-    method: POST
-    template: |
-      {
-       "environment": ${DRONE_BRANCH}
-      }
-    debug: true
+    image: node:10.16.3-alpine
+    secrets: [sentry_auth_token]
+    commands:
+        - cd docker
+        - chmod +x ./sentry.sh
+        - apk -Uuv add curl ca-certificates
+        - ./sentry.sh
     when:
       event: push
       branch: [forno, master]
