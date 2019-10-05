@@ -1,5 +1,8 @@
-const logError = (msg) => {
-  console.log(msg); // eslint-disable-line no-console
+import { captureException } from '@sentry/browser';
+
+const logError = (error) => {
+  captureException(error);
+  console.log(error); // eslint-disable-line no-console
 };
 
 export default logError;
