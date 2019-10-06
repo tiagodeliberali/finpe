@@ -65,7 +65,10 @@ export default function RecurrencyTransactionForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => getTokenSilently()
-          .then((token) => postRecurrency(token, values))
+          .then((token) => {
+            values.amount = -values.amount;
+            postRecurrency(token, values);
+          })
           .then(() => setSubmitting(false))
           .catch((error) => {
             setSubmitting(false);

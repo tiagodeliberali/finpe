@@ -67,7 +67,10 @@ export default function TransactionForm(props) {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => getTokenSilently()
-          .then((token) => postTransaction(token, values))
+          .then((token) => {
+            values.amount = -values.amount;
+            postTransaction(token, values);
+          })
           .then(() => {
             setSubmitting(false);
             onSuccess();
