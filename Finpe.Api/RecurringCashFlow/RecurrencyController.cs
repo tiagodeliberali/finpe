@@ -59,6 +59,7 @@ namespace Finpe.Api.RecurringCashFlow
             }
 
             var consolidatedLine = new ExecutedRecurringTransactionLine(
+                transaction.Amount,
                 new TransactionLineInfo(new DateTime(dto.Year, dto.Month, transaction.Day), dto.Amount, transaction.Description),
                 transaction.Classification);
 
@@ -79,6 +80,7 @@ namespace Finpe.Api.RecurringCashFlow
             }
 
             var consolidatedLine = new ExecutedRecurringTransactionLine(
+                transaction.Amount,
                 new TransactionLineInfo(new DateTime(dto.Year, dto.Month, transaction.Day), 0, transaction.Description),
                 transaction.Classification);
 

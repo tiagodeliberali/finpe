@@ -124,6 +124,9 @@ const TransactionItem = (props) => {
   };
 
   const toggleActions = () => {
+    if (item.description && item.description.startsWith('Budget - ')) {
+      return;
+    }
     setConfirmAction(null);
     setShowActions(!showActions);
   };
