@@ -199,6 +199,40 @@ namespace Finpe.Test
             Assert.Equal(800m, months[2].Budgets.First().Used);
         }
 
+        [Fact]
+        public void CreateMonthlyStatementWithMonthlyBudgetForMultilineTransactions()
+        {
+            List<MontlyBudget> budgets = new List<MontlyBudget>()
+            {
+                new MontlyBudget(TransactionLineBuilder.DefaultCategory, 1_000m, 15)
+            };
+
+            var multiline = TransactionLineBuilder.BuildMultilineTransactionLine(month: 5);
+            multiline.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-100m, "farmácia", month: 4));
+            multiline.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-300m, "supermercado", month: 4));
+
+            List<TransactionLine> statements = TransactionLineBuilder.BuildList()
+                .Add(-500m, day: 22, month: 4)
+                .Add(multiline)
+                .Build();
+
+            List<MonthlyView> months = new MonthlyViewBuilder(
+                    statements, new List<IViewerPipeline>() { new MontlyBudgetPipeline(budgets) })
+                .Build(0m);
+
+            Assert.Equal(2, months.Count);
+            ValitadeMonth(months[0], 4, 0m, -600m, 2);
+            ValitadeMonth(months[1], 5, -600m, -2_000m, 2);
+            
+            Assert.Single(months[0].Budgets);
+            Assert.Equal(100m, months[0].Budgets.First().Available);
+            Assert.Equal(900m, months[0].Budgets.First().Used);
+
+            Assert.Single(months[1].Budgets);
+            Assert.Equal(1_000m, months[1].Budgets.First().Available);
+            Assert.Equal(0m, months[1].Budgets.First().Used);
+        }
+
         private void ValitadeMonth(MonthlyView monthView, int month, decimal initialAmount, decimal finalAmount, int numberOfRows)
         {
             Assert.Equal(new YearMonth(2019, month), monthView.YearMonth);

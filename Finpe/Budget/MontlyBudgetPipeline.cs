@@ -1,4 +1,5 @@
 ﻿using Finpe.CashFlow;
+using Finpe.MultilineCashflow;
 using Finpe.Utils;
 using Finpe.Visualization;
 using System.Collections.Generic;
@@ -21,13 +22,26 @@ namespace Finpe.Budget
             YearMonth initialYearMonth = statements.Min(x => x.TransactionDate).ToYearMonth();
             YearMonth finalYearMonth = statements.Max(x => x.TransactionDate).ToYearMonth();
 
+            List<TransactionLine> singleLineStatements = statements
+                .Where(x => !(x is MultiCategoryTransactionLine))
+                .ToList();
+
+            List<TransactionLine> explodedStatements = statements
+                .Where(x => x is MultiCategoryTransactionLine)
+                .Select(x => (MultiCategoryTransactionLine)x)
+                .SelectMany(x => x.Lines.ToList())
+                .Select(x => (TransactionLine)x)
+                .ToList();
+
+            explodedStatements.AddRange(singleLineStatements);
+
             for (YearMonth yearMonth = initialYearMonth; yearMonth <= finalYearMonth; yearMonth = yearMonth.NextMonth())
             {
                 budgetPerMonth.Add(yearMonth, new List<MontlyBudget>());
 
                 foreach (MontlyBudget budget in budgets)
                 {
-                    List<TransactionLine> monthStatements = statements.Where(x => yearMonth.Equals(x.TransactionDate)).ToList();
+                    List<TransactionLine> monthStatements = explodedStatements.Where(x => yearMonth.Equals(x.TransactionDate)).ToList();
 
                     MontlyBudget currentBudget = budget.Process(monthStatements);
                     budgetPerMonth[yearMonth].Add(currentBudget);
