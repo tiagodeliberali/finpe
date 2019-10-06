@@ -19,10 +19,10 @@
             Difference = 0m;
         }
 
-        public ExecutedTransactionLine(SingleTransactionLine singleTransactionLine, ExecutedTransactionLine statementLine)
-            : base(new TransactionLineInfo(statementLine.TransactionDate, statementLine.Amount, singleTransactionLine.Description))
+        public ExecutedTransactionLine(SingleTransactionLine singleTransactionLine, ExecutedTransactionLine executedLine)
+            : base(new TransactionLineInfo(executedLine.TransactionDate, executedLine.Amount, singleTransactionLine.Description))
         {
-            Difference = singleTransactionLine.Amount - statementLine.Amount;
+            Difference = singleTransactionLine.Amount - executedLine.Amount;
             Classify(singleTransactionLine.GetClassification());
         }
     }

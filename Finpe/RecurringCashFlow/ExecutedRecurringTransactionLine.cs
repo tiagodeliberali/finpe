@@ -9,8 +9,9 @@ namespace Finpe.RecurringCashFlow
         {
         }
 
-        public ExecutedRecurringTransactionLine(TransactionLineInfo info, ClassificationInfo classification) : base(info, classification)
+        public ExecutedRecurringTransactionLine(decimal originalAmount, TransactionLineInfo info, ClassificationInfo classification) : base(info, classification)
         {
+            Difference = originalAmount - info.Amount;
         }
 
         protected ExecutedRecurringTransactionLine() : base()
