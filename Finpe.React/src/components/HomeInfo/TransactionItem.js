@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,12 +8,18 @@ import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 
 const useStyles = makeStyles(() => ({
   button: {
     marginLeft: 10,
+  },
+  amountTextBox: {
+    width: 90,
   },
   amount: {
     fontSize: 18,
@@ -41,10 +47,15 @@ const formatDate = (dateStr) => {
 };
 
 const TransactionItem = (props) => {
+  const [newAmount, setNewAmount] = useState(0);
   const [showActions, setShowActions] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
   const classes = useStyles();
   const { item } = props;
+
+  useEffect(() => {
+    setNewAmount(item.amount);
+  }, [item]);
 
   const itemInfo = (
     <>
@@ -69,14 +80,25 @@ const TransactionItem = (props) => {
   );
 
   const confirmPayment = (
-    <Button variant="contained" color="primary">
-        pagar
-    </Button>
+    <>
+      <TextField
+        className={classes.amountTextBox}
+        id="amount"
+        label="Valor"
+        type="number"
+        onChange={(e) => setNewAmount(e.target.value)}
+        onBlur={(e) => setNewAmount(e.target.value)}
+        value={newAmount}
+      />
+      <Fab size="small" color="secondary" aria-label="add">
+        <AddIcon />
+      </Fab>
+    </>
   );
 
   const confirmDelete = (
     <Button variant="contained" color="secondary">
-        excluir
+      excluir
     </Button>
   );
 

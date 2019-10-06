@@ -1,3 +1,10 @@
+import {
+  deleteRecurrencyTransactionLine,
+  deleteTransactionLine,
+  consolidateTransactionLine,
+  consolidateRecurrency,
+} from './FinpeFetchData';
+
 const buildAcumulatedData = (setState, data) => {
   const dataStatements = data.result
     .reduce((prev, x) => prev.concat(x.lines), [])
@@ -42,3 +49,27 @@ const buildAcumulatedData = (setState, data) => {
 };
 
 export default buildAcumulatedData;
+
+export const deleteTransaction = (token, item) => {
+  if (item.id && item.id > 0) {
+    deleteTransactionLine(token, item.id);
+  }
+
+  if (item.recurringTransactionId && item.recurringTransactionId > 0) {
+    deleteRecurrencyTransactionLine(
+      token, item.recurringTransactionId, item.date.year, item.date.month,
+    );
+  }
+};
+
+export const consolidateTransaction = (token, item) => {
+  if (item.id && item.id > 0) {
+    consolidateTransactionLine(token, item.id, item.amount);
+  }
+
+  if (item.recurringTransactionId && item.recurringTransactionId > 0) {
+    consolidateRecurrency(
+      token, item.recurringTransactionId, item.amount, item.date.year, item.date.month,
+    );
+  }
+};
