@@ -88,11 +88,11 @@ namespace Finpe.Test
         [Fact]
         public void ImportSetOfStatements()
         {
-            string lines = @"22/03			SALDO DO DIA       				1.951,23	-
-                            25/03			TIT PAG TIT ULO ITAU       		630,10	-		
-                            25/03			TBI 0435.67680-4TRANSFER       		1.000,00	-		
-                            25/03			TBI 0641.05595-9UNICAMP       		110,00			
-                            25/03			RSHOP-AUTOPASS -05/04       	7071	109,27	-	";
+            string lines = "22/03			SALDO DO DIA       				1.951,23	-"                  + Environment.NewLine
+                           + "25/03			TIT PAG TIT ULO ITAU       		630,10	-		"               + Environment.NewLine
+                           + "25/03			TBI 0435.67680-4TRANSFER       		1.000,00	-		"       + Environment.NewLine
+                           + "25/03			TBI 0641.05595-9UNICAMP       		110,00			"           + Environment.NewLine
+                           + "25/03			RSHOP-AUTOPASS -05/04       	7071	109,27	-	";
 
             List<TransactionLine> statements = parser.Parse(lines);
 

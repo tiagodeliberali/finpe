@@ -1,87 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import PropTypes from 'prop-types';
+import TransactionItem from './TransactionItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   card: {
     marginBotton: 20,
   },
-  title: {
-    fontSize: 16,
-  },
-  subtitle: {
-    fontSize: 14,
-  },
-  amount: {
-    fontSize: 18,
-    textAlign: 'right',
-  },
-  pos: {
-    fontSize: 12,
-    textAlign: 'right',
-  },
 }));
 
-const buildTableData = (setData, data) => {
+const formatDate = ({ month, year }) => {
+  const monthName = new Array(7);
+  monthName[0] = 'Janeiro';
+  monthName[1] = 'Fevereiro';
+  monthName[2] = 'Março';
+  monthName[3] = 'Abril';
+  monthName[4] = 'Maio';
+  monthName[5] = 'Junho';
+  monthName[6] = 'Julho';
+  monthName[7] = 'Agosto';
+  monthName[8] = 'Setembro';
+  monthName[9] = 'Outubro';
+  monthName[10] = 'Novembro';
+  monthName[11] = 'Dezembro';
+
+  return `Transações de ${monthName[month - 1]} de ${year}`;
+};
+
+const buildTableData = (setData, setTitle, data) => {
   setData(data.lines);
+  setTitle(formatDate(data.yearMonth));
 };
 
-const formatDate = (dateStr) => {
-  const date = new Date(Date.parse(dateStr));
-
-  const weekday = new Array(7);
-  weekday[0] = 'Domingo';
-  weekday[1] = 'Segunda';
-  weekday[2] = 'Terça';
-  weekday[3] = 'Quarta';
-  weekday[4] = 'Quinta';
-  weekday[5] = 'Sexta';
-  weekday[6] = 'Sábado';
-
-  return `${weekday[date.getDay()]}, ${date.getDate()}`;
-};
 
 const NextTransactions = (props) => {
   const [transactions, setTransactions] = useState([]);
+  const [title, setTitle] = useState('');
   const classes = useStyles();
-  const { data } = props;
+  const { data, token } = props;
 
   useEffect(() => {
     if (data && data[0]) {
-      buildTableData(setTransactions, data[0]);
+      buildTableData(setTransactions, setTitle, data[0]);
     }
   }, [data]);
 
   return (
     <Card className={classes.card}>
-      <List subheader={<ListSubheader>Próximas transações</ListSubheader>} className={classes.root}>
-        {transactions.map((item) => (
-          <ListItem key={JSON.stringify(item)}>
-            <ListItemText primary={item.description} secondary={item.category} />
-            <ListItemSecondaryAction>
-              <>
-                <Typography className={classes.amount}>
-                  {item.amount.toFixed(2)}
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                  {formatDate(item.transactionDate)}
-                </Typography>
-              </>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+      <List subheader={<ListSubheader>{title}</ListSubheader>} className={classes.root}>
+        {transactions
+          .filter((item) => !('difference' in item))
+          .map((item) => (
+            <TransactionItem
+              key={JSON.stringify(item)}
+              item={item}
+              token={token}
+            />
+          ))}
       </List>
     </Card>
   );
@@ -89,6 +71,7 @@ const NextTransactions = (props) => {
 
 NextTransactions.propTypes = {
   data: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  token: PropTypes.string.isRequired,
 };
 
 export default NextTransactions;

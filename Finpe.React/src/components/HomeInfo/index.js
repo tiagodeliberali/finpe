@@ -32,6 +32,7 @@ const loadData = (setState, token) => fetchApiData(token)
   .catch(logError);
 
 const HomeInfo = () => {
+  const [token, setToken] = useState('');
   const [apiData, setApiData] = useState({ result: [] });
   const { loading, isAuthenticated, getTokenSilently } = useAuth0();
   const classes = useStyles();
@@ -45,8 +46,9 @@ const HomeInfo = () => {
         return;
       }
 
-      const token = await getTokenSilently();
-      await loadData(setApiData, token);
+      const foundToken = await getTokenSilently();
+      setToken(foundToken);
+      await loadData(setApiData, foundToken);
     }
     fetchData();
   }, [loading, isAuthenticated, getTokenSilently]);
@@ -59,7 +61,7 @@ const HomeInfo = () => {
         <OverviewBudgets data={apiData.result} />
       </Grid>
       <Grid xs={gridSize} className={classes.gridItem}>
-        <NextTransactions data={apiData.result} />
+        <NextTransactions data={apiData.result} token={token} />
       </Grid>
     </Grid>
   );

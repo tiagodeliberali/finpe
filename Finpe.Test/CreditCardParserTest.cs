@@ -43,8 +43,8 @@ namespace Finpe.Test
         [Fact]
         public void AssociateWithResponsible()
         {
-            string lines = @"GLAUCILENE DIAS O SANTOS (9420)
-                            28/02	DESCONTO ANUIDADE 04/12	-19,95";
+            string lines = "GLAUCILENE DIAS O SANTOS (9420)"                + Environment.NewLine
+                           + "28/02	DESCONTO ANUIDADE 04/12	-19,95";
 
             List<TransactionLine> statements = parser.Parse(lines);
 
@@ -54,21 +54,21 @@ namespace Finpe.Test
         [Fact]
         public void ImportSetOfStatements()
         {
-            string lines = @"Lançamentos nacionais
-                            GLAUCILENE DIAS O SANTOS (9420)
-                            DATA	MOVIMENTAÇÃO	VALOR EM R$
-                            28/02	DESCONTO ANUIDADE 04/12	-19,95
-                            28/02	PARCELA DE ANUIDAD04/12	19,95
-                            Crédito do cartão final (9420)	-19,95
-                            Débito do cartão final (9420)	19,95
-
-                            Lançamentos nacionais
-                            TIAGO DELIBERALI (5418)
-                            DATA	MOVIMENTAÇÃO	VALOR EM R$
-                            17/10	PAYPAL*PONTOFRIO 05/10	312,12
-                            26/11	TROCAFONE 04/12	62,49
-                            Crédito do cartão final (5418)	0,00
-                            Débito do cartão final (5418)	374,61";
+            string lines = "Lançamentos nacionais"                      + Environment.NewLine
+                           + "GLAUCILENE DIAS O SANTOS (9420)"          + Environment.NewLine
+                           + "DATA	MOVIMENTAÇÃO	VALOR EM R$"        + Environment.NewLine
+                           + "28/02	DESCONTO ANUIDADE 04/12	-19,95"     + Environment.NewLine
+                           + "28/02	PARCELA DE ANUIDAD04/12	19,95"      + Environment.NewLine
+                           + "Crédito do cartão final (9420)	-19,95" + Environment.NewLine
+                           + "Débito do cartão final (9420)	19,95"      + Environment.NewLine
+                           + Environment.NewLine
+                           + "Lançamentos nacionais"                    + Environment.NewLine
+                           + "TIAGO DELIBERALI (5418)"                  + Environment.NewLine
+                           + "DATA	MOVIMENTAÇÃO	VALOR EM R$"        + Environment.NewLine
+                           + "17/10	PAYPAL*PONTOFRIO 05/10	312,12"     + Environment.NewLine
+                           + "26/11	TROCAFONE 04/12	62,49"              + Environment.NewLine
+                           + "Crédito do cartão final (5418)	0,00"   + Environment.NewLine
+                           + "Débito do cartão final (5418)	374,61";
 
             List<TransactionLine> statements = parser.Parse(lines);
 

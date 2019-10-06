@@ -10,7 +10,7 @@ namespace Finpe.Api.CashFlow
     [Route("api/[controller]")]
     public class TransactionLineController : BaseController
     {
-        private TransactionLineRepository transactionLineRepository;
+        private readonly TransactionLineRepository transactionLineRepository;
 
         public TransactionLineController(UnitOfWork unitOfWork,
             TransactionLineRepository transactionLineRepository) : base(unitOfWork)
@@ -48,6 +48,60 @@ namespace Finpe.Api.CashFlow
             {
                 transactionLineRepository.Add(new MultilineTransactionLine(
                     new TransactionLineInfo(dto.Date, dto.Amount, dto.Description)));
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("consolidate")]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult Consolidate(EditTransactionDto dto)
+        {
+            var transaction = transactionLineRepository.GetById(dto.Id);
+            
+            if (transaction is SingleTransactionLine)
+            {
+                var consolidatedLine = ((SingleTransactionLine)transaction)
+                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, dto.Amount, transaction.Description)));
+
+                transactionLineRepository.Add(consolidatedLine);
+                transactionLineRepository.Delete(transaction);
+            }
+            else if (transaction is MultilineTransactionLine)
+            {
+                var consolidatedLine = ((MultilineTransactionLine)transaction)
+                                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, dto.Amount, transaction.Description)));
+
+                transactionLineRepository.Add(consolidatedLine);
+                transactionLineRepository.Delete(transaction);
+            }
+            else
+            {
+                return Error("Invalid type of transaction. Expected 'SingleTransactionLine' or 'MultilineTransactionLine' but found '" 
+                    + transaction.GetType().Name + "'");
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete()]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult Delete(EditTransactionDto dto)
+        {
+            var transaction = transactionLineRepository.GetById(dto.Id);
+
+            if (transaction == null)
+            {
+                return this.Error("Transaction not found");
+            }
+
+            var transactionLines = transactionLineRepository.GetMultilineDetailTransactionLine(dto.Id);
+
+            transactionLineRepository.Delete(transaction);
+
+            foreach (var item in transactionLines)
+            {
+                transactionLineRepository.Delete(item);
             }
 
             return Ok();
