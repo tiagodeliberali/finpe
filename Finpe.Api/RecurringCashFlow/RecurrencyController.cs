@@ -49,7 +49,7 @@ namespace Finpe.Api.RecurringCashFlow
 
         [HttpPost("consolidate")]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult Consolidate(long id, int year, int month)
+        public IActionResult Consolidate(long id, decimal amount, int year, int month)
         {
             var transaction = recurringTransactionRepository.GetById(id);
 
@@ -59,9 +59,44 @@ namespace Finpe.Api.RecurringCashFlow
             }
 
             var consolidatedLine = new ExecutedRecurringTransactionLine(
-                new TransactionLineInfo(new DateTime(year, month, transaction.Day), transaction.Amount, transaction.Description));
+                new TransactionLineInfo(new DateTime(year, month, transaction.Day), amount, transaction.Description));
 
             transactionLineRepository.Add(consolidatedLine);
+
+            return Ok();
+        }
+
+        [HttpDelete("transactionLine")]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult DeleteTransactionLine(long id, int year, int month)
+        {
+            var transaction = recurringTransactionRepository.GetById(id);
+
+            if (transaction == null)
+            {
+                return this.Error("Recurring transaction not found");
+            }
+
+            var consolidatedLine = new ExecutedRecurringTransactionLine(
+                new TransactionLineInfo(new DateTime(year, month, transaction.Day), 0, transaction.Description));
+
+            transactionLineRepository.Add(consolidatedLine);
+
+            return Ok();
+        }
+
+        [HttpDelete()]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult Delete(long id)
+        {
+            var transaction = recurringTransactionRepository.GetById(id);
+
+            if (transaction == null)
+            {
+                return this.Error("Recurring transaction not found");
+            }
+
+            recurringTransactionRepository.Delete(transaction);
 
             return Ok();
         }

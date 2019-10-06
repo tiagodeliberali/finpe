@@ -33,7 +33,7 @@ namespace Finpe.RecurringCashFlow
                 if (!ExistsExecutedRecurringTransactionLine(lines, i))
                 {
                     lines.Add(
-                        new RecurringTransactionLine(new TransactionLineInfo(i.ToDate(Day), Amount, Description), Classification));
+                        new RecurringTransactionLine(Id, new TransactionLineInfo(i.ToDate(Day), Amount, Description), Classification));
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using Finpe.Api.Jwt;
+﻿using Finpe.Api.Jwt;
 using Finpe.Api.Utils;
 using Finpe.CashFlow;
 using Finpe.MultilineCashflow;
@@ -56,14 +55,14 @@ namespace Finpe.Api.CashFlow
 
         [HttpPost("consolidate")]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult Consolidate(long id)
+        public IActionResult Consolidate(long id, decimal amount)
         {
             var transaction = transactionLineRepository.GetById(id);
             
             if (transaction is SingleTransactionLine)
             {
                 var consolidatedLine = ((SingleTransactionLine)transaction)
-                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, transaction.Amount, transaction.Description)));
+                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, amount, transaction.Description)));
 
                 transactionLineRepository.Add(consolidatedLine);
                 transactionLineRepository.Delete(transaction);
@@ -71,7 +70,7 @@ namespace Finpe.Api.CashFlow
             else if (transaction is MultilineTransactionLine)
             {
                 var consolidatedLine = ((MultilineTransactionLine)transaction)
-                                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, transaction.Amount, transaction.Description)));
+                                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, amount, transaction.Description)));
 
                 transactionLineRepository.Add(consolidatedLine);
                 transactionLineRepository.Delete(transaction);
@@ -81,6 +80,22 @@ namespace Finpe.Api.CashFlow
                 return Error("Invalid type of transaction. Expected 'SingleTransactionLine' or 'MultilineTransactionLine' but found '" 
                     + transaction.GetType().Name + "'");
             }
+
+            return Ok();
+        }
+
+        [HttpDelete()]
+        [Authorize(Permissions.WriteAll)]
+        public IActionResult Delete(long id)
+        {
+            var transaction = transactionLineRepository.GetById(id);
+
+            if (transaction == null)
+            {
+                return this.Error("Transaction not found");
+            }
+
+            transactionLineRepository.Delete(transaction);
 
             return Ok();
         }
