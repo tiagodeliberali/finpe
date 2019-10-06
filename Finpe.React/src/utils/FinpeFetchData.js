@@ -29,8 +29,11 @@ export const postBudget = (token, values) => fetchWithToken(token, 'Budget', 'PO
 export const putBudget = (token, values) => fetchWithToken(token, 'Budget', 'PUT', values);
 
 
-export const deleteTransactionLine = (token, id, amount) => fetchWithToken(token, 'TransactionLine', 'DELETE', { id, amount });
+export const deleteTransactionLine = (token, id) => fetchWithToken(token, 'TransactionLine', 'DELETE', { id });
 export const deleteRecurrencyTransactionLine = (token, id, year, month) => fetchWithToken(token, 'Recurrency/transactionLine', 'DELETE', { id, year, month });
+export const deleteRecurrency = (token, id) => fetchWithToken(token, 'Recurrency', 'DELETE', { id });
 
 export const consolidateTransactionLine = (token, id, amount) => fetchWithToken(token, 'TransactionLine/consolidate', 'POST', { id, amount });
-export const consolidateRecurrency = (token, id, year, month) => fetchWithToken(token, 'Recurrency/consolidate', 'POST', { id, year, month });
+export const consolidateRecurrency = (token, id, amount, year, month) => fetchWithToken(token, 'Recurrency/consolidate', 'POST', {
+  id, amount, year, month,
+});

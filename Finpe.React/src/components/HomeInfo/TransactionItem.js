@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-
+import { consolidateTransaction, deleteTransaction } from '../../utils/DataProcessor';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -47,11 +47,12 @@ const formatDate = (dateStr) => {
 };
 
 const TransactionItem = (props) => {
+  const [removed, setRemoved] = useState(false);
   const [newAmount, setNewAmount] = useState(0);
   const [showActions, setShowActions] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
   const classes = useStyles();
-  const { item } = props;
+  const { item, token } = props;
 
   useEffect(() => {
     setNewAmount(item.amount);
@@ -79,6 +80,11 @@ const TransactionItem = (props) => {
     </>
   );
 
+  const executeConsolidation = () => {
+    setRemoved(true);
+    consolidateTransaction(token, item, newAmount);
+  };
+
   const confirmPayment = (
     <>
       <TextField
@@ -90,14 +96,19 @@ const TransactionItem = (props) => {
         onBlur={(e) => setNewAmount(e.target.value)}
         value={newAmount}
       />
-      <Fab size="small" color="secondary" aria-label="add">
+      <Fab size="small" color="secondary" aria-label="add" onClick={executeConsolidation}>
         <AddIcon />
       </Fab>
     </>
   );
 
+  const executeDelete = () => {
+    setRemoved(true);
+    deleteTransaction(token, item);
+  };
+
   const confirmDelete = (
-    <Button variant="contained" color="secondary">
+    <Button variant="contained" color="secondary" onClick={executeDelete}>
       excluir
     </Button>
   );
@@ -117,7 +128,7 @@ const TransactionItem = (props) => {
     setShowActions(!showActions);
   };
 
-  return (
+  const result = (
     <ListItem button onClick={toggleActions}>
       <ListItemText primary={item.description} secondary={item.category} />
       <ListItemSecondaryAction>
@@ -125,10 +136,13 @@ const TransactionItem = (props) => {
       </ListItemSecondaryAction>
     </ListItem>
   );
+
+  return (removed ? null : result);
 };
 
 TransactionItem.propTypes = {
   item: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  token: PropTypes.string.isRequired,
 };
 
 export default TransactionItem;

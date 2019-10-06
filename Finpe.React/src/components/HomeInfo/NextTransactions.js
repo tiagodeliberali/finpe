@@ -24,7 +24,7 @@ const buildTableData = (setData, data) => {
 const NextTransactions = (props) => {
   const [transactions, setTransactions] = useState([]);
   const classes = useStyles();
-  const { data } = props;
+  const { data, token } = props;
 
   useEffect(() => {
     if (data && data[0]) {
@@ -35,7 +35,15 @@ const NextTransactions = (props) => {
   return (
     <Card className={classes.card}>
       <List subheader={<ListSubheader>Próximas transações</ListSubheader>} className={classes.root}>
-        {transactions.map((item) => <TransactionItem key={JSON.stringify(item)} item={item} />)}
+        {transactions
+          .filter((item) => !('difference' in item))
+          .map((item) => (
+            <TransactionItem
+              key={JSON.stringify(item)}
+              item={item}
+              token={token}
+            />
+          ))}
       </List>
     </Card>
   );
@@ -43,6 +51,7 @@ const NextTransactions = (props) => {
 
 NextTransactions.propTypes = {
   data: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  token: PropTypes.string.isRequired,
 };
 
 export default NextTransactions;
