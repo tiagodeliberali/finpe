@@ -56,6 +56,11 @@ namespace Finpe.Test
             return new MultilineTransactionLine(new TransactionLineInfo(DefaultDate, 0m, "Itau personalite"));
         }
 
+        public static MultilineTransactionLine BuildMultilineTransactionLine(int day = 10, int month = 4)
+        {
+            return new MultilineTransactionLine(new TransactionLineInfo(new DateTime(2019, month, day), 0m, "Itau personalite"));
+        }
+
         public static ExecutedTransactionLine BuildExecutedCreditcardTransactionLine(decimal amount)
         {
             return new ExecutedTransactionLine(new TransactionLineInfo(DefaultDate, amount, "PGTO CARTAO"));

@@ -29,7 +29,7 @@ namespace Finpe.Test
         }
 
         [Fact]
-        public void GetBudgetInfoWithMultilineTransaction()
+        public void ProcessBudget_ShouldIgnoreMultiline()
         {
             MultilineTransactionLine line = TransactionLineBuilder.BuildMultilineTransactionLine();
             line.Add(TransactionLineBuilder.BuildMultilineDetailTransactionLine(-100m, "farmácia", category: "saude"));
@@ -54,8 +54,8 @@ namespace Finpe.Test
 
             MontlyBudget processedBudget = budget.Process(lines);
 
-            Assert.Equal(1_900m, processedBudget.Used);
-            Assert.Equal(100m, processedBudget.Available);
+            Assert.Equal(1_100m, processedBudget.Used);
+            Assert.Equal(900m, processedBudget.Available);
         }
     }
 }

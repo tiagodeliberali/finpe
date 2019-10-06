@@ -33,22 +33,12 @@ namespace Finpe.Budget
         public virtual MontlyBudget Process(List<TransactionLine> lines)
         {
             decimal used = ProcessClassifiedLines(lines);
-            used += ProcessMultiLines(lines);
-
+            
             return new MontlyBudget(Category, Available, ExecutionDay, used);
         }
 
         protected MontlyBudget()
         {
-        }
-
-        private decimal ProcessMultiLines(List<TransactionLine> lines)
-        {
-            return Math.Abs(lines
-                            .Where(x => x is MultiCategoryTransactionLine)
-                            .Select(x => (MultiCategoryTransactionLine)x)
-                            .Select(x => ProcessClassifiedLines(x.Lines.ToList<TransactionLine>()))
-                            .Sum(x => x));
         }
 
         private decimal ProcessClassifiedLines(List<TransactionLine> lines)
