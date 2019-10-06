@@ -74,7 +74,7 @@ export const consolidateTransaction = (token, item, amount) => {
     consolidateRecurrency(
       token,
       item.recurringTransactionId,
-      item.amount,
+      amount,
       item.transactionDate.substring(0, 4),
       item.transactionDate.substring(5, 7),
     );
