@@ -49,9 +49,9 @@ namespace Finpe.Api.RecurringCashFlow
 
         [HttpPost("consolidate")]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult Consolidate(long id, decimal amount, int year, int month)
+        public IActionResult Consolidate(EditRecurrencyDto dto)
         {
-            var transaction = recurringTransactionRepository.GetById(id);
+            var transaction = recurringTransactionRepository.GetById(dto.Id);
 
             if (transaction == null)
             {
@@ -59,7 +59,8 @@ namespace Finpe.Api.RecurringCashFlow
             }
 
             var consolidatedLine = new ExecutedRecurringTransactionLine(
-                new TransactionLineInfo(new DateTime(year, month, transaction.Day), amount, transaction.Description));
+                new TransactionLineInfo(new DateTime(dto.Year, dto.Month, transaction.Day), dto.Amount, transaction.Description),
+                transaction.Classification);
 
             transactionLineRepository.Add(consolidatedLine);
 
@@ -68,9 +69,9 @@ namespace Finpe.Api.RecurringCashFlow
 
         [HttpDelete("transactionLine")]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult DeleteTransactionLine(long id, int year, int month)
+        public IActionResult DeleteTransactionLine(EditRecurrencyDto dto)
         {
-            var transaction = recurringTransactionRepository.GetById(id);
+            var transaction = recurringTransactionRepository.GetById(dto.Id);
 
             if (transaction == null)
             {
@@ -78,7 +79,8 @@ namespace Finpe.Api.RecurringCashFlow
             }
 
             var consolidatedLine = new ExecutedRecurringTransactionLine(
-                new TransactionLineInfo(new DateTime(year, month, transaction.Day), 0, transaction.Description));
+                new TransactionLineInfo(new DateTime(dto.Year, dto.Month, transaction.Day), 0, transaction.Description),
+                transaction.Classification);
 
             transactionLineRepository.Add(consolidatedLine);
 
@@ -87,9 +89,9 @@ namespace Finpe.Api.RecurringCashFlow
 
         [HttpDelete()]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(EditRecurrencyDto dto)
         {
-            var transaction = recurringTransactionRepository.GetById(id);
+            var transaction = recurringTransactionRepository.GetById(dto.Id);
 
             if (transaction == null)
             {

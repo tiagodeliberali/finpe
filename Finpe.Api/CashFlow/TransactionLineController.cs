@@ -55,14 +55,14 @@ namespace Finpe.Api.CashFlow
 
         [HttpPost("consolidate")]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult Consolidate(long id, decimal amount)
+        public IActionResult Consolidate(EditTransactionDto dto)
         {
-            var transaction = transactionLineRepository.GetById(id);
+            var transaction = transactionLineRepository.GetById(dto.Id);
             
             if (transaction is SingleTransactionLine)
             {
                 var consolidatedLine = ((SingleTransactionLine)transaction)
-                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, amount, transaction.Description)));
+                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, dto.Amount, transaction.Description)));
 
                 transactionLineRepository.Add(consolidatedLine);
                 transactionLineRepository.Delete(transaction);
@@ -70,7 +70,7 @@ namespace Finpe.Api.CashFlow
             else if (transaction is MultilineTransactionLine)
             {
                 var consolidatedLine = ((MultilineTransactionLine)transaction)
-                                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, amount, transaction.Description)));
+                                    .Consolidate(new ExecutedTransactionLine(new TransactionLineInfo(transaction.TransactionDate, dto.Amount, transaction.Description)));
 
                 transactionLineRepository.Add(consolidatedLine);
                 transactionLineRepository.Delete(transaction);
@@ -86,16 +86,23 @@ namespace Finpe.Api.CashFlow
 
         [HttpDelete()]
         [Authorize(Permissions.WriteAll)]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(EditTransactionDto dto)
         {
-            var transaction = transactionLineRepository.GetById(id);
+            var transaction = transactionLineRepository.GetById(dto.Id);
 
             if (transaction == null)
             {
                 return this.Error("Transaction not found");
             }
 
+            var transactionLines = transactionLineRepository.GetMultilineDetailTransactionLine(dto.Id);
+
             transactionLineRepository.Delete(transaction);
+
+            foreach (var item in transactionLines)
+            {
+                transactionLineRepository.Delete(item);
+            }
 
             return Ok();
         }

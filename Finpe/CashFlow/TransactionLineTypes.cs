@@ -7,6 +7,8 @@
         Budget = 3,
         Recurring = 4,
         MultilineDetail = 5,
-        Multiline = 6
+        Multiline = 6,
+        MultilineExecuted = 7,
+        ExecutedRecurring = 8
     }
 }
