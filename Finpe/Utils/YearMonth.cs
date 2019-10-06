@@ -19,7 +19,36 @@ namespace Finpe.Utils
 
         public DateTime ToDate(int day)
         {
-            return new DateTime(Year, Month, day);
+            DateTime date = new DateTime(Year, Month, ValidDay(day));
+
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                    return date.AddDays(2);
+                case DayOfWeek.Sunday:
+                    return date.AddDays(1);
+                default:
+                    return date;
+            }
+        }
+
+        private int ValidDay(int day)
+        {
+            switch (Month)
+            {
+                case 2:
+                    return Math.Min(day, 28);
+                case 4:
+                    return Math.Min(day, 30);
+                case 6:
+                    return Math.Min(day, 30);
+                case 9:
+                    return Math.Min(day, 30);
+                case 11:
+                    return Math.Min(day, 30);
+                default:
+                    return Math.Min(day, 31);
+            }
         }
 
         public bool Equals(DateTime date)
