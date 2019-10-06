@@ -68,7 +68,7 @@ export default function TransactionForm(props) {
         }}
         onSubmit={(values, { setSubmitting }) => getTokenSilently()
           .then((token) => {
-            values.amount = -values.amount;
+            values.amount = -values.amount; // eslint-disable-line no-param-reassign
             postTransaction(token, values);
           })
           .then(() => {

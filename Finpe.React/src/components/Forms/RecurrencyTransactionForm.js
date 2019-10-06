@@ -66,7 +66,7 @@ export default function RecurrencyTransactionForm() {
         }}
         onSubmit={(values, { setSubmitting }) => getTokenSilently()
           .then((token) => {
-            values.amount = -values.amount;
+            values.amount = -values.amount; // eslint-disable-line no-param-reassign
             postRecurrency(token, values);
           })
           .then(() => setSubmitting(false))
