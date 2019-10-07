@@ -4,6 +4,8 @@ namespace Finpe.MultilineCashflow
 {
     public class MultilineDetailTransactionLine : ClassifiedTransactionLine
     {
+        public virtual MultiCategoryTransactionLine Parent { get; set; }
+
         protected MultilineDetailTransactionLine() : base()
         {
         }

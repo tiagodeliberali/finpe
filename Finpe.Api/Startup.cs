@@ -34,7 +34,12 @@ namespace Finpe.Api
                        .AllowCredentials();
             }));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ReferenceLoopHandling =
+                        Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                }); ;
 
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
             services.AddScoped<UnitOfWork>();

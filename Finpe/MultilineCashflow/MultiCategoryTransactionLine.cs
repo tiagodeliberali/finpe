@@ -8,6 +8,8 @@ namespace Finpe.MultilineCashflow
     {
         protected IList<MultilineDetailTransactionLine> _lines = new List<MultilineDetailTransactionLine>();
 
+        public abstract void Remove(MultilineDetailTransactionLine transactionLine);
+
         public virtual IReadOnlyCollection<MultilineDetailTransactionLine> Lines => _lines.ToList();
 
         public MultiCategoryTransactionLine(TransactionLineInfo info) : base(info)

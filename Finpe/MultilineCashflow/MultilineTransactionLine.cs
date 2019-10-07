@@ -14,8 +14,16 @@ namespace Finpe.MultilineCashflow
 
         public virtual void Add(MultilineDetailTransactionLine transactionLine)
         {
+            transactionLine.Parent = this;
             _lines.Add(transactionLine);
             Amount += transactionLine.Amount;
+        }
+
+        public override void Remove(MultilineDetailTransactionLine transactionLine)
+        {
+            transactionLine.Parent = null;
+            _lines.Remove(transactionLine);
+            Amount -= transactionLine.Amount;
         }
 
         public virtual ExecutedMultilineTransactionLine Consolidate(ExecutedTransactionLine statementLine)
