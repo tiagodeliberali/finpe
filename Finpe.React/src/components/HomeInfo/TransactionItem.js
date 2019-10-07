@@ -74,9 +74,11 @@ const TransactionItem = (props) => {
       <IconButton className={classes.button} edge="end" aria-label="comments" onClick={() => setConfirmAction('delete')}>
         <DeleteIcon />
       </IconButton>
-      {allowConsolidate && <IconButton className={classes.button} edge="end" aria-label="comments" onClick={() => setConfirmAction('consolidate')}>
+      {allowConsolidate && (
+      <IconButton className={classes.button} edge="end" aria-label="comments" onClick={() => setConfirmAction('consolidate')}>
         <CheckIcon />
-      </IconButton>}
+      </IconButton>
+      )}
     </>
   );
 

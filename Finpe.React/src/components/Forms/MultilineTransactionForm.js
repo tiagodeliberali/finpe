@@ -5,18 +5,18 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import List from '@material-ui/core/List';
 import { useAuth0 } from '../../utils/Auth0Wrapper';
 import { fetchMultilineData } from '../../utils/FinpeFetchData';
 import logError from '../../utils/Logger';
 import MultilineTransactionDialog from './MultilineTransactionDialog';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import TransactionItem from "../HomeInfo/TransactionItem"
-import List from '@material-ui/core/List';
+import TransactionItem from '../HomeInfo/TransactionItem';
 
 
 const useStyles = makeStyles({
@@ -63,7 +63,7 @@ const loadData = (setState, token) => fetchMultilineData(token)
 const MultilineTransactionForm = () => {
   const [apiData, setApiData] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [token, setToken] = React.useState("");
+  const [token, setToken] = React.useState('');
   const [parentId, setParentId] = React.useState(0);
   const { loading, isAuthenticated, getTokenSilently } = useAuth0();
   const classes = useStyles();
@@ -89,7 +89,7 @@ const MultilineTransactionForm = () => {
       }
 
       const foundToken = await getTokenSilently();
-      setToken(foundToken)
+      setToken(foundToken);
       await loadData(setApiData, foundToken);
     }
     if (!open) {
@@ -111,7 +111,7 @@ const MultilineTransactionForm = () => {
             </Typography>
             <Typography>
               R$
-                  {item.amount.toFixed(0)}
+              {item.amount.toFixed(0)}
             </Typography>
           </div>
           <div className={classes.column}>
