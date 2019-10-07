@@ -52,7 +52,7 @@ const TransactionItem = (props) => {
   const [showActions, setShowActions] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
   const classes = useStyles();
-  const { item, token } = props;
+  const { item, token, allowConsolidate } = props;
 
   useEffect(() => {
     setNewAmount(item.amount);
@@ -74,9 +74,11 @@ const TransactionItem = (props) => {
       <IconButton className={classes.button} edge="end" aria-label="comments" onClick={() => setConfirmAction('delete')}>
         <DeleteIcon />
       </IconButton>
+      {allowConsolidate && (
       <IconButton className={classes.button} edge="end" aria-label="comments" onClick={() => setConfirmAction('consolidate')}>
         <CheckIcon />
       </IconButton>
+      )}
     </>
   );
 
@@ -146,6 +148,11 @@ const TransactionItem = (props) => {
 TransactionItem.propTypes = {
   item: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   token: PropTypes.string.isRequired,
+  allowConsolidate: PropTypes.bool,
+};
+
+TransactionItem.defaultProps = {
+  allowConsolidate: true,
 };
 
 export default TransactionItem;

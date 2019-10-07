@@ -95,14 +95,28 @@ namespace Finpe.Api.CashFlow
                 return this.Error("Transaction not found");
             }
 
-            var transactionLines = transactionLineRepository.GetMultilineDetailTransactionLine(dto.Id);
+            if (transaction is MultilineTransactionLine)
+            {
+                var transactionLines = transactionLineRepository.GetMultilineDetailTransactionLine(dto.Id);
+                foreach (var item in transactionLines)
+                {
+                    transactionLineRepository.Delete(item);
+                }
+            }
+
+            if (transaction is MultilineDetailTransactionLine)
+            {
+                MultiCategoryTransactionLine parent = ((MultilineDetailTransactionLine)transaction).Parent;
+                
+                if (parent != null)
+                {
+                    parent.Remove((MultilineDetailTransactionLine)transaction);
+                }
+            }
 
             transactionLineRepository.Delete(transaction);
 
-            foreach (var item in transactionLines)
-            {
-                transactionLineRepository.Delete(item);
-            }
+            
 
             return Ok();
         }

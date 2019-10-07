@@ -21,5 +21,9 @@ namespace Finpe.MultilineCashflow
             Difference = multilineTransaction.Amount - statementLine.Amount;
             _lines = multilineTransaction.Lines.ToList();
         }
+
+        public override void Remove(MultilineDetailTransactionLine transactionLine)
+        {
+        }
     }
 }

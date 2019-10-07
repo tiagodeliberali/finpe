@@ -9,6 +9,7 @@ namespace Finpe.Api.MultilineCashflow
         public MultilineDetailTransactionLineMap() : base()
         {
             DiscriminatorValue(TransactionLineTypes.MultilineDetail);
+            References(x => x.Parent).Column("MultiCategoryTransactionLineID");
         }
     }
 }
