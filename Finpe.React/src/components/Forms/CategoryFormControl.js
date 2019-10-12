@@ -31,10 +31,12 @@ const CategoryFormControl = (props) => {
       >
         <MenuItem value="Compras">Compras</MenuItem>
         <MenuItem value="Cuidados pessoais">Cuidados pessoais</MenuItem>
+        <MenuItem value="Entrada">Entrada</MenuItem>
         <MenuItem value="Lazer e Eventos">Lazer e Eventos</MenuItem>
         <MenuItem value="Restaurantes">Restaurantes e cafés</MenuItem>
         <MenuItem value="Saúde">Saúde</MenuItem>
         <MenuItem value="Supermercado">Supermercado</MenuItem>
+        <MenuItem value="Trabalho">Trabalho</MenuItem>
         <MenuItem value="Transporte">Transporte</MenuItem>
       </Select>
     </FormControl>
