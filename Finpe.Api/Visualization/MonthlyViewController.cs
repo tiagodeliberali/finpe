@@ -50,11 +50,12 @@ namespace Finpe.Api.Visualization
 
         private List<MonthlyView> BuildStatements(List<MontlyBudget> budgets)
         {
+            DateTime currentDate = DateTime.Now;
             return new MonthlyViewBuilder(
-                    transactionLineRepository.GetList().ToList(),
+                    transactionLineRepository.GetList(currentDate).ToList(),
                     new List<IViewerPipeline>()
                     {
-                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), DateTime.Now.AddMonths(6).ToYearMonth()),
+                        new RecurringTransactionsPipeline(recurringTransactionRepository.GetList().ToList(), currentDate.AddMonths(6).ToYearMonth()),
                         new MontlyBudgetPipeline(budgets)
                     })
                 .Build(0);
