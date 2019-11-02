@@ -1,6 +1,7 @@
 ﻿using Finpe.Api.Utils;
 using Finpe.CashFlow;
 using Finpe.MultilineCashflow;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,12 +13,18 @@ namespace Finpe.Api.CashFlow
         {
         }
 
-        public IReadOnlyList<TransactionLine> GetList()
+        public IReadOnlyList<TransactionLine> GetList(DateTime currentDate)
         {
             return _unitOfWork
                 .Query<TransactionLine>()
                 .Where(x => !(x is MultilineDetailTransactionLine))
+                .Where(x => x.TransactionDate >= StartOfTheMonth(currentDate))
                 .ToList();
+        }
+
+        private DateTime StartOfTheMonth(DateTime currentDate)
+        {
+            return new DateTime(currentDate.Year, currentDate.Month, 1);
         }
 
         public IReadOnlyList<TransactionLine> GetMultilineList()
