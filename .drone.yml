@@ -3,21 +3,21 @@ type: docker
 name: default
 
 steps:
-- name: install
+- name: install-api
   image: mcr.microsoft.com/dotnet/core/sdk:2.2
   commands:
     - dotnet restore
   when:
     event: push
 
-- name: test
+- name: test-api
   image: mcr.microsoft.com/dotnet/core/sdk:2.2
   commands:
     - dotnet test ./Finpe.Test
   when:
     event: push
 
-- name: lint
+- name: lint-front
   image: node:10.16.3-alpine
   commands:
     - cd Finpe.React
@@ -44,4 +44,22 @@ steps:
     event: push
     branch: [master, forno]
 
-  
+- name: docker-front
+  image: plugins/docker
+  settings:
+    dockerfile: docker/front.Dockerfile
+    repo: tiagodeliberali/finpereact
+    tags:
+      - ${DRONE_BRANCH}-${DRONE_COMMIT:0:7}
+      - ${DRONE_BRANCH}-latest
+    build_args:
+      - BRANCH=${DRONE_BRANCH}
+      - COMMIT=${DRONE_COMMIT:0:7}
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event: push
+    branch: [forno, master]
+
