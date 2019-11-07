@@ -63,3 +63,18 @@ steps:
     event: push
     branch: [forno, master]
 
+- name: sentry-release
+  image: node:10.16.3-alpine
+    secrets: [sentry_auth_token]
+  environment:
+    SENTRY_AUTH_TOKEN:
+      from_secret: SENTRY_AUTH_TOKEN
+  commands:
+    - cd docker
+    - chmod +x ./sentry.sh
+    - apk -Uuv add curl ca-certificates
+    - ./sentry.sh
+  when:
+    event: push
+    branch: [ master ]
+    status: [ success ]
