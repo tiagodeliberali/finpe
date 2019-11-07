@@ -3,7 +3,26 @@ type: docker
 name: default
 
 steps:
-- name: clone
-  image: plugins/git
+- name: install
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  commands:
+    - dotnet restore
   when:
     event: push
+
+- name: test
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  commands:
+    - dotnet test ./Finpe.Test
+  when:
+    event: push
+
+- name: lint
+  image: node:10.16.3-alpine
+  commands:
+    - cd Finpe.React
+    - npm install --silent
+    - npm run lint
+  when:
+    event: push
+
