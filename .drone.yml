@@ -66,3 +66,4 @@ pipeline:
       event: push
       branch: [ master ]
       status: [ success ]
+
