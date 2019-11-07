@@ -26,3 +26,22 @@ steps:
   when:
     event: push
 
+- name: docker-api
+  image: plugins/docker
+  settings:
+    dockerfile: docker/api.Dockerfile
+    repo: tiagodeliberali/finpeapi
+    tags: 
+      - ${DRONE_BRANCH}-${DRONE_COMMIT:0:7}
+      - ${DRONE_BRANCH}-latest
+    build_args:
+      - COMMIT=${DRONE_COMMIT:0:7}
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event: push
+    branch: [master, forno]
+
+  
