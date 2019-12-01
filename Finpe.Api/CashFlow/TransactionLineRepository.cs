@@ -13,18 +13,24 @@ namespace Finpe.Api.CashFlow
         {
         }
 
-        public IReadOnlyList<TransactionLine> GetList(DateTime currentDate)
+        public IReadOnlyList<TransactionLine> GetList(DateTime currentDate, DateTime endDate)
         {
             return _unitOfWork
                 .Query<TransactionLine>()
                 .Where(x => !(x is MultilineDetailTransactionLine))
-                .Where(x => x.TransactionDate >= StartOfTheMonth(currentDate))
+                .Where(x => x.TransactionDate >= StartOfTheMonth(currentDate)
+                    && x.TransactionDate <= EndOfTheMonth(endDate))
                 .ToList();
         }
 
         private DateTime StartOfTheMonth(DateTime currentDate)
         {
             return new DateTime(currentDate.Year, currentDate.Month, 1);
+        }
+
+        private DateTime EndOfTheMonth(DateTime currentDate)
+        {
+            return new DateTime(currentDate.Year, currentDate.Month, 1).AddMonths(1).AddDays(-1);
         }
 
         public IReadOnlyList<TransactionLine> GetMultilineList()
